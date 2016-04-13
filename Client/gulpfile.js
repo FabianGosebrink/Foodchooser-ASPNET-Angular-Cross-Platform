@@ -14,7 +14,7 @@ require('./gulpTasks/cordova');
 gulp.task('build:all', function(done) {
     runSeq(
         'build:web:prod',
-        'build:apps',
         'build:electron:prod',
+        'build:apps',
         done);
 });
