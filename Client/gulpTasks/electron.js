@@ -10,7 +10,6 @@ var taskListing = require('gulp-task-listing');
 var cssMinifier = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
-var order = require("gulp-order");
 //var templateCache = require('gulp-angular-templatecache');
 
 var buildConfig = require('../gulp.config');
