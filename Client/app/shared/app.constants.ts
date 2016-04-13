@@ -1,6 +1,6 @@
 export let CONFIGURATION = {
   baseUrls: {
-    server: 'https://newfoodchooser.azurewebsites.net/',
+    server: 'http://localhost:9072/',
     apiUrl: 'api/'
   }
 }
