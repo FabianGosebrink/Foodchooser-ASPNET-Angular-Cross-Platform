@@ -25,9 +25,8 @@ gulp.task('build:apps', function(done) {
         'cordova-concat-uglify-and-copy-vendor-scripts',
         'cordova-inject-js-in-html',
         'cordova-inject-css-in-html',
-        // // 'cordova-add-plugins',
         'cordova-build-windows',
-        // //'cordova-build-android',
+        'cordova-build-android',
         'cordova-copy-to-dist',
         done);
 });
@@ -68,8 +67,6 @@ gulp.task('cordova-copy-css-to-temp-folder', function(done) {
 gulp.task('cordova-copy-files-as-is-to-temp-folder', function(done) {
 
     return gulp.src(buildConfig.sources.filesToCopyAsIsCordova)
-        //.pipe(concat(buildConfig.targets.vendorScriptsMinFileName))
-        //.pipe(uglify())
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/"));
 });
 
@@ -85,7 +82,6 @@ gulp.task('cordova-copy-app', function(done) {
 gulp.task('cordova-concat-uglify-and-copy-vendor-scripts', function(done) {
     return gulp.src(buildConfig.sources.vendorScripts)
         .pipe(concat(buildConfig.targets.vendorScriptsMinFileName))
-        //.pipe(uglify())
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/"));
 });
 
@@ -138,15 +134,6 @@ gulp.task('cordova-inject-css-in-html', function(done) {
         .pipe(gulp.dest(buildConfig.temp.cordovaWww));
 });
 
-
-
-gulp.task('cordova-add-plugins', function(done) {
-    sh.cd(buildConfig.temp.cordova);
-    sh.exec('cordova plugin add https://github.com/apache/cordova-plugin-splashscreen.git');
-    sh.exec('cordova plugin add org.apache.cordova.camera');
-    sh.cd('..');
-    done();
-});
 
 gulp.task('cordova-build-windows', function(done) {
     sh.cd(buildConfig.temp.cordova);

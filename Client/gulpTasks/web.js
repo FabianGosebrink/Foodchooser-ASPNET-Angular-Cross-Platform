@@ -61,11 +61,6 @@ gulp.task('web-concat-uglify-and-copy-vendor-scripts', function(done) {
         .pipe(gulp.dest(buildConfig.targets.scriptsOutputPath));
 });
 
-gulp.task('web-copy-vendor-scripts', function(done) {
-    return gulp.src(buildConfig.sources.vendorScripts)
-        .pipe(gulp.dest(buildConfig.targets.scriptsOutputPath));
-});
-
 gulp.task('web-copy-app', function(done) {
     var allsources = [].concat(buildConfig.sources.allAppJsFiles,
         buildConfig.sources.allAppHtmlFiles);
@@ -73,7 +68,6 @@ gulp.task('web-copy-app', function(done) {
     return gulp.src(allsources)
         .pipe(gulp.dest(buildConfig.targets.webAppOutputPath + "app/"));
 });
-
 
 gulp.task('web-inject-js-in-html', function(done) {
     var target = gulp.src(
@@ -98,8 +92,6 @@ gulp.task('web-inject-js-in-html', function(done) {
     }))
         .pipe(gulp.dest(buildConfig.targets.webAppOutputPath));
 });
-
-
 
 gulp.task('web-inject-css-in-html', function(done) {
     var target = gulp.src(

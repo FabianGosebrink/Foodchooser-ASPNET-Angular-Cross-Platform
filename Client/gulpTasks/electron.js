@@ -10,7 +10,6 @@ var taskListing = require('gulp-task-listing');
 var cssMinifier = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
-//var templateCache = require('gulp-angular-templatecache');
 
 var buildConfig = require('../gulp.config');
 
@@ -58,20 +57,6 @@ gulp.task('electron-copy-js-to-temp-folder', function(done) {
 gulp.task('electron-copy-assets-to-temp-folder', function(done) {
     return gulp.src(buildConfig.assets.electron + "*.*")
         .pipe(gulp.dest(buildConfig.temp.electronTempFolder));
-});
-
-gulp.task('electron-create-html-templates', function(done) {
-    return gulp.src(buildConfig.sources.allAppHtmlFiles).
-        pipe(htmlmin(
-            {
-                collapseWhitespace: true
-            }))
-        .pipe(templateCache(buildConfig.targets.minifiedTemplates, {
-            root: buildConfig.sources.sourceFolder,
-            standAlone: false,
-            module: buildConfig.general.appName
-        }))
-        .pipe(gulp.dest(buildConfig.temp.electronTempFolder + "scripts/"));
 });
 
 gulp.task('electron-copy-app', function(done) {
