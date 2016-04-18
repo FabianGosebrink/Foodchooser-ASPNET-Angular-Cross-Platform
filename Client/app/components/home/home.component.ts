@@ -35,7 +35,7 @@ export class HomeComponent {
                 if (error.status == 404) {
                     this.errorMessage = "No food found :-(";
                 } else {
-                    this.errorMessage = error;
+                    this.errorMessage = "There was an error";
                 }
             });
     }

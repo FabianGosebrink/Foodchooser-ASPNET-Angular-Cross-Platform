@@ -1,4 +1,6 @@
-System.register(['angular2/router', '../shared/services/appInjector', '../shared/services/storage.service'], function(exports_1) {
+System.register(['angular2/router', '../shared/services/appInjector', '../shared/services/storage.service'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var router_1, appInjector_1, storage_service_1;
     var NeedsAuthentication;
     return {
