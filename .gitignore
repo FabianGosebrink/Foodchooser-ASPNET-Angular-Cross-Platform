@@ -16,3 +16,7 @@ Client/app/shared/services/*.js
 Client/app/shared/services/*.js.map
 Client/app/models/*.js.map
 Client/app/models/*.js
+Client/app/shared/app.constants.js
+Client/app/shared/app.constants.js.map
+Client/app/decorators/needsAuthentication.js
+Client/app/decorators/needsAuthentication.js.map

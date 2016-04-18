@@ -3,7 +3,7 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
-import { FoodList } from '../../models/foodList';
+import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 
 @Component({
@@ -16,6 +16,7 @@ import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 export class FoodListComponent implements OnInit {
 
     allLists: FoodList[];
+    errorMessage: string;
 
     constructor(private _foodListDataService: FoodListDataService) {
         _foodListDataService.foodListAdded.subscribe((foodList: FoodList) => {

@@ -2,7 +2,7 @@ import { Component } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
-import { FoodItem } from '../../models/foodItem';
+import { FoodItem } from '../../models/FoodItem';
 
 @Component({
     selector: 'home-component',

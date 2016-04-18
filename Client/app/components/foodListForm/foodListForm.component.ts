@@ -2,7 +2,7 @@ import { Component } from 'angular2/core';
 import { CORE_DIRECTIVES } from 'angular2/common';
 import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
-import { FoodList } from '../../models/foodList';
+import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 
 @Component({
