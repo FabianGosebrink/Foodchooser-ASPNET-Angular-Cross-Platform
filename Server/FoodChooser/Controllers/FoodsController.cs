@@ -12,7 +12,7 @@ using FoodChooser.ViewModels;
 
 namespace FoodChooser.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api")]
     public class FoodsController : BaseController
     {
