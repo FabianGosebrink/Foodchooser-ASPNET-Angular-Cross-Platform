@@ -35,8 +35,8 @@ namespace FoodChooser.Controllers
                 }
 
                 IQueryable<FoodList> foodLists = _foodListRepository
-                    .GetAll();
-                    //.Where(x => x.UserId == CurrentUserId);
+                    .GetAll()
+                    .Where(x => x.UserId == CurrentUserId);
 
                 var paginationHeader = new
                 {
