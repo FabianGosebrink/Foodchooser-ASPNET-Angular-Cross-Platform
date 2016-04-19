@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace FoodChooser.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api")]
     public class FoodListsController : BaseController
     {
