@@ -75,10 +75,10 @@ namespace FoodChooser.Controllers
                     return NotFound();
                 }
 
-                //if (singleFoodList.UserId != CurrentUserId)
-                //{
-                //    return StatusCode(HttpStatusCode.Forbidden);
-                //}
+                if (singleFoodList.UserId != CurrentUserId)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
 
                 return Ok(Mapper.Map<FoodListViewModel>(singleFoodList));
             }
@@ -105,7 +105,7 @@ namespace FoodChooser.Controllers
                 }
 
                 FoodList item = Mapper.Map<FoodList>(viewModel);
-                //item.UserId = CurrentUserId;
+                item.UserId = CurrentUserId;
                 _foodListRepository.Add(item);
                 int save = _foodListRepository.Save();
 
@@ -135,10 +135,10 @@ namespace FoodChooser.Controllers
                     return NotFound();
                 }
 
-                //if (singleFoodList.UserId != CurrentUserId)
-                //{
-                //    return StatusCode(HttpStatusCode.Forbidden);
-                //}
+                if (singleFoodList.UserId != CurrentUserId)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
 
                 _foodListRepository.Delete(singleFoodList);
                 int save = _foodListRepository.Save();
