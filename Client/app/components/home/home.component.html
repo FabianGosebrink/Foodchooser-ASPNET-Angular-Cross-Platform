@@ -2,18 +2,19 @@
     <div class="starter-template">
         <!-- Page Content -->
         <div class="container">
-            <div class="row">
-                <div class="centered">
-                    <h1 *ngIf="randomFood">{{randomFood?.ItemName}}</h1>
-                    <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
-                    <h1 *ngIf="!randomFood && !errorMessage">Getting your food suggestions<br />Please wait...</h1>
+            <div class="starter-template">
+                <h1 *ngIf="randomFood">{{randomFood?.ItemName}}</h1>
+                <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
+                <h1 *ngIf="!randomFood && !errorMessage">Getting your food suggestions<br />Please wait...</h1>
 
-                    <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRandomFood()">Get new suggestion</button>
-                    <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithGoogle()">Google for recipes</button>
-                    <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithBing()">Bing for recipes</button>
-                </div>
+                <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRandomFood()">Get new suggestion</button>
+                <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithGoogle()">Google for recipes</button>
+                <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithBing()">Bing for recipes</button>
+                <br/>
+                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['Login']" class="btn btn-lg btn-primary">Sign in</a>
+                <br/><br/>
+                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['Register']" class="btn btn-lg btn-primary">Register</a>
             </div>
-            <!-- /.row -->
         </div>
         <!-- /.container -->
     </div>

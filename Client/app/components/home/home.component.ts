@@ -3,6 +3,7 @@ import { CORE_DIRECTIVES } from 'angular2/common';
 import { RouteConfig, ROUTER_DIRECTIVES } from 'angular2/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
+import { AuthenticationService } from  '../../shared/services/authentication.service';
 
 @Component({
     selector: 'home-component',
@@ -16,8 +17,8 @@ export class HomeComponent {
 
     randomFood: FoodItem;
     errorMessage: string;
-
-    constructor(private _foodDataService: FoodDataService) {
+    
+    constructor(private _foodDataService: FoodDataService, public authenticationService: AuthenticationService) {
 
     }
 
