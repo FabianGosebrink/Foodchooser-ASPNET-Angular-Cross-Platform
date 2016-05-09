@@ -8,7 +8,8 @@ module.exports = {
     },
     assets: {
         electron: "../assets/electron/",
-        cordova: "../assets/cordova/"
+        cordova: "../assets/cordova/",
+        shared: "../assets/shared/"
     },
     sources: {
         sourceFolder: "src/",
@@ -31,28 +32,25 @@ module.exports = {
             "./img/windows/*.*"
         ],
         vendorScripts: [
-            //"node_modules/es6-shim/es6-shim.min.js",
-            "node_modules/systemjs/dist/system-polyfills.js",
-            "node_modules/angular2/es6/dev/src/testing/shims_for_IE.js",
-            "node_modules/angular2/bundles/angular2-polyfills.js",
+            "node_modules/zone.js/dist/zone.js",
+            "node_modules/reflect-metadata/Reflect.js",
             "node_modules/systemjs/dist/system.src.js",
-            "node_modules/rxjs/bundles/Rx.js",
-            "node_modules/angular2/bundles/angular2.dev.js",
-            "node_modules/angular2/bundles/router.dev.js",
-            "node_modules/angular2/bundles/http.dev.js",
             "node_modules/jquery/dist/jquery.js",
             "node_modules/bootstrap/dist/js/bootstrap.js"
         ],
+        allAngular2: [
+            "node_modules/@angular/**/*.js"
+        ],
+        allRxJs: [
+            "node_modules/rxjs/**/*.js"
+        ],
         filesToCopyAsIsElectron: [
-            "js/system.config.js",
             "node_modules/es6-shim/es6-shim.min.js"
         ],
         filesToCopyAsIsWeb: [
-            "js/system.config.js",
             "node_modules/es6-shim/es6-shim.min.js"
         ],
         filesToCopyAsIsCordova: [
-            "js/system.config.js",
             "js/winstore-jscompat.js",
             "node_modules/es6-shim/es6-shim.min.js"
         ]

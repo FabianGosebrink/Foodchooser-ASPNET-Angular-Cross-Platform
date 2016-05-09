@@ -1,6 +1,6 @@
-import { Component, OnInit } from 'angular2/core';
-import { CORE_DIRECTIVES } from 'angular2/common';
-import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from 'angular2/router';
+import { Component, OnInit } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from '@angular/router-deprecated';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';

@@ -1,5 +1,5 @@
-import { Injectable } from 'angular2/core';
-import { Response } from 'angular2/http';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { FoodItem } from '../../models/FoodItem';
 import { CONFIGURATION } from '../app.constants';

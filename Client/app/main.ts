@@ -1,8 +1,9 @@
-import { bootstrap }    from 'angular2/platform/browser';
+import { bootstrap }    from '@angular/platform-browser-dynamic';
 import { AppComponent } from './app.component';
-import { ComponentRef, provide, enableProdMode, bind } from 'angular2/core';
-import { APP_BASE_HREF, ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy } from 'angular2/router';
-import { HTTP_PROVIDERS } from 'angular2/http';
+import { ComponentRef, provide, enableProdMode, bind } from '@angular/core';
+import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common/index';
+import { HTTP_PROVIDERS } from '@angular/http';
 import { HttpWrapperService } from './shared/services/httpWrapper.service';
 import { StorageService } from './shared/services/storage.service';
 import { CurrentUserService } from './shared/services/currentUser.service';
@@ -20,10 +21,10 @@ bootstrap(AppComponent, [
     AuthenticationService,
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
     //bind(LocationStrategy).toClass(HashLocationStrategy),
-    provide(APP_BASE_HREF, {useValue: '/'})
-]).then((appRef: ComponentRef) => {
-    appInjector(appRef.injector);
-});
+    provide(APP_BASE_HREF, {useValue: '/'})]);
+// ]).then((appRef: ComponentRef) => {
+//     appInjector(appRef.injector);
+// });
 
 
 

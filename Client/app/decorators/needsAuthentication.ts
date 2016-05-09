@@ -1,5 +1,5 @@
-import { CanActivate, ComponentInstruction, Router} from 'angular2/router';
-import { Injector } from 'angular2/core';
+import { CanActivate, ComponentInstruction, Router} from '@angular/router-deprecated';
+import { Injector } from '@angular/core';
 import { appInjector } from '../shared/services/appInjector';
 import { StorageService } from '../shared/services/storage.service';
 

@@ -13,29 +13,31 @@ var inject = require('gulp-inject');
 
 var buildConfig = require('../gulp.config');
 
-gulp.task('build:apps', function(done) {
+gulp.task('build:apps', function (done) {
     runSeq(
         'cordova-clean-temp',
         'cordova-copy-config-to-temp',
         'cordova-copy-index-to-temp-folder',
         'cordova-copy-images-to-temp-folder',
         'cordova-copy-files-as-is-to-temp-folder',
+        'cordova-copy-angular-files-to-temp-folder',
+        'cordova-copy-rxjs-files-to-temp-folder',
         'cordova-copy-css-to-temp-folder',
         'cordova-copy-app',
         'cordova-concat-uglify-and-copy-vendor-scripts',
         'cordova-inject-js-in-html',
         'cordova-inject-css-in-html',
         'cordova-build-windows',
-        'cordova-build-android',
+        // 'cordova-build-android',
         'cordova-copy-to-dist',
         done);
 });
 
-gulp.task('cordova-clean-temp', function(done) {
+gulp.task('cordova-clean-temp', function (done) {
     return del(buildConfig.temp.cordova, { force: true }, done);
 });
 
-gulp.task('cordova-copy-config-to-temp', function() {
+gulp.task('cordova-copy-config-to-temp', function () {
     var configFile = path.join(buildConfig.assets.cordova, "config.xml");
 
     return gulp.src([
@@ -44,33 +46,38 @@ gulp.task('cordova-copy-config-to-temp', function() {
         .pipe(gulp.dest(buildConfig.temp.cordova));
 });
 
-gulp.task('cordova-copy-index-to-temp-folder', function(done) {
+gulp.task('cordova-copy-index-to-temp-folder', function (done) {
     return gulp.src(buildConfig.general.indexHtml)
         .pipe(gulp.dest(buildConfig.temp.cordovaWww));
 });
 
-gulp.task('cordova-copy-js-to-temp-folder', function(done) {
+gulp.task('cordova-copy-js-to-temp-folder', function (done) {
     return gulp.src(buildConfig.sources.allVendorJsFiles)
         .pipe(gulp.dest(buildConfig.temp.electronTempFolder + "js"));
 });
 
-gulp.task('cordova-copy-images-to-temp-folder', function(done) {
+gulp.task('cordova-copy-images-to-temp-folder', function (done) {
     return gulp.src(buildConfig.sources.allAppImgFiles)
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "img"));
 });
 
-gulp.task('cordova-copy-css-to-temp-folder', function(done) {
+gulp.task('cordova-copy-css-to-temp-folder', function (done) {
     return gulp.src(buildConfig.sources.allAppCssFiles)
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "css"));
 });
 
-gulp.task('cordova-copy-files-as-is-to-temp-folder', function(done) {
+gulp.task('cordova-copy-files-as-is-to-temp-folder', function (done) {
 
-    return gulp.src(buildConfig.sources.filesToCopyAsIsCordova)
+    var filesToCopy = [];
+
+    filesToCopy.push(buildConfig.assets.shared + "system.config.js");
+    filesToCopy = filesToCopy.concat(buildConfig.sources.filesToCopyAsIsCordova);
+
+    return gulp.src(filesToCopy)
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/"));
 });
 
-gulp.task('cordova-copy-app', function(done) {
+gulp.task('cordova-copy-app', function (done) {
 
     var allsources = [].concat(buildConfig.sources.allAppJsFiles,
         buildConfig.sources.allAppHtmlFiles);
@@ -79,13 +86,25 @@ gulp.task('cordova-copy-app', function(done) {
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "app/"));
 });
 
-gulp.task('cordova-concat-uglify-and-copy-vendor-scripts', function(done) {
+gulp.task('cordova-concat-uglify-and-copy-vendor-scripts', function (done) {
     return gulp.src(buildConfig.sources.vendorScripts)
         .pipe(concat(buildConfig.targets.vendorScriptsMinFileName))
         .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/"));
 });
 
-gulp.task('cordova-inject-js-in-html', function(done) {
+gulp.task('cordova-copy-angular-files-to-temp-folder', function (done) {
+
+    return gulp.src(buildConfig.sources.allAngular2)
+        .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/@angular/"));
+});
+
+gulp.task('cordova-copy-rxjs-files-to-temp-folder', function (done) {
+
+    return gulp.src(buildConfig.sources.allRxJs)
+        .pipe(gulp.dest(buildConfig.temp.cordovaWww + "scripts/rxjs/"));
+});
+
+gulp.task('cordova-inject-js-in-html', function (done) {
     var target = gulp.src(
         path.join(buildConfig.temp.cordovaWww, "index.html"));
 
@@ -119,7 +138,7 @@ gulp.task('cordova-inject-js-in-html', function(done) {
         .pipe(gulp.dest(buildConfig.temp.cordovaWww));
 });
 
-gulp.task('cordova-inject-css-in-html', function(done) {
+gulp.task('cordova-inject-css-in-html', function (done) {
     var target = gulp.src(
         path.join(buildConfig.temp.cordovaWww, "index.html"));
 
@@ -135,7 +154,7 @@ gulp.task('cordova-inject-css-in-html', function(done) {
 });
 
 
-gulp.task('cordova-build-windows', function(done) {
+gulp.task('cordova-build-windows', function (done) {
     sh.cd(buildConfig.temp.cordova);
     sh.exec('cordova platform add windows');
     sh.exec('cordova build windows');
@@ -143,7 +162,7 @@ gulp.task('cordova-build-windows', function(done) {
     done();
 });
 
-gulp.task('cordova-build-android', function(done) {
+gulp.task('cordova-build-android', function (done) {
     sh.cd(buildConfig.temp.cordova);
     sh.exec('cordova platform add android');
     sh.exec('cordova build android');
@@ -151,7 +170,7 @@ gulp.task('cordova-build-android', function(done) {
     done();
 });
 
-gulp.task('cordova-copy-to-dist', function() {
+gulp.task('cordova-copy-to-dist', function () {
     var sourceFolder = path.join(buildConfig.temp.cordova, 'platforms', "**", '*.*');
     return gulp.src([sourceFolder])
         .pipe(gulp.dest(buildConfig.targets.cordovaOutputPath));

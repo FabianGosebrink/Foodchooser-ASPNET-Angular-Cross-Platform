@@ -1,6 +1,6 @@
 
-import { Injectable, EventEmitter, Output } from 'angular2/core';
-import { Response } from 'angular2/http';
+import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { FoodList } from '../../models/FoodList';
 import { FoodItem } from '../../models/FoodItem';
@@ -12,8 +12,8 @@ export class FoodListDataService {
 
     private actionUrl: string;
 
-    @Output() foodListAdded: EventEmitter<FoodList> = new EventEmitter();
-
+    @Output() foodListAdded: EventEmitter<any> = new EventEmitter();
+    
     constructor(private _http: HttpWrapperService) {
 
         this.actionUrl = CONFIGURATION.baseUrls.server +
@@ -26,9 +26,9 @@ export class FoodListDataService {
             .map((response: Response) => <FoodList[]>response.json())
             .catch(this.handleError);
     }
-    
+
     public GetSingleList = (id: number): Observable<FoodList> => {
-        return this._http.get(this.actionUrl + id )
+        return this._http.get(this.actionUrl + id)
             .map((response: Response) => <FoodList>response.json())
             .catch(this.handleError);
     }
@@ -39,7 +39,7 @@ export class FoodListDataService {
             .do(this.setDate)
             .catch(this.handleError);
     }
-    
+
     private setDate(foodItems: FoodItem[]) {
         for (var index = 0; index < foodItems.length; index++) {
             var element: FoodItem = foodItems[index];

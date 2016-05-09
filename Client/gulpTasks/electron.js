@@ -22,6 +22,8 @@ gulp.task('build:electron:prod', function(done) {
         'electron-copy-js-to-temp-folder',
         'electron-copy-app',
         'electron-copy-files-as-is-to-temp-folder',
+        'electron-copy-angular-files-to-temp-folder',
+        'electron-copy-rxjs-files-to-temp-folder',
         'electron-concat-uglify-and-copy-vendor-scripts',
         'electron-inject-js-in-html',
         'electron-inject-css-in-html',
@@ -78,20 +80,35 @@ gulp.task('electron-concat-uglify-and-copy-vendor-scripts', function(done) {
 
 gulp.task('electron-copy-files-as-is-to-temp-folder', function(done) {
 
-    return gulp.src(buildConfig.sources.filesToCopyAsIsElectron)
-        //.pipe(concat(buildConfig.targets.vendorScriptsMinFileName))
-        //.pipe(uglify())
+     var filesToCopy = [];
+
+    filesToCopy.push(buildConfig.assets.shared + "system.config.js");
+    filesToCopy = filesToCopy.concat(buildConfig.sources.filesToCopyAsIsElectron);
+    
+    return gulp.src(filesToCopy)
         .pipe(gulp.dest(buildConfig.temp.electronTempFolder + "scripts/"));
+});
+
+gulp.task('electron-copy-angular-files-to-temp-folder', function (done) {
+
+    return gulp.src(buildConfig.sources.allAngular2)
+        .pipe(gulp.dest(buildConfig.temp.electronTempFolder + "scripts/@angular/"));
+});
+
+gulp.task('electron-copy-rxjs-files-to-temp-folder', function (done) {
+
+    return gulp.src(buildConfig.sources.allRxJs)
+        .pipe(gulp.dest(buildConfig.temp.electronTempFolder + "scripts/rxjs/"));
 });
 
 gulp.task('electron-inject-js-in-html', function(done) {
     var target = gulp.src(
         path.join(buildConfig.temp.electronTempFolder, "index.html"));
 
-    var es6ShimPath = path.join(buildConfig.temp.electronTempFolder, "scripts/",
+    var es6ShimPath = path.join(buildConfig.temp.electronTempFolder, "scripts",
         "es6-shim.min.js");
 
-    var vendorMin = path.join(buildConfig.temp.electronTempFolder, "scripts/",
+    var vendorMin = path.join(buildConfig.temp.electronTempFolder, "scripts",
         buildConfig.targets.vendorScriptsMinFileName);
 
     var systemJs = path.join(buildConfig.temp.electronTempFolder, "scripts",

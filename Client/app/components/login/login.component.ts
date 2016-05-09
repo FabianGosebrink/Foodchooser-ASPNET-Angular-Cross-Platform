@@ -1,6 +1,6 @@
-import { Component } from 'angular2/core';
-import { CORE_DIRECTIVES } from 'angular2/common';
-import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from 'angular2/router';
+import { Component } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from '@angular/router-deprecated';
 import { LoginUser } from '../../models/LoginUser';
 import { Token } from '../../models/Token';
 import { AuthenticationService } from '../../shared/services/authentication.service';

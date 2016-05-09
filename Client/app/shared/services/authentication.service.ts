@@ -1,12 +1,12 @@
-import { Injectable } from 'angular2/core';
+import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Headers, RequestOptions, Response } from 'angular2/http';
+import { Headers, RequestOptions, Response } from '@angular/http';
 import { CONFIGURATION } from '../app.constants';
 import { Token } from '../../models/Token';
 import { Observable } from 'rxjs/Observable';
 import { HttpWrapperService } from './httpWrapper.service';
 import { CurrentUserService } from './currentUser.service';
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router-deprecated';
 
 @Injectable()
 export class AuthenticationService {
