@@ -3,7 +3,6 @@
 > Get the Android SDK here [Android SDK](https://developer.android.com/sdk/index.html/ "Android SDK")  
 > Get the Windows SDK here [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk "Windows SDK")
 
-
 > Make sure you have installed <br/>
 > Typescript compiler: `tsc -v` = Version 1.8.10 <br/>
 > Npm: `npm -v` = 2.15.1 <br/>
@@ -12,7 +11,7 @@
 
 ### In this repository we have done an example app with 
 
-* Angular 2
+* Angular 2 RC1
 * Typescript
 * Bootstrap
 * Automapper
