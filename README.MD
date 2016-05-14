@@ -40,6 +40,8 @@ Navigate to the "Client"-Folder and type in <pre>npm install</pre> to install al
 
 Dont forget to start the api server first ;-)
 
+If you want to start right ahead with the gulp tasks listed above just make sure you ran the <pre>tsc</pre> command in the client folder first.
+
 # Gulp
 
 Navigate to the "Client"-Folder and type in <pre>gulp</pre> to get a ist of all the tasks available

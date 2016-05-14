@@ -143,7 +143,7 @@ gulp.task('electron-inject-css-in-html', function(done) {
 gulp.task('electron-build-win', function(done) {
     return gulp.src(path.join(buildConfig.temp.electronTempFolder, '**', '*'))
         .pipe(electron({
-            version: '0.36.9',
+            version: '0.37.8',
             platform: 'win32',
             arch: 'x64',
             companyName: 'Offering Solutions',
