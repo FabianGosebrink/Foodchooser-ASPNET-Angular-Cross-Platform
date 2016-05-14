@@ -1,10 +1,16 @@
-#Foodchooser - ASP.NET WebAPI Angular2 Typescript Cross Platform 
+# Foodchooser - ASP.NET WebAPI Angular2 Typescript Cross Platform 
 
 > Get the Android SDK here [Android SDK](https://developer.android.com/sdk/index.html/ "Android SDK")  
 > Get the Windows SDK here [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk "Windows SDK")
 
 
-###In this repository we have done an example app with 
+> Make sure you have installed <br/>
+> Typescript compiler: `tsc -v` = Version 1.8.10 <br/>
+> Npm: `npm -v` = 2.15.1 <br/>
+> Node `node -v` = v4.4.4 <br/>
+> Cordova: `cordova -v` = 6.1.1  <br/>
+
+### In this repository we have done an example app with 
 
 * Angular 2
 * Typescript
@@ -15,26 +21,26 @@
 * NPM 
 * Azure
 
-###to make it cross platform, which means its working as an exe, as an app on phones and as a web application.
+### to make it cross platform, which means its working as an exe, as an app on phones and as a web application.
 
-###This is done with
+### This is done with
 
 * Cordova (for the Apps)
 * Electron (for the exe)
 * Gulp (for the web application)
 * ASP.NET WebAPI (for the backend)
 
-###Feel free to add gulp tasks as you want :)
+### Feel free to add gulp tasks as you want :)
 
-##This is the Angular 2 Version of the Foodchooser-Example. Find the Angular 1 Version here: [Angular1 Version](https://github.com/FabianGosebrink/ASPNET-Foodchooser-Cross-Platform-Angular1 "Foodchooser - ASP.NET WebAPI AngularJs Cross Platform")
+## This is the Angular 2 Version of the Foodchooser-Example. Find the Angular 1 Version here: [Angular1 Version](https://github.com/FabianGosebrink/ASPNET-Foodchooser-Cross-Platform-Angular1 "Foodchooser - ASP.NET WebAPI AngularJs Cross Platform")
 
-#Start
+# Start
 
 Navigate to the "Client"-Folder and type in <pre>npm install</pre> to install all dependencies and <pre>npm start</pre> to start the application.
 
 Dont forget to start the api server first ;-)
 
-#Gulp
+# Gulp
 
 Navigate to the "Client"-Folder and type in <pre>gulp</pre> to get a ist of all the tasks available
 
