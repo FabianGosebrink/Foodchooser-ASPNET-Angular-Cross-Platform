@@ -62,6 +62,9 @@ With <pre>gulp build:all</pre> you can build all variations the repository bring
 ## Windows 10 Mobile
 ![Alternativtext](_gitAssets/winMobile.png "WinMobile")
 
+## Windows 10
+![Alternativtext](_gitAssets/windows10.png "Windows10")
+
 ## Android (Appetize.io)
 ![Alternativtext](_gitAssets/android_appetize.png "Android")
 
