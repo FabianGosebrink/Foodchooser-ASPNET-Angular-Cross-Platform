@@ -21,10 +21,10 @@ bootstrap(AppComponent, [
     AuthenticationService,
     provide(LocationStrategy, { useClass: HashLocationStrategy }),
     //bind(LocationStrategy).toClass(HashLocationStrategy),
-    provide(APP_BASE_HREF, {useValue: '/'})]);
-// ]).then((appRef: ComponentRef) => {
-//     appInjector(appRef.injector);
-// });
+    provide(APP_BASE_HREF, {useValue: '/'})
+]).then((appRef: ComponentRef<AppComponent>) => {
+    appInjector(appRef.injector);
+});
 
 
 

@@ -39,7 +39,7 @@
                 </h1>
             </div>
             
-            <div class="comments-list" *ngFor="#food of currentFoods; #i = index">
+            <div class="comments-list" *ngFor="let food of currentFoods; let i=index">
                 <div class="media">
                     <p class="pull-right"><small id="test">{{food.Created | date:'medium'}}</small></p>
                     <div class="media-left">
