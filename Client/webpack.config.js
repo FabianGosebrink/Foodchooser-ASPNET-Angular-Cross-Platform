@@ -1,5 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -43,6 +44,13 @@ module.exports = {
         new ExtractTextPlugin('[name].bundle.css'),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
+        }),
+        new HtmlWebpackPlugin({
+            template: './index.html'
         })
-    ]
+    ],
+    devServer: {
+        historyApiFallback: true,
+        stats: 'minimal'
+    }
 };
