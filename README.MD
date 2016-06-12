@@ -15,6 +15,7 @@
 * Typescript
 * Bootstrap
 * Automapper
+* WebPack
 * WebAPI 2.2
 * Gulp.js
 * NPM 
@@ -27,6 +28,7 @@
 * Cordova (for the Apps)
 * Electron (for the exe)
 * Gulp (for the web application)
+* WebPack (for the web application)
 * ASP.NET WebAPI (for the backend)
 
 ### Feel free to add gulp tasks as you want :)
@@ -35,15 +37,34 @@
 
 # Start
 
-Navigate to the "Client"-Folder and type in <pre>npm install</pre> to install all dependencies and <pre>npm start</pre> to start the application.
+Navigate to the "Client"-Folder and type in 
+```
+npm install
+```
+and
+```
+tsc
+```
+to install all dependencies and run 
 
-Dont forget to start the api server first ;-)
+```
+npm start
+```
+and browser to "localhost:8080" to start the application.
+
+![Alternativtext](_gitAssets/webpack-server.png "GulpTasks")
+
+Don't forget to start the api server first ;-)
 
 If you want to start right ahead with the gulp tasks listed above just make sure you ran the <pre>tsc</pre> command in the client folder first.
 
 # Gulp
 
-Navigate to the "Client"-Folder and type in <pre>gulp</pre> to get a ist of all the tasks available
+Navigate to the "Client"-Folder and type in 
+```
+gulp
+```
+ to get a ist of all the tasks available
 
 ![Alternativtext](_gitAssets/gulpTasks.png "GulpTasks")
 
