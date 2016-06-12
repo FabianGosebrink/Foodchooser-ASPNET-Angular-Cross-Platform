@@ -13,6 +13,8 @@ module.exports = {
     },
     sources: {
         sourceFolder: "src/",
+        webpackConfig: '../webpack.config.js',
+        appEntryPoint: './app/main.js',
         allAppJsFiles: [
             "./app/*.js",
             "./app/*/**/*.js",
@@ -44,12 +46,6 @@ module.exports = {
         allRxJs: [
             "node_modules/rxjs/**/*.js"
         ],
-        filesToCopyAsIsElectron: [
-            "node_modules/es6-shim/es6-shim.min.js"
-        ],
-        filesToCopyAsIsWeb: [
-            "node_modules/es6-shim/es6-shim.min.js"
-        ],
         filesToCopyAsIsCordova: [
             "js/winstore-jscompat.js",
             "node_modules/es6-shim/es6-shim.min.js"
@@ -59,6 +55,7 @@ module.exports = {
         electronTempFolder: "../.temp/electron/",
         cordova: "../.temp/cordova/",
         cordovaWww: "../.temp/cordova/www/",
+        webapp: "../.temp/webapp/",
     },
     targets: {
         vendorScriptsMinFileName: "vendor.min.js",

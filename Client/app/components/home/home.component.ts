@@ -9,7 +9,7 @@ import { AuthenticationService } from  '../../shared/services/authentication.ser
     selector: 'home-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService],
-    templateUrl: 'app/components/home/home.component.html'
+    template: require('./home.component.html')
 })
 
 

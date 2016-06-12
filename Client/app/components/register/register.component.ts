@@ -6,7 +6,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 @Component({
     selector: 'register-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    templateUrl: 'app/components/register/register.component.html'
+    template: require('./register.component.html')
 })
 
 

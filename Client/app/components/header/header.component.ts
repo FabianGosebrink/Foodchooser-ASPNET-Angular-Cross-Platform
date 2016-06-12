@@ -5,7 +5,7 @@ import { AuthenticationService } from  '../../shared/services/authentication.ser
 @Component({
     selector: 'header-component',
     directives: [ROUTER_DIRECTIVES],
-    templateUrl: 'app/components/header/header.component.html'
+    template: require('./header.component.html')
 })
 
 

@@ -10,10 +10,12 @@ import { AboutComponent } from  './components/about/about.component';
 import { HeaderComponent } from  './components/header/header.component';
 import { AuthenticationService } from  './shared/services/authentication.service';
 
+import '../css/custom.css';
+
 @Component({
     selector: 'foodChooser-app',
     directives: [ROUTER_DIRECTIVES, HeaderComponent],
-    templateUrl: 'app/app.component.html'
+    template: require('./app.component.html')
 })
 
 @RouteConfig([

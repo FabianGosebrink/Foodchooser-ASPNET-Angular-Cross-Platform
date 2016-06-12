@@ -9,7 +9,7 @@ import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 @Component({
     selector: 'foodlists-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    templateUrl: 'app/components/foodlists/foodlists.component.html'
+    template: require('./foodlists.component.html')
 })
 
 @NeedsAuthentication()

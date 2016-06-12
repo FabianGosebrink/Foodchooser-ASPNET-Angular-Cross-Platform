@@ -8,7 +8,7 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 @Component({
     selector: 'login-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    templateUrl: 'app/components/login/login.component.html'
+    template: require('./login.component.html')
 })
 
 export class LoginComponent {

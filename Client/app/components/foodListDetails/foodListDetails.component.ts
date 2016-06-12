@@ -11,7 +11,7 @@ import { NeedsAuthentication } from '../../decorators/needsAuthentication';
     selector: 'foodListDetails-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService, FoodListDataService],
-    templateUrl: 'app/components/foodListDetails/foodListDetails.component.html'
+    template: require('./foodListDetails.component.html')
 })
 
 @NeedsAuthentication()

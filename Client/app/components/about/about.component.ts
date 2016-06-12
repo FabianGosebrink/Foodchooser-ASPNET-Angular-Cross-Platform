@@ -8,7 +8,7 @@ import { FoodItem } from '../../models/foodItem';
     selector: 'about-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService],
-    templateUrl: 'app/components/about/about.component.html'
+    template: require('./about.component.html')
 })
 
 
