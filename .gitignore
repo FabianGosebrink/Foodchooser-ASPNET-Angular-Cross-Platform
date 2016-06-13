@@ -1,6 +1,5 @@
 Client/node_modules
 Server/.vs/
-Client/typings/
 Client/app/*.js
 Client/app/*.js.map
 Client/app/components/**/*.js
