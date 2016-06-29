@@ -1,4 +1,4 @@
-# Foodchooser - ASP.NET WebAPI Angular2 Typescript Cross Platform 
+# ASP.NET WebAPI // Webpack // Angular2 // Typescript // Cross Platform - Project "Foodchooser" 
 
 > Get the Android SDK here [Android SDK](https://developer.android.com/sdk/index.html/ "Android SDK")  
 > Get the Windows SDK here [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk "Windows SDK")
@@ -56,7 +56,7 @@ and browser to "localhost:8080" to start the application.
 
 Don't forget to start the api server first ;-)
 
-If you want to start right ahead with the gulp tasks listed above just make sure you ran the <pre>tsc</pre> command in the client folder first.
+If you want to start right ahead with the gulp tasks listed below just make sure you ran the <pre>tsc</pre> command in the client folder first.
 
 # Gulp
 
