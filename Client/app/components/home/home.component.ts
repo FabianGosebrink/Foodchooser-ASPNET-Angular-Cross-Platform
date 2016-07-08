@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { AuthenticationService } from  '../../shared/services/authentication.service';
@@ -13,7 +13,7 @@ import { AuthenticationService } from  '../../shared/services/authentication.ser
 })
 
 
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
     randomFood: FoodItem;
     errorMessage: string;

@@ -6,7 +6,7 @@ import { Token } from '../../models/Token';
 import { Observable } from 'rxjs/Observable';
 import { HttpWrapperService } from './httpWrapper.service';
 import { CurrentUserService } from './currentUser.service';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
@@ -41,7 +41,7 @@ export class AuthenticationService {
 
     public LogoutUser() {
         this._currentUserService.token = null;
-        this._router.navigate(['Home']);
+        this._router.navigate(['/']);
     }
 
     public RegisterUser = (username: string, email: string, password: string, confirmPassword: string): Observable<any> => {

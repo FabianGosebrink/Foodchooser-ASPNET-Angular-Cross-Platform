@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
@@ -14,15 +14,15 @@ import { NeedsAuthentication } from '../../decorators/needsAuthentication';
     template: require('./foodListDetails.component.html')
 })
 
-@NeedsAuthentication()
 export class FoodListDetails implements OnInit {
 
     currentFoodList: FoodList;
     currentFoods: FoodItem[];
     currentFoodsBackUp: FoodItem[];
     currentFood: FoodItem;
+    private _listId: number;
 
-    constructor(private _routeparams: RouteParams,
+    constructor(private _activatedRoute: ActivatedRoute,
         private _foodDataService: FoodDataService,
         private _foodListDataService: FoodListDataService,
         private _router: Router) {
@@ -31,24 +31,28 @@ export class FoodListDetails implements OnInit {
     }
 
     ngOnInit() {
-        this.getSingleList();
-        this.getAllFoodFromList();
+        this._activatedRoute.params.subscribe(params => {
+            this._listId = +params['id'];
+            this.getSingleList(this._listId);
+            this.getAllFoodFromList(this._listId);
+        });
+
     }
 
-    private getSingleList() {
-        let listId = this._routeparams.get('id');
+    private getSingleList(listId: number) {
+
         this._foodListDataService
-            .GetSingleList(parseInt(listId))
+            .GetSingleList(listId)
             .subscribe((response: FoodList) => {
                 this.currentFoodList = response;
                 console.log(this.currentFoodList)
             }, error => console.log(error));
     }
 
-    private getAllFoodFromList() {
-        let listId = this._routeparams.get('id');
+    private getAllFoodFromList(listId: number) {
+
         this._foodListDataService
-            .GetFoodFromList(parseInt(listId))
+            .GetFoodFromList(listId)
             .subscribe((response: FoodItem[]) => {
                 this.currentFoods = response;
                 this.currentFoodsBackUp = response;
@@ -60,7 +64,7 @@ export class FoodListDetails implements OnInit {
         this._foodDataService
             .UpdateFood(food.Id, food)
             .subscribe((response: FoodItem) => {
-                this.getAllFoodFromList();
+                this.getAllFoodFromList(this._listId);
             }, (response) => {
                 console.log(response);
             });
@@ -93,7 +97,7 @@ export class FoodListDetails implements OnInit {
         this._foodDataService
             .UpdateFood(foodItem.Id, foodItem)
             .subscribe((response: FoodItem) => {
-                this.getAllFoodFromList();
+                this.getAllFoodFromList(this._listId);
                 this.currentFood = new FoodItem();
             }, error => console.log(error));
     }
@@ -105,7 +109,7 @@ export class FoodListDetails implements OnInit {
             this._foodDataService
                 .AddFood(foodItem)
                 .subscribe((response: FoodItem) => {
-                    this.getAllFoodFromList();
+                    this.getAllFoodFromList(this._listId);
                     this.currentFood = new FoodItem();
                 }, error => console.log(error));
         }
@@ -116,7 +120,7 @@ export class FoodListDetails implements OnInit {
             this._foodListDataService
                 .DeleteList(this.currentFoodList.Id)
                 .subscribe((response: any) => {
-                    this._router.navigate(['FoodLists']);
+                    this._router.navigate(['/foodLists']);
                 }, error => console.log(error));
         }
     }
@@ -126,7 +130,7 @@ export class FoodListDetails implements OnInit {
         this._foodDataService
             .DeleteFood(foodId)
             .subscribe((response: any) => {
-                this.getAllFoodFromList();
+                this.getAllFoodFromList(this._listId);
             }, error => console.log(error));
 
     }

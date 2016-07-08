@@ -22,7 +22,7 @@
         <input type="password" id="inputPassword2" 
                [(ngModel)]="registerUser.ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
         <p>
-            <a [routerLink]="['Login']">Already have an account?</a><br />
+            <a [routerLink]="['/login']">Already have an account?</a><br />
         </p>
         <button class="btn btn-lg btn-primary btn-block" [disabled]="!f?.valid || f?.pending" type="submit">Sign up</button>
     </form>

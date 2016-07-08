@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { RouteConfig, ROUTER_DIRECTIVES, RouteParams, Router } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { LoginUser } from '../../models/LoginUser';
 import { Token } from '../../models/Token';
 import { AuthenticationService } from '../../shared/services/authentication.service';
@@ -24,7 +24,7 @@ export class LoginComponent {
         this._authService
             .LoginUser(this.loginUser.Username, this.loginUser.Password)
             .subscribe(
-            (response: Token) => this._router.navigate(['Home']),
+            (response: Token) => this._router.navigate(['/']),
             (error) => { 
                 console.log(error); 
                 this.errorMessage = JSON.parse(error._body).error_description;

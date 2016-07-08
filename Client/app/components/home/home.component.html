@@ -11,9 +11,9 @@
                 <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithGoogle()">Google for recipes</button>
                 <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRecipesWithBing()">Bing for recipes</button>
                 <br/>
-                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['Login']" class="btn btn-lg btn-primary">Sign in</a>
+                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['/login']" class="btn btn-lg btn-primary">Sign in</a>
                 <br/><br/>
-                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['Register']" class="btn btn-lg btn-primary">Register</a>
+                <a *ngIf="!authenticationService.isAuthenticated" [routerLink]="['/register']" class="btn btn-lg btn-primary">Register</a>
             </div>
         </div>
         <!-- /.container -->

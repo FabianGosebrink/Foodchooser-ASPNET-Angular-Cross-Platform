@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
-import { RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
 import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
@@ -11,7 +11,6 @@ import { NeedsAuthentication } from '../../decorators/needsAuthentication';
     template: require('./foodListForm.component.html')
 })
 
-@NeedsAuthentication()
 export class FoodListFormComponent {
 
     list: FoodList;

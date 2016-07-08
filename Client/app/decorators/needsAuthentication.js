@@ -1,18 +1,20 @@
 "use strict";
-var router_deprecated_1 = require('@angular/router-deprecated');
-var appInjector_1 = require('../shared/services/appInjector');
-var storage_service_1 = require('../shared/services/storage.service');
-exports.NeedsAuthentication = function () {
-    return router_deprecated_1.CanActivate(function (to, from, target) {
-        if (target === void 0) { target = ['/']; }
-        var injector = appInjector_1.appInjector();
-        var router = injector.get(router_deprecated_1.Router);
-        var storageService = injector.get(storage_service_1.StorageService);
-        if (storageService.getItem('auth')) {
-            return true;
+var Observable_1 = require('rxjs/Observable');
+var NeedsAuthentication = (function () {
+    function NeedsAuthentication(_storeageService, _router) {
+        this._storeageService = _storeageService;
+        this._router = _router;
+    }
+    NeedsAuthentication.prototype.canActivate = function () {
+        if (this._storeageService.getItem('auth')) {
+            return Observable_1.Observable.create(function (subscriber) {
+                subscriber.next(true);
+                subscriber.complete();
+            });
         }
-        router.navigate(['/Login', { target: target }]);
-        return false;
-    });
-};
+        this._router.navigate(['/Login']);
+    };
+    return NeedsAuthentication;
+}());
+exports.NeedsAuthentication = NeedsAuthentication;
 //# sourceMappingURL=needsAuthentication.js.map
