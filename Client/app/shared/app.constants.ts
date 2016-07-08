@@ -4,4 +4,4 @@ export let CONFIGURATION = {
     //server: 'https://newfoodchooser.azurewebsites.net/',
     apiUrl: 'api/'
   }
-}
+} 
