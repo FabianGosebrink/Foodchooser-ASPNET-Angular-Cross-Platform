@@ -1,7 +1,7 @@
 import { bootstrap }    from '@angular/platform-browser-dynamic';
 import { AppComponent } from './app.component';
 import { ComponentRef, provide, enableProdMode, bind } from '@angular/core';
-import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common/index';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { HttpWrapperService } from './shared/services/httpWrapper.service';
 import { StorageService } from './shared/services/storage.service';

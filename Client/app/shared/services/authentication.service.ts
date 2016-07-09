@@ -41,7 +41,7 @@ export class AuthenticationService {
 
     public LogoutUser() {
         this._currentUserService.token = null;
-        this._router.navigate(['/']);
+        this._router.navigate(['/home']);
     }
 
     public RegisterUser = (username: string, email: string, password: string, confirmPassword: string): Observable<any> => {

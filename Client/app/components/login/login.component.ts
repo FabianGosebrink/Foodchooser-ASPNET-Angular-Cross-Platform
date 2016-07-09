@@ -24,7 +24,7 @@ export class LoginComponent {
         this._authService
             .LoginUser(this.loginUser.Username, this.loginUser.Password)
             .subscribe(
-            (response: Token) => this._router.navigate(['/']),
+            (response: Token) => this._router.navigate(['/home']),
             (error) => { 
                 console.log(error); 
                 this.errorMessage = JSON.parse(error._body).error_description;

@@ -10,7 +10,8 @@ import { HeaderComponent } from  './components/header/header.component';
 import { NeedsAuthentication } from './decorators/needsAuthentication';
 
 const routes: RouterConfig = [
-    { path: '', component: HomeComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: HomeComponent },
     { path: 'foodLists', component: FoodComponent, canActivate: [NeedsAuthentication] },
     { path: 'foodLists/:id', component: FoodListDetails, canActivate: [NeedsAuthentication] },
     { path: 'register', component: RegisterComponent },

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { HeaderComponent } from  './components/header/header.component';
 import { AuthenticationService } from  './shared/services/authentication.service';
+import {  Location} from '@angular/common';
 
 import '../css/custom.css';
 
@@ -13,7 +14,8 @@ import '../css/custom.css';
 
 export class AppComponent {
 
-    constructor(public authenticationService: AuthenticationService) {
-
+    constructor(public authenticationService: AuthenticationService, private _location: Location) {
+       
+        _location.go('/home');
     }
 } 

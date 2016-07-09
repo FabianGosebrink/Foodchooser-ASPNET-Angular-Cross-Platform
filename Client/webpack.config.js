@@ -44,9 +44,6 @@ module.exports = {
         new ExtractTextPlugin('[name].bundle.css'),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
-        }),
-        new HtmlWebpackPlugin({
-            template: './index.html'
         })
     ],
     devServer: {

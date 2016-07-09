@@ -17,11 +17,12 @@ var buildConfig = require('../gulp.config');
 gulp.task('build:apps', function (done) {
     runSeq(
         'cordova-clean-temp',
+        'cordova-compile-with-webpack',
         'cordova-copy-config-to-temp',
         'cordova-copy-winstore-to-temp',
         'cordova-copy-index-to-temp-folder',
         'cordova-copy-images-to-temp-folder',
-        'cordova-compile-with-webpack',
+        
         'cordova-inject-in-html',
         'cordova-build-windows',
         //  'cordova-build-android',
