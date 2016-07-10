@@ -50,11 +50,9 @@ to install all dependencies and run
 ```
 npm start
 ```
-and browser to "localhost:8080" to start the application.
+and browse to "localhost:8080" to start the application.
 
 ![Alternativtext](_gitAssets/webpack-server.png "GulpTasks")
-
-Don't forget to start the api server first ;-)
 
 If you want to start right ahead with the gulp tasks listed below just make sure you ran the <pre>tsc</pre> command in the client folder first.
 
