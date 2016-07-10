@@ -10,8 +10,6 @@ export class FoodDataService {
 
     private actionUrl: string;
 
-
-
     constructor(private _http: HttpWrapperService) {
 
         this.actionUrl = CONFIGURATION.baseUrls.server +

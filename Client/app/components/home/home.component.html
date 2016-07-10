@@ -5,6 +5,13 @@
             <div class="starter-template">
                 <h1 *ngIf="randomFood">{{randomFood?.ItemName}}</h1>
                 <h1 *ngIf="errorMessage">{{errorMessage}}</h1>
+                <div *ngIf="authenticationService.isAuthenticated && errorMessage">
+                    <br/>
+                    <a [routerLink]="['/foodLists']" class="btn btn-lg btn-primary">
+                        Go to Foodlists and create awesome food
+                    </a>
+                </div>
+
                 <h1 *ngIf="!randomFood && !errorMessage">Getting your food suggestions<br />Please wait...</h1>
 
                 <button *ngIf="randomFood" type="button" class="btn btn-link" (click)="getRandomFood()">Get new suggestion</button>

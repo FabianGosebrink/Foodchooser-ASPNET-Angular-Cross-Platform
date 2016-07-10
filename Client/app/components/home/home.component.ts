@@ -13,11 +13,11 @@ import { AuthenticationService } from  '../../shared/services/authentication.ser
 })
 
 
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
 
     randomFood: FoodItem;
     errorMessage: string;
-    
+
     constructor(private _foodDataService: FoodDataService, public authenticationService: AuthenticationService) {
 
     }
