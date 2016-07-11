@@ -11,12 +11,12 @@
 
 ### In this repository we have done an example app with 
 
-* Angular 2 RC1
+* Angular 2
 * Typescript
 * Bootstrap
 * Automapper
 * WebPack
-* WebAPI 2.2
+* ASP.NET WebAPI 2.2
 * Gulp.js
 * NPM 
 * Azure
