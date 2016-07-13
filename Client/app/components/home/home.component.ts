@@ -4,26 +4,40 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { AuthenticationService } from  '../../shared/services/authentication.service';
+import { DesktopCameraService } from  '../../shared/services/desktopCameraService';
 
 @Component({
     selector: 'home-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    providers: [FoodDataService],
+    providers: [FoodDataService, DesktopCameraService],
     template: require('./home.component.html')
 })
 
 
 export class HomeComponent implements OnInit {
 
-    randomFood: FoodItem;
-    errorMessage: string;
+    public randomFood: FoodItem;
+    public errorMessage: string;
+    public pictureUrl: string;
 
-    constructor(private _foodDataService: FoodDataService, public authenticationService: AuthenticationService) {
-
+    constructor(
+        private _foodDataService: FoodDataService,
+        public authenticationService: AuthenticationService,
+        private _cameraService: DesktopCameraService) {
     }
 
     public ngOnInit() {
         this.getRandomFood();
+    }
+ 
+    public takePhoto() {
+        this._cameraService
+            .getPhoto()
+            .subscribe((url: string) => {
+                alert(url);
+                this.pictureUrl = url;
+                console.log("picture: " + this.pictureUrl.substr(0,50) + "...");
+            });
     }
 
     public getRandomFood() {

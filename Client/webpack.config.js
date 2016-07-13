@@ -12,8 +12,10 @@ module.exports = {
         extensions: ['', '.ts', '.js', '.css', '.html']
     },
     output: {
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
+        sourceMapFilename: '[name].js.map'
     },
+    devtool: 'source-map',
     module: {
         loaders: [
             {
