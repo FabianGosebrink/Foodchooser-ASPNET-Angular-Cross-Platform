@@ -19,22 +19,33 @@ export class MobileCameraService implements ICameraService {
                     destinationType: camera.DestinationType.DATA_URL,
                     sourceType: camera.PictureSourceType.CAMERA,
                     encodingType: camera.EncodingType.PNG,
+                    pictureSourceType: camera.PictureSourceType.CAMERA,
                     saveToPhotoAlbum: false,
                     correctOrientation: true
                 };
 
-                camera.getPicture(imageData => {
-                    observer.next('data:image/png;base64,' + imageData);
-                    removeDomListener();
-                    observer.complete();
-                }, error => {
-                    observer.error(error);
-                    removeDomListener();
-                    observer.complete();
-                }, options);
+                // camera.getPicture(imageData => {
+                //     observer.next('data:image/png;base64,' + imageData);
+                //     removeDomListener();
+                //     observer.complete();
+                // }, error => {
+                //     observer.error(error);
+                //     removeDomListener();
+                //     observer.complete();
+                // }, options);
+
+                camera.getPicture(this.onSuccess, this.onError, options);
             };
 
             document.addEventListener('deviceready', onCordovaDeviceReady);
         });
+    }
+
+    private onSuccess = (): string => {
+        return "";
+    }
+
+    private onError = (): string => {
+        return "";
     }
 }

@@ -5,11 +5,12 @@ import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { AuthenticationService } from  '../../shared/services/authentication.service';
 import { DesktopCameraService } from  '../../shared/services/desktopCameraService';
+import { CameraService } from  '../../shared/services/cameraService';
 
 @Component({
     selector: 'home-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    providers: [FoodDataService, DesktopCameraService],
+    providers: [FoodDataService, DesktopCameraService, CameraService],
     template: require('./home.component.html')
 })
 
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private _foodDataService: FoodDataService,
         public authenticationService: AuthenticationService,
+        private _desktopcameraService: DesktopCameraService,
         private _cameraService: DesktopCameraService) {
     }
 
