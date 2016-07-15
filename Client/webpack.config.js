@@ -13,9 +13,9 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        sourceMapFilename: '[name].js.map'
+        //sourceMapFilename: '[name].bundle.js.map'
     },
-    devtool: 'source-map',
+   // devtool: 'source-map',
     module: {
         loaders: [
             {

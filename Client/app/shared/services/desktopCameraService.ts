@@ -5,6 +5,10 @@ declare let window;
 
 export class DesktopCameraService implements ICameraService {
 
+    constructor() {
+        console.log("DesktopCameraService");
+    }  
+
     private getMediaDevices(): any {
         const mediaDevices = ((window.navigator.mozGetUserMedia || window.navigator.webkitGetUserMedia) ? {
             getUserMedia: function (options) {

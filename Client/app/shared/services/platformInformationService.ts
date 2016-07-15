@@ -21,6 +21,7 @@ export class PlatformInformationService {
     }
 
     constructor() {
+        console.log("In PlatformInformationService");
         this.guessPlatform();
     }
 
@@ -28,5 +29,8 @@ export class PlatformInformationService {
         this._isMobile = !!window.cordova;
         this._isDesktop = window.navigator.userAgent.match(/Electron/) !== null;
         this._isWeb = !(this._isMobile || this._isDesktop);
+        console.log("mobile: " + this._isMobile);
+        console.log("desktop: " + this._isDesktop);
+        console.log("web: " + this._isWeb);
     }
 }

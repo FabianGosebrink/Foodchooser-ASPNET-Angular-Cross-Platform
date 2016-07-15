@@ -5,7 +5,12 @@ import {ICameraService} from './cameraService';
 declare let window;
 
 export class MobileCameraService implements ICameraService {
-    public getPhoto(): Observable<string> {
+
+    constructor() {
+        console.log("MobileCameraService");
+    }
+
+    public getPhoto = (): Observable<string> => {
         return Observable.create((observer: Observer<string>) => {
             let removeDomListener = () => {
                 document.removeEventListener('deviceready', onCordovaDeviceReady);
@@ -14,12 +19,24 @@ export class MobileCameraService implements ICameraService {
             let onCordovaDeviceReady = () => {
                 const camera = window.navigator.camera;
 
+                // let options = {
+                //     quality: 50,
+                //     destinationType: camera.DestinationType.DATA_URL,
+                //     sourceType: camera.PictureSourceType.CAMERA,
+                //     encodingType: camera.EncodingType.PNG,
+                //     pictureSourceType: camera.PictureSourceType.CAMERA,
+                //     saveToPhotoAlbum: false,
+                //     correctOrientation: true
+                // };
+
                 let options = {
                     quality: 50,
                     destinationType: camera.DestinationType.DATA_URL,
                     sourceType: camera.PictureSourceType.CAMERA,
-                    encodingType: camera.EncodingType.PNG,
-                    pictureSourceType: camera.PictureSourceType.CAMERA,
+                    allowEdit: true,
+                    encodingType: camera.EncodingType.JPEG,
+                    targetWidth: 100,
+                    targetHeight: 100,
                     saveToPhotoAlbum: false,
                     correctOrientation: true
                 };
