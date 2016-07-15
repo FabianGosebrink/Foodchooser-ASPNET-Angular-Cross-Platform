@@ -76,7 +76,7 @@ gulp.task('electron-copy-assets-to-temp-folder', function (done) {
 gulp.task('electron-build-win', function (done) {
     return gulp.src(path.join(buildConfig.temp.electronTempFolder, '**', '*'))
         .pipe(electron({
-            version: '1.2.6',
+            version: '1.2.7',
             platform: 'win32',
             arch: 'x64',
             companyName: 'Offering Solutions',
