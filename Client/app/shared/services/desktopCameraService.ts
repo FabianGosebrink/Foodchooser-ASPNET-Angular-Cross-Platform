@@ -7,7 +7,7 @@ export class DesktopCameraService implements ICameraService {
 
     constructor() {
         console.log("DesktopCameraService");
-    }  
+    }
 
     private getMediaDevices(): any {
         const mediaDevices = ((window.navigator.mozGetUserMedia || window.navigator.webkitGetUserMedia) ? {
@@ -68,7 +68,9 @@ export class DesktopCameraService implements ICameraService {
 
                         }, 500);
                     });
-                });
+                }, ((error: any) => {
+                    console.log(error);
+                }));
         });
     }
 }
