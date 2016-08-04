@@ -38,26 +38,30 @@
                     </small>
                 </h1>
             </div>
-            
-            <div class="comments-list" *ngFor="let food of currentFoods; let i=index">
-                <div class="media">
-                    <p class="pull-right"><small id="test">{{food.Created | date:'medium'}}</small></p>
-                    <div class="media-left">
-                        <div class="numberCircle">{{ food.ItemName | slice:0:1 }}</div>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading user_name">{{food.ItemName}}</h4>
-                        <p>
-                            <small>
-                                <button class="btn-link" (click)="setToUpdate(food)" style="color:white;">Edit</button> -
-                                <button class="btn-link" (click)="deleteFood(food.Id)" style="color: white;">Delete</button> -
-                                <button class="btn-link" *ngIf="!food.IsPublic" (click)="togglePublic(food)" style="color: white;">Publish</button>
-                                <button class="btn-link" *ngIf="food.IsPublic" (click)="togglePublic(food)" style="color:white;">Unpublish</button>
-                            </small>
-                        </p>
-                    </div>
+
+            <div class="row">
+                <div class="col-md-4 portfolio-item" *ngFor="let food of currentFoods; let i=index">
+                    <a [href]="" (click)="takePhoto(food)">
+                        <img *ngIf="food.PictureUrl" class="img-responsive" [src]="food.PictureUrl">
+                        <img *ngIf="!food.PictureUrl" class="img-responsive" src="http://placehold.it/700x400" alt="">
+                    </a>
+                    <h4>
+                        <a href="#">{{food.ItemName}}</a>
+                    </h4>
+                    <h5><small id="test">{{food.Created | date:'medium'}}</small></h5>
+                   
+                        <small>
+                            <button class="btn-link" (click)="setToUpdate(food)" style="color:white;">Edit</button>
+                            <button class="btn-link" (click)="deleteFood(food.Id)" style="color: white;">Delete</button>
+                            <button class="btn-link" *ngIf="!food.IsPublic" (click)="togglePublic(food)" style="color: white;">Publish</button>
+                            <button class="btn-link" *ngIf="food.IsPublic" (click)="togglePublic(food)" style="color:white;">Unpublish</button>
+                        </small>
+                    
+                    <br/>
+                    <br/>
                 </div>
             </div>
+            <!-- /.row -->
         </div>
     </div>
 

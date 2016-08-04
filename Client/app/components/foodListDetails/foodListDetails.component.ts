@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
@@ -6,11 +6,13 @@ import { FoodItem } from '../../models/FoodItem';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
 import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
+import { ICameraService } from  '../../shared/services/cameraService';
+import { CameraFactory } from  '../../shared/cameraFactory';
 
 @Component({
     selector: 'foodListDetails-component',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    providers: [FoodDataService, FoodListDataService],
+    providers: [FoodDataService, FoodListDataService, CameraFactory],
     template: require('./foodListDetails.component.html')
 })
 
@@ -21,13 +23,18 @@ export class FoodListDetails implements OnInit {
     currentFoodsBackUp: FoodItem[];
     currentFood: FoodItem;
     private _listId: number;
+    private _cameraService: ICameraService;
+    public pictureUrl: string;
 
     constructor(private _activatedRoute: ActivatedRoute,
         private _foodDataService: FoodDataService,
         private _foodListDataService: FoodListDataService,
-        private _router: Router) {
+        private _router: Router,
+        private _cameraFactory: CameraFactory,
+        private _ngZone: NgZone) {
 
         this.currentFood = new FoodItem();
+        this._cameraService = _cameraFactory.getCameraService();
     }
 
     ngOnInit() {
@@ -133,5 +140,15 @@ export class FoodListDetails implements OnInit {
                 this.getAllFoodFromList(this._listId);
             }, error => console.log(error));
 
+    }
+
+    public takePhoto(foodItem: FoodItem) {
+        this._cameraService
+            .getPhoto()
+            .subscribe((url: string) => {
+                this._ngZone.run(() => {
+                    foodItem.PictureUrl = url;
+                });
+            });
     }
 }
