@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
@@ -28,8 +28,9 @@ export class HomeComponent implements OnInit {
     constructor(
         private _foodDataService: FoodDataService,
         public authenticationService: AuthenticationService,
-        private _cameraFactory: CameraFactory) {
-            
+        private _cameraFactory: CameraFactory,
+        private _ngZone: NgZone) {
+
         this._cameraService = _cameraFactory.getCameraService();
     }
 
@@ -41,9 +42,10 @@ export class HomeComponent implements OnInit {
         this._cameraService
             .getPhoto()
             .subscribe((url: string) => {
-                alert(url);
-                this.pictureUrl = url;
-                console.log("picture: " + this.pictureUrl.substr(0, 50) + "...");
+                this._ngZone.run(() => {
+                    this.pictureUrl = url;
+                    console.log("picture: " + this.pictureUrl.substr(0, 50) + "...");
+                });
             });
     }
 
