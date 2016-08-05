@@ -30,7 +30,7 @@ export class MobileCameraService implements ICameraService {
                 // };
 
                 let options = {
-                    quality: 50,
+                    quality: 100,
                     destinationType: camera.DestinationType.DATA_URL,
                     sourceType: camera.PictureSourceType.CAMERA,
                     allowEdit: true,
