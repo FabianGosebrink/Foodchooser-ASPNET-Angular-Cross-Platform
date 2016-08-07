@@ -64,7 +64,13 @@ export class FoodListDataService {
 
     public DeleteList = (id: number): Observable<Response> => {
         return this._http.delete(this.actionUrl + id)
-            .catch(this.handleError);;
+            .catch(this.handleError);
+    }
+
+    public GetRandomImageStringFromList = (id: number): Observable<string> => {
+        return this._http.get(this.actionUrl + id + "/getrandomimage")
+            .map((response: Response) => <string>response.json())
+            .catch(this.handleError);
     }
 
     private handleError(error: Response) {

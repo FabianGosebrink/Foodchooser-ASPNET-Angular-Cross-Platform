@@ -3,7 +3,7 @@ import { CORE_DIRECTIVES } from '@angular/common';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
-import { FoodList } from '../../models/FoodList';
+import { FoodList, FoodListWithImage } from '../../models/FoodList';
 
 @Component({
     selector: 'foodlists-component',
@@ -11,15 +11,20 @@ import { FoodList } from '../../models/FoodList';
     template: require('./foodlists.component.html')
 })
 
+
+
 export class FoodListComponent implements OnInit {
 
-    allLists: FoodList[];
+    allLists: FoodListWithImage[];
+    allFoodLists: FoodList[];
     errorMessage: string;
 
     constructor(private _foodListDataService: FoodListDataService) {
         _foodListDataService.foodListAdded.subscribe((foodList: FoodList) => {
             this.getAllLists();
         });
+
+        this.allLists = [];
     }
 
     public ngOnInit() {
@@ -30,10 +35,20 @@ export class FoodListComponent implements OnInit {
         this._foodListDataService
             .GetAllLists()
             .subscribe((response: FoodList[]) => {
-                this.allLists = response;
-                console.log(response.length);
+                this.allFoodLists = response;
             }, error => {
                 this.errorMessage = error;
+            }, () => {
+                console.log(this.allFoodLists);
+                this.allFoodLists.forEach(element => {
+                    this._foodListDataService
+                        .GetRandomImageStringFromList(element.Id)
+                        .subscribe((result: string) => {
+                            let foodListWithImage = new FoodListWithImage(element, result);
+                            this.allLists.push(foodListWithImage);
+                        });
+                });
+
             });
     }
 }

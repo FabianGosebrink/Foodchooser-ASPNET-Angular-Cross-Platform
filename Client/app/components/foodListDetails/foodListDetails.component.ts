@@ -24,7 +24,6 @@ export class FoodListDetails implements OnInit {
     currentFood: FoodItem;
     private _listId: number;
     private _cameraService: ICameraService;
-    public pictureUrl: string;
 
     constructor(private _activatedRoute: ActivatedRoute,
         private _foodDataService: FoodDataService,
@@ -147,7 +146,8 @@ export class FoodListDetails implements OnInit {
             .getPhoto()
             .subscribe((url: string) => {
                 this._ngZone.run(() => {
-                    foodItem.PictureUrl = url;
+                    foodItem.Base64ImageString = url;
+                    this.updateFood(foodItem);
                 });
             });
     }

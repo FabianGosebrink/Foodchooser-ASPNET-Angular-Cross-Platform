@@ -6,4 +6,5 @@ export class FoodItem {
     public PictureUrl: string;
     public Created: Date;
     public IsPublic: Boolean;
+    public Base64ImageString: string;
 }
