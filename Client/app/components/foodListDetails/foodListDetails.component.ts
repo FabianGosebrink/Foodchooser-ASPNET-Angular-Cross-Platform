@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
+import { CONFIGURATION } from '../../shared/app.constants';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
@@ -62,6 +63,11 @@ export class FoodListDetails implements OnInit {
             .subscribe((response: FoodItem[]) => {
                 this.currentFoods = response;
                 this.currentFoodsBackUp = response;
+
+                this.currentFoods.forEach((element: FoodItem) => {
+                    element.ImageString = CONFIGURATION.baseUrls.server + element.ImageString;
+                });
+
             }, error => console.log(error));
     }
 
@@ -146,7 +152,7 @@ export class FoodListDetails implements OnInit {
             .getPhoto()
             .subscribe((url: string) => {
                 this._ngZone.run(() => {
-                    foodItem.Base64ImageString = url;
+                    foodItem.ImageString = url;
                     this.updateFood(foodItem);
                 });
             });

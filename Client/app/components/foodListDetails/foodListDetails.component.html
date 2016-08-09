@@ -43,8 +43,8 @@
                 <div class="col-md-4 portfolio-item" *ngFor="let food of currentFoods; let i=index">
                     <div style="height:200px;">
                         <a [href]="" (click)="takePhoto(food)">
-                            <img *ngIf="food.Base64ImageString" class="img-responsive" [src]="food.Base64ImageString" height="200">
-                            <img *ngIf="!food.Base64ImageString" class="img-responsive" src="http://placehold.it/390x290" alt="">
+                            <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString" height="200">
+                            <img *ngIf="!food.ImageString" class="img-responsive" src="http://placehold.it/390x290" alt="">
                         </a>
                     </div>
                     <h4>{{food.ItemName}}</h4>

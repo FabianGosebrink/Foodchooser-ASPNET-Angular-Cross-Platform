@@ -15,8 +15,7 @@
             <h3><a [routerLink]="['/foodLists', item.FoodListItem.Id]">{{item.FoodListItem?.Name}}</a></h3>
             <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
             <a [routerLink]="['/foodLists', item.FoodListItem.Id]">
-                <img *ngIf="item.ImageString" class="img-responsive" src="" alt="" 
-                [ngStyle]="{'background':'#eee url({{item.ImageString}}) center center'}">
+                <img *ngIf="item.ImageString" class="img-responsive" src="" alt="">
                 <img *ngIf="!item.ImageString"  class="img-responsive" src="http://placehold.it/100x900" alt="" style="width:100%;">
             </a>
             <p></p>
