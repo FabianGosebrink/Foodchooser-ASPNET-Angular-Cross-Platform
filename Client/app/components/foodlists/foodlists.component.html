@@ -9,19 +9,35 @@
             <a *ngFor="let item of allLists; let i=index" [routerLink]="['/foodLists', item.Id]">
                 <li class="list-group-item">{{item?.Name}}</li>
             </a>
-        </ul>-->
+        </ul>
 
         <div *ngFor="let item of allLists; let i=index">
             <h3><a [routerLink]="['/foodLists', item.FoodListItem.Id]">{{item.FoodListItem?.Name}}</a></h3>
             <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
             <a [routerLink]="['/foodLists', item.FoodListItem.Id]">
-                <img *ngIf="item.ImageString" class="img-responsive" src="" alt="">
-                <img *ngIf="!item.ImageString"  class="img-responsive" src="http://placehold.it/100x900" alt="" style="width:100%;">
+                <img *ngIf="item.ImageString" class="img-responsive" [src]="item.ImageString" alt="">
             </a>
             <p></p>
             <hr>
+        </div>-->
+
+        <div class="container">
+            <div class="row">
+                <div class='list-group gallery'>
+
+                    <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3' *ngFor="let item of allLists; let i=index">
+                        <a class="thumbnail fancybox" rel="ligthbox" [routerLink]="['/foodLists', item.FoodListItem.Id]">
+                            <img *ngIf="item.ImageString" class="img-responsive" alt="" [src]="item.ImageString" />
+                            <img *ngIf="!item.ImageString" class="img-responsive" alt="" src="http://placehold.it/640x480.png" />
+                            <div class='text-right'>
+                                <h4>{{item.FoodListItem?.Name}}</h4>
+                            </div>
+                            <!-- text-right / end -->
+                        </a>
+                    </div>
+                </div>
+                <!-- list-group / end -->
+            </div>
+
+
         </div>
-    </div>
-
-
-</div>

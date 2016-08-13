@@ -1,4 +1,4 @@
-
+import { CONFIGURATION } from '../shared/app.constants';
 import { FoodItem } from './FoodItem';
 
 export class FoodList {
@@ -13,6 +13,11 @@ export class FoodListWithImage {
 
     constructor(list: FoodList, imageString: string) {
         this.FoodListItem = list;
-        this.ImageString = imageString;
+
+        this.ImageString = null;
+        if (imageString) {
+
+            this.ImageString = CONFIGURATION.baseUrls.server + imageString;
+        }
     }
 }

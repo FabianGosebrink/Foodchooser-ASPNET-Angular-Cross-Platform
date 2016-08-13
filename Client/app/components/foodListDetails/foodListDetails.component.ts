@@ -66,6 +66,7 @@ export class FoodListDetails implements OnInit {
 
                 this.currentFoods.forEach((element: FoodItem) => {
                     element.ImageString = CONFIGURATION.baseUrls.server + element.ImageString;
+                    console.log("----->" + element.ImageString);
                 });
 
             }, error => console.log(error));
