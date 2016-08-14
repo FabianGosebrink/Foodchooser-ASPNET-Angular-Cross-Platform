@@ -33,7 +33,7 @@ export class DesktopCameraService implements ICameraService {
                     videoElement.src = vendorURL.createObjectURL(stream);
                     videoElement.play();
 
-                    videoElement.addEventListener('canplay', () => {
+                    let takePhotoInternal = () => {
                         var canvasElement = doc.createElement('canvas');
                         canvasElement.setAttribute('width', videoElement.videoWidth.toString());
                         canvasElement.setAttribute('height', videoElement.videoHeight.toString());
@@ -67,7 +67,16 @@ export class DesktopCameraService implements ICameraService {
                             observer.complete();
 
                         }, 500);
-                    });
+                    };
+
+                    if (videoElement.readyState >= videoElement.HAVE_FUTURE_DATA) {
+                        takePhotoInternal()
+                    } else {
+                        videoElement.addEventListener('canplay', function () {
+                            takePhotoInternal()
+                        }, false);
+                    }
+
                 }, ((error: any) => {
                     console.log(error);
                 }));

@@ -1,7 +1,7 @@
 "use strict";
 exports.CONFIGURATION = {
     baseUrls: {
-        server: 'https://newfoodchooser.azurewebsites.net/',
+        server: 'https://foodchooser.azurewebsites.net/',
         apiUrl: 'api/'
     }
 };
