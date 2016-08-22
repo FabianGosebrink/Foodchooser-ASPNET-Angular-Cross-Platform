@@ -24,7 +24,7 @@ gulp.task('build:apps', function (done) {
         'cordova-copy-images-to-temp-folder',
         
         'cordova-inject-in-html',
-        'cordova-build-windows',
+        //'cordova-build-windows',
         'cordova-build-android',
         'cordova-clean-dist',
         'cordova-copy-to-dist',
