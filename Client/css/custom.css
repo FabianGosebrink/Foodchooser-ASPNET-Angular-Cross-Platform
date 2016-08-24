@@ -7,10 +7,9 @@ html{
 body {
     margin-top: 50px; /* Required margin for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
     background: transparent;
-	/* Workaround for some mobile browsers */
-	min-height:100%;
+	  min-height:100%;
 	  padding-top: 40px;
-  padding-bottom: 40px;
+    padding-bottom: 40px;
 }
 
 .centered {
@@ -26,7 +25,6 @@ body {
 }
 
 h1 {
-  /*color: white; */
   font-family: Arial, Helvetica, sans-serif;   
   font-size: 250%;
 }
@@ -35,7 +33,6 @@ h1 {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
-    /*color: whitesmoke;*/
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
