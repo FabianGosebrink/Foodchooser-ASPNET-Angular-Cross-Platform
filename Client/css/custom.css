@@ -1,11 +1,6 @@
 html{
-	/* This image will be displayed fullscreen */
 	background:url('../img/background.jpg') no-repeat center center;
-
-	/* Ensure the html element always takes up the full height of the browser window */
 	min-height:100%;
-
-	/* The Magic */
 	background-size:cover;
 }
 
@@ -31,21 +26,16 @@ body {
 }
 
 h1 {
-  color: white; 
+  /*color: white; */
   font-family: Arial, Helvetica, sans-serif;   
   font-size: 250%;
 }
-
-.row {
-    color: whitesmoke;
-}
-
 
 .form-signin {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
-    color: whitesmoke;
+    /*color: whitesmoke;*/
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {

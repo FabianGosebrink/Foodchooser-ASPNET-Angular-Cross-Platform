@@ -1,45 +1,45 @@
 <!-- Page Content -->
 <div class="container">
-
-    <!-- Page Heading -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                {{currentFoodList?.Name}}&nbsp;<small><button (click)="deleteList()" class="btn-link small">Delete</button></small>
-            </h1>
+    <div class="jumbotron">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    {{currentFoodList?.Name}}&nbsp;<small><button (click)="deleteList()" class="btn btn-sm btn-primary">Delete List</button></small>
+                </h1>
+            </div>
         </div>
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
 
 
-    <div class="row">
-        <div class="col-lg-12">
-            <form role="form" (ngSubmit)="addOrUpdateFood()">
-                <div class="form-group">
-                    <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Add new food" [(ngModel)]="currentFood.ItemName">
-                </div>
-                <button type="submit" style="display: none;"></button>
-            </form>
+        <div class="row">
+            <div class="col-lg-12">
+                <form role="form" (ngSubmit)="addOrUpdateFood()">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Add new food" [(ngModel)]="currentFood.ItemName">
+                    </div>
+                    <button type="submit" style="display: none;"></button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <small class="pull-right">{{currentFoods?.length}}</small> Foods
-                    <small>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-header">
+                    <h2>
+                        <small class="pull-right">{{currentFoods?.length}}</small> Foods
+                        <small>
                         <button *ngIf="currentFoods?.length > 0"
                                 (click)="showRandomFoodFromList()" 
                                 type="submit"
-                                class="btn btn-link" style="color:white;">
+                                class="btn btn-sm btn-primary">
                             Get random from list
                         </button>
                     </small>
-                </h1>
-            </div>
+                    </h2>
+                </div>
 
-            <!--<div class="row">
+                <!--<div class="row">
                 <div class="col-md-4 portfolio-item" *ngFor="let food of currentFoods; let i=index">
                     <div style="height:200px;">
                         <a [href]="" (click)="takePhoto(food)">
@@ -60,30 +60,31 @@
                     <br/>
                 </div>
             </div>-->
-            <div class='list-group gallery'>
+                <div class='list-group gallery'>
 
-                <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3' *ngFor="let food of currentFoods; let i=index">
-                    <a class="thumbnail" rel="ligthbox" [href]="" (click)="takePhoto(food)">
-                        <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString" height="200">
-                        <img *ngIf="!food.ImageString" class="img-responsive" alt="" src="http://placehold.it/640x480.png" />
-                    </a>
-                    <h4>{{food.ItemName}}</h4>
-                    <h5>
-                        <small id="test">{{food.Created | date:'shortDate'}}
-                            <button class="btn-link" (click)="setToUpdate(food)" style="color:white;">Edit</button>
-                            <button class="btn-link" (click)="deleteFood(food.Id)" style="color: white;">Delete</button>
-                            <button class="btn-link" *ngIf="!food.IsPublic" (click)="togglePublic(food)" style="color: white;">Publish</button>
-                            <button class="btn-link" *ngIf="food.IsPublic" (click)="togglePublic(food)" style="color:white;">Unpublish</button>
+                    <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3' *ngFor="let food of currentFoods; let i=index">
+                        <a class="thumbnail" rel="ligthbox" [href]="" (click)="takePhoto(food)">
+                            <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString" height="200">
+                            <img *ngIf="!food.ImageString" class="img-responsive" alt="" src="http://placehold.it/640x480.png" />
+                        </a>
+                        <h4>{{food.ItemName}}</h4>
+                        <h5>
+                            <small id="test">{{food.Created | date:'shortDate'}}
+                            <button class="btn-link" (click)="setToUpdate(food)">Edit</button>
+                            <button class="btn-link" (click)="deleteFood(food.Id)">Delete</button>
+                            <button class="btn-link" *ngIf="!food.IsPublic" (click)="togglePublic(food)">Publish</button>
+                            <button class="btn-link" *ngIf="food.IsPublic" (click)="togglePublic(food)">Unpublish</button>
                         </small>
-                    </h5>
-                    <!-- text-right / end -->
+                        </h5>
+                        <!-- text-right / end -->
 
+                    </div>
                 </div>
+                <!-- /.row -->
             </div>
-            <!-- /.row -->
         </div>
-    </div>
 
-    <!-- /.row -->
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
 </div>
-<!-- /.container -->

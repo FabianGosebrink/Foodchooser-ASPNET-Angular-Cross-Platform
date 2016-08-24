@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CORE_DIRECTIVES } from '@angular/common';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
+import { CONFIGURATION } from '../../shared/app.constants';
 import { FoodItem } from '../../models/FoodItem';
 import { AuthenticationService } from  '../../shared/services/authentication.service';
 import { DesktopCameraService } from  '../../shared/services/desktopCameraService';
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit {
             .GetRandomFood()
             .subscribe((response: FoodItem) => {
                 this.randomFood = response;
+                this.randomFood.ImageString = CONFIGURATION.baseUrls.server + this.randomFood.ImageString;
             }, error => {
                 if (error.status == 404) {
                     this.errorMessage = "No food found :-(";
