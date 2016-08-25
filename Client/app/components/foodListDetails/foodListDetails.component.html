@@ -39,33 +39,12 @@
                     </h2>
                 </div>
 
-                <!--<div class="row">
-                <div class="col-md-4 portfolio-item" *ngFor="let food of currentFoods; let i=index">
-                    <div style="height:200px;">
-                        <a [href]="" (click)="takePhoto(food)">
-                            <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString" height="200">
-                            <img *ngIf="!food.ImageString" class="img-responsive" src="http://placehold.it/390x290" alt="">
-                        </a>
-                    </div>
-                    <h4>{{food.ItemName}}</h4>
-                    <h5>
-                        <small id="test">{{food.Created | date:'medium'}}
-                            <button class="btn-link" (click)="setToUpdate(food)" style="color:white;">Edit</button>
-                            <button class="btn-link" (click)="deleteFood(food.Id)" style="color: white;">Delete</button>
-                            <button class="btn-link" *ngIf="!food.IsPublic" (click)="togglePublic(food)" style="color: white;">Publish</button>
-                            <button class="btn-link" *ngIf="food.IsPublic" (click)="togglePublic(food)" style="color:white;">Unpublish</button>
-                        </small>
-                    </h5>
-                    <br/>
-                    <br/>
-                </div>
-            </div>-->
                 <div class='list-group gallery'>
 
                     <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3' *ngFor="let food of currentFoods; let i=index">
                         <a class="thumbnail" rel="ligthbox" [href]="" (click)="takePhoto(food)">
-                            <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString" height="200">
-                            <img *ngIf="!food.ImageString" class="img-responsive" alt="" src="http://placehold.it/640x480.png" />
+                            <img *ngIf="food.ImageString" class="img-responsive" [src]="food.ImageString">
+                            <img *ngIf="!food.ImageString" class="img-responsive" alt="" src="http://placehold.it/1024x768.png" />
                         </a>
                         <h4>{{food.ItemName}}</h4>
                         <h5>

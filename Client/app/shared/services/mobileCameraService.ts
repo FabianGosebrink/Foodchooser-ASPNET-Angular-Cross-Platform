@@ -35,8 +35,8 @@ export class MobileCameraService implements ICameraService {
                     sourceType: camera.PictureSourceType.CAMERA,
                     allowEdit: true,
                     encodingType: camera.EncodingType.PNG,
-                    targetWidth: 640,
-                    targetHeight: 480,
+                    targetWidth: 1024,
+                    targetHeight: 768,
                     saveToPhotoAlbum: false,
                     correctOrientation: true
                 };
