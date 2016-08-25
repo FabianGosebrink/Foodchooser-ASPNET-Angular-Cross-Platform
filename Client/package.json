@@ -9,6 +9,7 @@
     "create:desktop": "gulp build:electron:prod",
     "create:apps": "gulp build:apps",
     "create:all": "gulp build:all",
+    "showmyoptions": "gulp",
     "typings": "typings",
     "postinstall": "typings install"
   },
