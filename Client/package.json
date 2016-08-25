@@ -5,7 +5,10 @@
     "start": "webpack-dev-server --inline --progress --port 8080",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "lite": "lite-server",
+    "create:web": "gulp build:web:prod",
+    "create:desktop": "gulp build:electron:prod",
+    "create:apps": "gulp build:apps",
+    "create:all": "gulp build:all",
     "typings": "typings",
     "postinstall": "typings install"
   },

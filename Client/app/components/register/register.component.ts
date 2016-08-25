@@ -21,6 +21,8 @@ export class RegisterComponent {
     }
 
     doRegisterUser() {
+        this.errorMessage = "";
+        this.successMessage = "";
 
         this._authService
             .RegisterUser(
@@ -32,9 +34,13 @@ export class RegisterComponent {
             .subscribe((response: any) => {
                 this.successMessage = 'You have been registered. Please login.';
             }, (error) => {
-                console.log(error);
-                this.errorMessage = JSON.parse(error._body).error_description;
-            });
 
+                let errorObject = error._body;
+                let parsedErrorObject = JSON.parse(errorObject).ModelState;
+
+                for (var propertyName in parsedErrorObject) {
+                    this.errorMessage += parsedErrorObject[propertyName][0];
+                }
+            });
     }
 }

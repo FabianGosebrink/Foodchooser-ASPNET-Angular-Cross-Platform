@@ -13,9 +13,7 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        //sourceMapFilename: '[name].bundle.js.map'
     },
-   // devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -28,7 +26,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file?name=fonts/[name].[hash].[ext]'
+                loader: 'file?name=assets/[name].[hash].[ext]'
             },
             {
                 test: /\.css$/,
