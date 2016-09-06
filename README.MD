@@ -76,7 +76,7 @@ With <pre>gulp build:all</pre> you can build all variations the repository bring
 ![Alternativtext](_gitAssets/cordova.png "Cordova")
 
 ## Windows 8.1 App
-![Alternativtext](_gitAssets/win81.png "Windows81")
+![Alternativtext](_gitAssets/win81nd.png "Windows81")
 
 ## Windows 10 Mobile (old design)
 ![Alternativtext](_gitAssets/winMobile.png "WinMobile")
@@ -85,11 +85,11 @@ With <pre>gulp build:all</pre> you can build all variations the repository bring
 ![Alternativtext](_gitAssets/Android.png "Android")
 
 ## Windows 10
-![Alternativtext](_gitAssets/win10.png "Windows10")
+![Alternativtext](_gitAssets/win10nd.png "Windows10")
 
 ## Executable (Electron - with the new design)
-![Alternativtext](_gitAssets/electron.png "Electron")
+![Alternativtext](_gitAssets/electronnd.png "Electron")
 
 ## Web
-![Alternativtext](_gitAssets/web.png "Web")
+![Alternativtext](_gitAssets/webnd.png "Web")
 
