@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using FoodChooser.Models;
@@ -12,10 +15,12 @@ using FoodChooser.ViewModels;
 
 namespace FoodChooser.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api")]
     public class FoodsController : BaseController
     {
+        private static string DataImagePngBase64Prefix = "data:image/png;base64";
+
         const int MaxPageSize = 10;
         private readonly IFoodRepository _foodRepository;
         private readonly IFoodListRepository _foodListRepository;
@@ -87,7 +92,6 @@ namespace FoodChooser.Controllers
         {
             try
             {
-
                 IEnumerable<FoodItem> foodItems = _foodRepository.GetAll(x => x.IsPublic, includeProperties: "FoodList").AsEnumerable();
 
                 if (!foodItems.Any())
@@ -130,6 +134,7 @@ namespace FoodChooser.Controllers
                 FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == viewModel.FoodListId, "Foods");
                 FoodItem item = Mapper.Map<FoodItem>(viewModel);
                 item.Created = DateTime.Now;
+                item.ImageString = CurrentAppSettings.DummyImageName;
                 singleFoodList.Foods.Add(item);
                 _foodListRepository.Update(singleFoodList);
 
@@ -164,7 +169,6 @@ namespace FoodChooser.Controllers
                     return BadRequest(ModelState);
                 }
 
-
                 FoodItem singleById = _foodRepository.GetSingleById(foodItemId);
 
                 if (singleById == null)
@@ -175,7 +179,14 @@ namespace FoodChooser.Controllers
                 singleById.ItemName = viewModel.ItemName;
                 singleById.IsPublic = viewModel.IsPublic;
 
+
+                if (ImageIsNewImage(viewModel))
+                {
+                    HandleImage(viewModel, singleById);
+                }
+
                 _foodRepository.Update(singleById);
+
                 int save = _foodRepository.Save();
 
                 if (save > 0)
@@ -190,7 +201,7 @@ namespace FoodChooser.Controllers
                 return InternalServerError(exception);
             }
         }
-
+        
         [HttpDelete]
         [Route("foods/{foodItemId:int}")]
         public IHttpActionResult DeleteFoodFromList(int foodItemId)
@@ -217,6 +228,65 @@ namespace FoodChooser.Controllers
             catch (Exception exception)
             {
                 return InternalServerError(exception);
+            }
+        }
+
+        private string SaveImage(FoodItemViewModel viewModel)
+        {
+            if (String.IsNullOrEmpty(viewModel.ImageString))
+            {
+                return String.Empty;
+            }
+
+            // Get Filename of new image
+            var newFileName = Guid.NewGuid() + ".png";
+
+            Image image = Base64ToImage(viewModel.ImageString.Split(',')[1]);
+
+            string filePath = HttpContext.Current.Server.MapPath(CurrentAppSettings.ImageSaveFolder + newFileName);
+
+            image.Save(filePath);
+
+            return newFileName;
+        }
+
+        public Image Base64ToImage(string base64String)
+        {
+            byte[] imageBytes = Convert.FromBase64String(base64String);
+
+            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                Image image = Image.FromStream(ms, true);
+                return image;
+            }
+        }
+        private static bool ImageIsNewImage(FoodItemViewModel viewModel)
+        {
+            return viewModel.ImageString.StartsWith(DataImagePngBase64Prefix);
+        }
+
+
+        private void HandleImage(FoodItemViewModel viewModel, FoodItem singleById)
+        {
+            // save new image
+            var newFileName = SaveImage(viewModel);
+
+            if (!String.IsNullOrEmpty(newFileName))
+            {
+                if (singleById.ImageString != CurrentAppSettings.DummyImageName)
+                {
+                    // if old image is there
+                    var oldimagePath = HttpContext.Current.Server.MapPath(CurrentAppSettings.ImageSaveFolder + singleById.ImageString);
+                    
+                    // delete old image
+                    if (File.Exists(oldimagePath))
+                    {
+                        File.Delete(oldimagePath);
+                    }
+                }
+                    
+                // save db entry
+                singleById.ImageString = newFileName;
             }
         }
     }

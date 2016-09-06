@@ -209,6 +209,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FoodImages\dummy.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -216,6 +217,8 @@
   <ItemGroup>
     <Compile Include="App_Start\ApplicationUserManager.cs" />
     <Compile Include="App_Start\ConfigureAuthentication.cs" />
+    <Compile Include="App_Start\CurrentAppSettings.cs" />
+    <Compile Include="App_Start\MappingConfig.cs" />
     <Compile Include="App_Start\NinjectConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -229,6 +232,8 @@
     <Compile Include="Models\FoodList.cs" />
     <Compile Include="Models\RegisterBindingModel.cs" />
     <Compile Include="Models\SharedFoodList.cs" />
+    <Compile Include="Provider\AppSettings.cs" />
+    <Compile Include="Provider\IAppSettings.cs" />
     <Compile Include="Services\IRandomNumberGenerator.cs" />
     <Compile Include="Services\RandomNumberGenerator.cs" />
     <Compile Include="ViewModels\SharedFoodListViewModel.cs" />

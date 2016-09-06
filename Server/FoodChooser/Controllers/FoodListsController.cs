@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace FoodChooser.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api")]
     public class FoodListsController : BaseController
     {
@@ -81,6 +81,49 @@ namespace FoodChooser.Controllers
                 }
 
                 return Ok(Mapper.Map<FoodListViewModel>(singleFoodList));
+            }
+            catch (Exception exception)
+            {
+                return InternalServerError(exception);
+            }
+        }
+
+        [HttpGet]
+        [Route("foodlists/{id:int}/getrandomimage")]
+        public IHttpActionResult GetRandomImageStringFromList(int id)
+        {
+            try
+            {
+                FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == id, "Foods");
+
+                if (singleFoodList == null)
+                {
+                    return NotFound();
+                }
+
+                if (singleFoodList.UserId != CurrentUserId)
+                {
+                    return StatusCode(HttpStatusCode.Forbidden);
+                }
+
+                if (!singleFoodList.Foods.Any())
+                {
+                    string imagePath = VirtualPathUtility.ToAbsolute(CurrentAppSettings.ImageSaveFolder + CurrentAppSettings.DummyImageName).TrimStart('/');
+                    return Ok(imagePath);
+                }
+
+                Random random = new Random();
+                int index = random.Next(0, singleFoodList.Foods.Count);
+                FoodItem foodItem = singleFoodList.Foods.ToList()[index];
+
+                if (String.IsNullOrEmpty(foodItem.ImageString))
+                {
+                    string imagePath = VirtualPathUtility.ToAbsolute(CurrentAppSettings.ImageSaveFolder + CurrentAppSettings.DummyImageName).TrimStart('/');
+                    return Ok(imagePath);
+                }
+
+                FoodItemViewModel foodItemViewModel = Mapper.Map<FoodItemViewModel>(foodItem);
+                return Ok(foodItemViewModel.ImageString);
             }
             catch (Exception exception)
             {

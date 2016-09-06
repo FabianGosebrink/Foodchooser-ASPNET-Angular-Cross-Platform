@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Formatting;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AutoMapper;
@@ -21,21 +22,16 @@ namespace FoodChooser
             {
                 DependencyResolver = new NinjectResolver(NinjectConfig.CreateKernel())
             };
-           
+
             WebApiConfig.Register(config);
 
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
-
+            
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());
 
-            Mapper.Initialize(mapper =>
-            {
-                mapper.CreateMap<FoodItem, FoodItemViewModel>().ReverseMap();
-                mapper.CreateMap<FoodList, FoodListViewModel>().ReverseMap();
-                mapper.CreateMap<SharedFoodList, SharedFoodListViewModel>().ReverseMap();
-            });
+            MappingConfig.CreateMappings();
 
             ConfigureAuthentication.ConfigureAuth(app);
 

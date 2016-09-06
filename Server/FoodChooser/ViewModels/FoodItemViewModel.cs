@@ -12,5 +12,6 @@ namespace FoodChooser.ViewModels
         public int FoodListId { get; set; }
         public DateTime Created { get; set; }
         public bool IsPublic { get; set; }
+        public string ImageString { get; set; }
     }
 }

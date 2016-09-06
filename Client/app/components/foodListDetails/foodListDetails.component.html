@@ -29,14 +29,15 @@
                     <h2>
                         <small class="pull-right">{{currentFoods?.length}}</small> Foods
                         <small>
-                        <button *ngIf="currentFoods?.length > 0"
-                                (click)="showRandomFoodFromList()" 
-                                type="submit"
-                                class="btn btn-sm btn-primary">
-                            Get random from list
-                        </button>
-                    </small>
+                            <button *ngIf="currentFoods?.length > 0"
+                                    (click)="showRandomFoodFromList()" 
+                                    type="submit"
+                                    class="btn btn-sm btn-primary">
+                                Get random from list
+                            </button>
+                        </small>
                     </h2>
+                    <small>Tap on the picture to get a new one...</small>
                 </div>
 
                 <div class='list-group gallery'>

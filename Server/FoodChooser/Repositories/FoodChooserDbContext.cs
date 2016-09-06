@@ -8,7 +8,7 @@ namespace FoodChooser.Repositories
     {
         public FoodChooserDbContext() : base("DefaultConnection")
         {
-            Database.SetInitializer(new CreateDatabaseIfNotExists<FoodChooserDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FoodChooserDbContext>());
         }
 
         public static FoodChooserDbContext Create()
