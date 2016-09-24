@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { PlatformInformationService } from './services/platformInformationService';
+import { PlatformInformationService } from './services/platformInformation.service';
 import { MobileCameraService } from './services/mobileCameraService';
 import { DesktopCameraService } from './services/desktopCameraService';
 

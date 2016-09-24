@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var platformInformationService_1 = require('./services/platformInformationService');
+var platformInformation_service_1 = require('./services/platformInformation.service');
 var mobileCameraService_1 = require('./services/mobileCameraService');
 var desktopCameraService_1 = require('./services/desktopCameraService');
 var CameraFactory = (function () {
@@ -27,7 +27,7 @@ var CameraFactory = (function () {
     }
     CameraFactory = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [platformInformationService_1.PlatformInformationService])
+        __metadata('design:paramtypes', [platformInformation_service_1.PlatformInformationService])
     ], CameraFactory);
     return CameraFactory;
 }());

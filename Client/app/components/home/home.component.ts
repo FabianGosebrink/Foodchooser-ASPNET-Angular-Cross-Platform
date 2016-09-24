@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { CONFIGURATION } from '../../shared/app.constants';
 import { FoodItem } from '../../models/FoodItem';
@@ -11,7 +9,6 @@ import { CameraFactory } from  '../../shared/cameraFactory';
 
 @Component({
     selector: 'home-component',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService],
     template: require('./home.component.html')
 })

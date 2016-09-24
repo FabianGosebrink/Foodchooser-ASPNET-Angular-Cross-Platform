@@ -1,4 +1,4 @@
-import { provideRouter, RouterConfig }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from  './components/home/home.component';
 import { FoodListComponent } from  './components/foodlists/foodLists.component';
 import { FoodComponent } from  './components/food/food.component';
@@ -9,17 +9,16 @@ import { AboutComponent } from  './components/about/about.component';
 import { HeaderComponent } from  './components/header/header.component';
 import { NeedsAuthentication } from './decorators/needsAuthentication';
 
-const routes: RouterConfig = [
+const appRoutes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
-    { path: 'foodLists', component: FoodComponent, canActivate: [NeedsAuthentication] },
-    { path: 'foodLists/:id', component: FoodListDetails, canActivate: [NeedsAuthentication] },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
     { path: 'about', component: AboutComponent }
 ];
 
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes),
-    NeedsAuthentication
+export const appRoutingProviders: any[] = [
+
 ];
+
+export const routing = RouterModule.forRoot(appRoutes, { useHash: true });

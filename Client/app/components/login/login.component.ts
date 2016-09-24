@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { LoginUser } from '../../models/LoginUser';
 import { Token } from '../../models/Token';
 import { AuthenticationService } from '../../shared/services/authentication.service';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
     selector: 'login-component',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     template: require('./login.component.html')
 })
 

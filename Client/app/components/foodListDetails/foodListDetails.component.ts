@@ -1,6 +1,4 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { CONFIGURATION } from '../../shared/app.constants';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/FoodItem';
@@ -9,10 +7,10 @@ import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 import { ICameraService } from  '../../shared/services/cameraService';
 import { CameraFactory } from  '../../shared/cameraFactory';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 @Component({
     selector: 'foodListDetails-component',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService, FoodListDataService, CameraFactory],
     template: require('./foodListDetails.component.html')
 })
@@ -26,10 +24,11 @@ export class FoodListDetails implements OnInit {
     private _listId: number;
     private _cameraService: ICameraService;
 
-    constructor(private _activatedRoute: ActivatedRoute,
+    constructor(
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute,
         private _foodDataService: FoodDataService,
         private _foodListDataService: FoodListDataService,
-        private _router: Router,
         private _cameraFactory: CameraFactory,
         private _ngZone: NgZone) {
 
@@ -133,7 +132,8 @@ export class FoodListDetails implements OnInit {
             this._foodListDataService
                 .DeleteList(this.currentFoodList.Id)
                 .subscribe((response: any) => {
-                    this._router.navigate(['/foodLists']);
+                    let link = ['/foodLists'];
+                    this._router.navigate(link);
                 }, error => console.log(error));
         }
     }

@@ -3,7 +3,7 @@
         <form role="form" (ngSubmit)="addList()" #f="ngForm">
             <div class="form-group">
                 <input type="text" class="form-control input-lg" id="exampleInputEmail1" ngControl="listName" placeholder="Add new list"
-                [(ngModel)]="list.Name" required>
+                [(ngModel)]="list.Name" required name="listname">
 
                 <div *ngIf="f?.controls?.listName?.hasError('required') && !f?.controls?.listName?.pending && f?.controls?.listName?.touched">
                     Pflichtfeld!

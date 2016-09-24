@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodDataService } from '../../shared/services/food.dataService';
 import { FoodItem } from '../../models/foodItem';
 
 @Component({
     selector: 'about-component',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     providers: [FoodDataService],
     template: require('./about.component.html')
 })

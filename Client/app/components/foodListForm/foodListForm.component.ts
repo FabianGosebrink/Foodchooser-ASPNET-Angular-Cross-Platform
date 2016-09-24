@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 import { FoodListDataService } from '../../shared/services/foodList.dataService';
 import { FoodList } from '../../models/FoodList';
 import { NeedsAuthentication } from '../../decorators/needsAuthentication';
 
 @Component({
     selector: 'foodListForm-component',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
     template: require('./foodListForm.component.html')
 })
 
