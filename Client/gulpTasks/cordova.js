@@ -25,7 +25,7 @@ gulp.task('build:apps', function (done) {
         
         'cordova-inject-in-html',
         'cordova-build-windows',
-        'cordova-build-android',
+        //'cordova-build-android',
         'cordova-clean-dist',
         'cordova-copy-to-dist',
         done);

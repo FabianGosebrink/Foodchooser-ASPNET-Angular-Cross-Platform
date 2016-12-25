@@ -51,7 +51,7 @@ gulp.task('electron-inject-in-html', function (done) {
         path.join(buildConfig.temp.electronTempFolder, "vendor.bundle.js"),
         path.join(buildConfig.temp.electronTempFolder, "app.bundle.js")
     );
-    
+
     sourcesToInject.push(
         path.join(buildConfig.temp.electronTempFolder, "vendor.bundle.css"),
         path.join(buildConfig.temp.electronTempFolder, "app.bundle.css")
@@ -76,9 +76,8 @@ gulp.task('electron-copy-assets-to-temp-folder', function (done) {
 gulp.task('electron-build-win', function (done) {
     return gulp.src(path.join(buildConfig.temp.electronTempFolder, '**', '*'))
         .pipe(electron({
-            version: '1.2.7',
+            version: '1.4.13',
             platform: 'win32',
-            arch: 'x64',
             companyName: 'Offering Solutions',
             linuxExecutableName: 'ASPNETAngularJS2Example',
         }))
