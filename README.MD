@@ -10,9 +10,9 @@
 > Cordova: `cordova -v` = 6.1.1  <br/>
 
 ## Blogposts
-[Angular, ASP.NET WebAPI, Azure & Cordova, Cross Platform – My Private Hackathon Part 1](http://blog.offering.solutions/articles/2016/04/19/angular-asp-net-webapi-azure-cordova-cross-platform-2/)
+[Angular, ASP.NET WebAPI, Azure & Cordova, Cross Platform – My Private Hackathon Part 1](http://offering.solutions/blog/articles/2016/04/19/angular-asp-net-webapi-azure-cordova-cross-platform-2/)
 
-[Angular, ASP.NET WebAPI, Azure & Cordova, Cross Platform – My Private Hackathon Part 2](http://blog.offering.solutions/articles/2016/04/26/angular-asp-net-webapi-azure-cordova-cross-platform-my-private-hackathon-part-2/)
+[Angular, ASP.NET WebAPI, Azure & Cordova, Cross Platform – My Private Hackathon Part 2](http://offering.solutions/blog/articles/2016/04/26/angular-asp-net-webapi-azure-cordova-cross-platform-my-private-hackathon-part-2/)
 
 
 ### In this repository we have done an example app with 
