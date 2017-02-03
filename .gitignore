@@ -20,3 +20,4 @@ Client/app/shared/app.constants.js.map
 Client/app/decorators/needsAuthentication.js
 Client/app/decorators/needsAuthentication.js.map
 Client/npm-debug.log
+Client/aot/

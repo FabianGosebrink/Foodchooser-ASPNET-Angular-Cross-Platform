@@ -2,67 +2,28 @@
 
 module.exports = {
     general: {
-        appName: "FoodChooserAppAngular2",
-        rootFolder: "app/",
-        indexHtml: "./index.html"
+        appName: 'FoodChooserAppAngular',
+        rootFolder: 'app/',
+        indexHtml: './index.html'
     },
     assets: {
-        electron: "../assets/electron/",
-        cordova: "../assets/cordova/",
-        shared: "../assets/shared/"
+        electron: '../assets/electron/',
+        cordova: '../assets/cordova/'
     },
     sources: {
-        sourceFolder: "src/",
-        webpackConfig: '../webpack.config.js',
-        appEntryPoint: './app/main.js',
-        allAppJsFiles: [
-            "./app/*.js",
-            "./app/*/**/*.js",
-        ],
-        allAppHtmlFiles: [
-            "./app/**/*.html"
-        ],
-        allVendorJsFiles: [
-            "./js/*.js"
-        ],
-        allAppCssFiles: [
-            "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "./css/*.css"
-        ],
         allAppImgFiles: [
-            "./img/*.*",
-            "./img/windows/*.*"
-        ],
-        vendorScripts: [
-            "node_modules/zone.js/dist/zone.js",
-            "node_modules/reflect-metadata/Reflect.js",
-            "node_modules/systemjs/dist/system.src.js",
-            "node_modules/jquery/dist/jquery.js",
-            "node_modules/bootstrap/dist/js/bootstrap.js"
-        ],
-        allAngular2: [
-            "node_modules/@angular/**/*.js"
-        ],
-        allRxJs: [
-            "node_modules/rxjs/**/*.js"
-        ],
-        filesToCopyAsIsCordova: [
-            "js/winstore-jscompat.js",
-            "node_modules/es6-shim/es6-shim.min.js"
+            './img/*.*',
+            './img/windows/*.*'
         ]
     },
     temp: {
-        electronTempFolder: "../.temp/electron/",
-        cordova: "../.temp/cordova/",
-        cordovaWww: "../.temp/cordova/www/",
-        webapp: "../.temp/webapp/",
+        electronTempFolder: '.temp/electron/',
+        cordova: '.temp/cordova/',
+        webapp: '.temp/web/',
     },
     targets: {
-        vendorScriptsMinFileName: "vendor.min.js",
-        webAppOutputPath: "../.dist/webapp/",
-        electronOutputPath: "../.dist/electron/",
-        cordovaOutputPath: "../.dist/cordova/",
-        scriptsOutputPath: "../.dist/webapp/scripts/",
-        cssOutputPath: "../.dist/webapp/css/"
+        webAppOutputPath: '../.dist/web/',
+        electronOutputPath: '../.dist/electron/',
+        cordovaOutputPath: '../.dist/cordova/'
     }
 };

@@ -1,20 +1,14 @@
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from  './components/home/home.component';
-import { FoodListComponent } from  './components/foodlists/foodLists.component';
-import { FoodComponent } from  './components/food/food.component';
-import { FoodListDetails } from  './components/foodListDetails/foodListDetails.component';
-import { LoginComponent } from  './components/login/login.component';
-import { RegisterComponent } from  './components/register/register.component';
-import { AboutComponent } from  './components/about/about.component';
-import { HeaderComponent } from  './components/header/header.component';
-import { NeedsAuthentication } from './decorators/needsAuthentication';
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'about', component: AboutComponent }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'about', loadChildren: './about/about.module#AboutModule' },
+  { path: 'login', loadChildren: './account/account.module#AccountModule' },
+  { path: 'foodlists', loadChildren: './food/food.module#FoodModule' },
+  // {
+  //   path: '**',
+  //   redirectTo: 'home'
+  // }
 ];
 
-export const routing = RouterModule.forRoot(appRoutes, { useHash: true });
+export const AppRoutes = RouterModule.forRoot(appRoutes, { useHash: true });

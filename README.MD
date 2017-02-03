@@ -1,4 +1,4 @@
-# ASP.NET // Webpack // Angular2 // Typescript // Cross Platform - Project "Foodchooser" 
+# ASP.NET // Webpack // Angular // Typescript // Ahead of Time (AoT) // TreeShaking // Cordova // Electron // Cross Platform - Project "Foodchooser" 
 
 > Get the Android SDK here [Android SDK](https://developer.android.com/sdk/index.html/ "Android SDK")  
 > Get the Windows SDK here [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk "Windows SDK")
@@ -17,7 +17,9 @@
 
 ### In this repository we have done an example app with 
 
-* Angular 2
+* Angular
+* Electron
+* Cordova
 * Typescript
 * Bootstrap
 * Automapper
@@ -62,17 +64,41 @@ and browse to "localhost:8080" to start the application.
 
 If you want to start right ahead with the gulp tasks listed below just make sure you ran the <pre>tsc</pre> command in the client folder first.
 
-# Gulp
+# Cross Platform
 
-Navigate to the "Client"-Folder and type in 
+## Cordova
+
+In the client folder on level of the package.json type
+
 ```
-gulp
+npm run create:apps
 ```
- to get a ist of all the tasks available
 
-![Alternativtext](_gitAssets/gulpTasks.png "GulpTasks")
+## Electron
 
-With <pre>gulp build:all</pre> you can build all variations the repository brings. A <pre>.dist</pre>-Folder will be created containing all outputs.
+In the client folder on level of the package.json type
+
+```
+npm run create:desktop
+```
+
+## Web
+
+In the client folder on level of the package.json type
+
+```
+npm run create:web
+```
+
+## Web & Apps & Desktop
+
+In the client folder on level of the package.json type
+
+```
+npm run create:all
+```
+
+A `.dist`-Folder will be created containing all outputs.
 
 ![Alternativtext](_gitAssets/distFolder.png "DistFolder")
 

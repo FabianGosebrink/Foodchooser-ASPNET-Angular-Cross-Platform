@@ -1,0 +1,26 @@
+<!-- Page Content -->
+<div class="container">
+    <div class="starter-template">
+        <div class="jumbotron">
+            <h2 *ngIf="randomFood">{{randomFood?.ItemName}}</h2>
+
+            <img *ngIf="randomFood" [src]="randomFood?.ImageString" class="img-responsive center-block">
+            <br/>
+            <h3 *ngIf="errorMessage">{{errorMessage}}</h3>
+            <div *ngIf="authenticationService.isAuthenticated && errorMessage">
+                <br/>
+                <a [routerLink]="['/foodlists']" class="btn btn-lg btn-primary">
+                        Go to Foodlists and create awesome food
+                    </a>
+            </div>
+
+            <h3 *ngIf="!randomFood && !errorMessage">Getting your food suggestions<br />Please wait...</h3>
+            <br/>
+            <button *ngIf="randomFood" type="button" class="btn btn-default btn-sm" (click)="getRandomFood()">Get new suggestion</button>
+            <button *ngIf="randomFood" type="button" class="btn btn-success btn-sm" (click)="getRecipesWithGoogle()">Google for recipes</button>
+            <button *ngIf="randomFood" type="button" class="btn btn-success btn-sm" (click)="getRecipesWithBing()">Bing for recipes</button>
+
+        </div>
+    </div>
+</div>
+<!-- /.container -->
