@@ -1,0 +1,1 @@
+{"version":3,"sources":["food.component.ts"],"names":[],"mappings":";;;;;;AAAA,OAAO,EAAE,SAAA,EAAU,MAAO,eAAA,CAAgB;AAO1C,IAAa,aAAa;IAA1B;IAA6B,CAAC;IAAD,oBAAC;AAAD,CAA7B,AAA8B,IAAA;AAAjB,aAAa;IALzB,SAAS,CAAC;QACP,QAAQ,EAAE,gBAAgB;QAC1B,WAAW,EAAE,uBAAuB;KACvC,CAAC;GAEW,aAAa,CAAI;SAAjB,aAAa","file":"food.component.js","sourceRoot":""}

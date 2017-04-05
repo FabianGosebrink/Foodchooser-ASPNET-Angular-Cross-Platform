@@ -3,17 +3,17 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CompressionPlugin = require("compression-webpack-plugin");
-let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+var path = require('path');
 
 module.exports = {
     entry: {
-        'app': './app/main-aot.ts' // AoT compilation
+        'app': './src/app/main-aot.ts' // AoT compilation
     },
 
     output: {
-        path: './.temp/web/aot/',
+        path: path.join(__dirname, '.dist/web/aot/'),
         filename: 'js/[name]-[hash:8].bundle.js',
-        chunkFilename: 'js/[id].-[hash:8].chunk.js',
+        chunkFilename: 'js/[id]-[hash:8].chunk.js',
     },
 
     resolve: {
@@ -26,8 +26,7 @@ module.exports = {
                 test: /\.ts$/,
                 use: [
                     'awesome-typescript-loader',
-                    'angular-router-loader?aot=true&genDir=aot/',
-                    'angular2-template-loader',
+                    'angular-router-loader?aot=true&genDir=src/.aot/'
                 ]
             },
             {
@@ -48,7 +47,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(
             [
-                './.temp/web/aot/'
+                './.dist/web/aot/'
             ]
         ),
         new webpack.LoaderOptionsPlugin({
@@ -75,7 +74,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
-            template: 'index.html'
+            template: './src/index.html'
         }),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',

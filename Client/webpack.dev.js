@@ -5,22 +5,33 @@ let CleanWebpackPlugin = require('clean-webpack-plugin');
 let path = require('path');
 
 module.exports = {
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     performance: {
         hints: false
     },
 
     entry: {
-        'app': './app/main.ts' // JiT compilation
+        'app': './src/app/main.ts' // JiT compilation
     },
 
     output: {
-        path: './.temp/web/jit/',
-        filename: 'js/[name].bundle.js'
+        path: __dirname + '/.dist/web/jit/',
+        filename: 'js/[name].bundle.js',
+        chunkFilename: 'js/[id].chunk.js',
+        publicPath: '/'
     },
 
     resolve: {
         extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html']
+    },
+
+    devServer: {
+        historyApiFallback: true,
+        contentBase: __dirname + '/.dist/web/jit/',
+        watchOptions: {
+            aggregateTimeout: 300,
+            poll: 1000
+        }
     },
 
     module: {
@@ -40,7 +51,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
-                loader: 'file-loader?name=assets/[name]-[hash:6].[ext]',
+                loader: 'file-loader?name=assets/[name].[ext]',
             },
             {
                 test: /\.css$/,
@@ -49,22 +60,11 @@ module.exports = {
         ]
     },
 
-    devServer: {
-        contentBase: path.join(__dirname, "/.temp/web/jit/"),
-        compress: true,
-        port: 9000
-    },
-
     plugins: [
-        new CleanWebpackPlugin(
-            [
-                './.temp/web/jit/'
-            ]
-        ),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
-            template: 'index.html'
+            template: './src/index.html'
         }),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',

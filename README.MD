@@ -60,7 +60,7 @@ npm start
 ```
 and browse to "localhost:8080" to start the application.
 
-![Alternativtext](_gitAssets/webpack-server.png "GulpTasks")
+![Alternativtext](.github/webpack-server.png "GulpTasks")
 
 If you want to start right ahead with the gulp tasks listed below just make sure you ran the <pre>tsc</pre> command in the client folder first.
 
@@ -100,28 +100,28 @@ npm run create:all
 
 A `.dist`-Folder will be created containing all outputs.
 
-![Alternativtext](_gitAssets/distFolder.png "DistFolder")
+![Alternativtext](.github/distFolder.png "DistFolder")
 
 #Screenshots
 
 ## Cordova-Project in Visual Studio
-![Alternativtext](_gitAssets/cordova.png "Cordova")
+![Alternativtext](.github/cordova.png "Cordova")
 
 ## Windows 8.1 App
-![Alternativtext](_gitAssets/win81nd.png "Windows81")
+![Alternativtext](.github/win81nd.png "Windows81")
 
 ## Windows 10 Mobile (old design)
-![Alternativtext](_gitAssets/winMobile.png "WinMobile")
+![Alternativtext](.github/winMobile.png "WinMobile")
 
 ## Android (with the new design)
-![Alternativtext](_gitAssets/Android.png "Android")
+![Alternativtext](.github/Android.png "Android")
 
 ## Windows 10
-![Alternativtext](_gitAssets/win10nd.png "Windows10")
+![Alternativtext](.github/win10nd.png "Windows10")
 
 ## Executable (Electron - with the new design)
-![Alternativtext](_gitAssets/electronnd.png "Electron")
+![Alternativtext](.github/electronnd.png "Electron")
 
 ## Web
-![Alternativtext](_gitAssets/webnd.png "Web")
+![Alternativtext](.github/webnd.png "Web")
 

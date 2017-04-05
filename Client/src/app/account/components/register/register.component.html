@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="jumbotron">
+        <div class="alert alert-success" *ngIf="successMessage">
+            <strong>Success!</strong> {{successMessage}}
+        </div>
+
+        <div class="alert alert-danger" *ngIf="errorMessage">
+            <strong>Error!</strong> {{errorMessage}}
+        </div>
+
+        <form class="form-signin" (ngSubmit)="doRegisterUser()" #f="ngForm">
+            <h2 class="form-signin-heading">Please sign up</h2>
+
+            <input type="test" id="username" name="username" class="form-control" [(ngModel)]="registerUser.Username" placeholder="Username" required
+                autofocus>
+
+            <input type="email" id="inputEmail" name="email" [(ngModel)]="registerUser.Email" class="form-control" placeholder="Email address" required>
+
+            <input type="password" name="inputPassword1" id="inputPassword1" [(ngModel)]="registerUser.Password" class="form-control" placeholder="Password"
+                required>
+
+            <input type="password" name="inputPassword2" id="inputPassword2" [(ngModel)]="registerUser.ConfirmPassword" class="form-control" placeholder="Confirm Password"
+                required>
+            <p>
+                <button class="btn btn-link" type="button" (click)="redirectTo('account/login', $event)">Already have an account?</button><br />
+            </p>
+            <button class="btn btn-lg btn-primary btn-block" [disabled]="!f?.valid || f?.pending" type="submit">Sign up</button>
+        </form>
+
+    </div>
+    <!-- /container -->
+</div>
