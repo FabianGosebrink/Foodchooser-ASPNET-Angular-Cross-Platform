@@ -19,15 +19,6 @@ var MobileCameraService = (function () {
                         targetHeight: 640,
                         correctOrientation: true
                     };
-                    // let options = {
-                    //     quality: 100,
-                    //     destinationType: camera.DestinationType.DATA_URL,
-                    //     sourceType: camera.PictureSourceType.CAMERA,
-                    //     allowEdit: true,
-                    //     encodingType: camera.EncodingType.PNG,
-                    //     saveToPhotoAlbum: false,
-                    //     correctOrientation: true
-                    // };
                     camera.getPicture(function (imageData) {
                         observer.next('data:image/png;base64,' + imageData);
                         removeDomListener();

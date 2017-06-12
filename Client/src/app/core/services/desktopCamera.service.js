@@ -29,7 +29,6 @@ var DesktopCameraService = (function () {
                     var canvasElement = doc.createElement('canvas');
                     canvasElement.setAttribute('width', videoElement.videoWidth.toString());
                     canvasElement.setAttribute('height', videoElement.videoHeight.toString());
-                    // Wait a bit before taking a screenshot so the camera has time to adjust lights
                     setTimeout(function () {
                         var context = canvasElement.getContext('2d');
                         context.drawImage(videoElement, 0, 0, videoElement.videoWidth, videoElement.videoHeight);
