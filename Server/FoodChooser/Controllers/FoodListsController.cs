@@ -1,202 +1,267 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Http;
 using AutoMapper;
 using FoodChooser.Models;
 using FoodChooser.Repositories.List;
 using FoodChooser.ViewModels;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using FoodChooser.Configuration;
+using Microsoft.Extensions.Options;
+using System.IO;
+using System.Collections.Generic;
+using FoodChooser.Helpers;
+using FoodChooser.Dtos;
+using IdentityServer4.AccessTokenValidation;
 
 namespace FoodChooser.Controllers
 {
-    //[Authorize]
-    [RoutePrefix("api")]
-    public class FoodListsController : BaseController
+    [Authorize]
+    [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
+    public class FoodListsController : Controller
     {
         private readonly IFoodListRepository _foodListRepository;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public AppSettings _appSettingsAccessor;
         const int MaxPageSize = 10;
+        public UserManager<IdentityUser> _userManager;
+        private readonly IUrlHelper _urlHelper;
 
-        public FoodListsController(IFoodListRepository foodListRepository)
+        public FoodListsController(IFoodListRepository foodListRepository,
+            UserManager<IdentityUser> userManager,
+            IHostingEnvironment hostingEnvironment,
+            IUrlHelper urlHelper, IOptions<AppSettings> appSettingsAccessor)
         {
             _foodListRepository = foodListRepository;
+            _userManager = userManager;
+            _hostingEnvironment = hostingEnvironment;
+            _appSettingsAccessor = appSettingsAccessor.Value;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet]
-        [Route("foodlists")]
-        public IHttpActionResult GetAllLists(int page = 1, int pageSize = MaxPageSize)
+        public IActionResult GetAllLists([FromQuery] QueryParameters queryParameters)
         {
-            try
+            var foodItems = _foodListRepository.GetAll(queryParameters);
+
+            var allItemCount = _foodListRepository.Count();
+
+            var paginationMetadata = new
             {
-                if (pageSize > MaxPageSize)
-                {
-                    pageSize = MaxPageSize;
-                }
+                totalCount = allItemCount,
+                pageSize = queryParameters.PageSize,
+                currentPage = queryParameters.Page,
+                totalPages = queryParameters.GetTotalPages(allItemCount)
+            };
 
-                IQueryable<FoodList> foodLists = _foodListRepository
-                    .GetAll()
-                    .Where(x => x.UserId == CurrentUserId);
+            Response.Headers.Add("X-Pagination",
+                Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
 
-                var paginationHeader = new
-                {
-                    totalCount = foodLists.Count()
-                    // Add more headers here if you want...
-                    // Link to next and previous page etc.
-                    // Also see OData-Options for this
-                };
+            var links = CreateLinksForCollection(queryParameters, allItemCount);
 
-                var result = foodLists
-                    .OrderBy(x => x.Id)
-                    .Skip(pageSize * (page - 1))
-                    .Take(pageSize)
-                    .ToList();
+            var toReturn = foodItems.Select(x => ExpandSingleFoodItem(x));
 
-                HttpContext.Current.Response.AppendHeader("X-Pagination", JsonConvert.SerializeObject(paginationHeader));
-
-                return Ok(result.Select(x => Mapper.Map<FoodListViewModel>(x)));
-            }
-            catch (Exception exception)
+            return Ok(new
             {
-                return InternalServerError(exception);
-            }
+                value = toReturn,
+                links = links
+            });
         }
 
         [HttpGet]
-        [Route("foodlists/{id:int}", Name = "GetSingleList")]
-        public IHttpActionResult GetSingleList(int id)
+        [Route("{id}", Name = nameof(GetSingleList))]
+        public IActionResult GetSingleList(Guid id)
         {
-            try
+            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+
+            if (singleFoodList == null)
             {
-                FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == id);
-
-                if (singleFoodList == null)
-                {
-                    return NotFound();
-                }
-
-                if (singleFoodList.UserId != CurrentUserId)
-                {
-                    return StatusCode(HttpStatusCode.Forbidden);
-                }
-
-                return Ok(Mapper.Map<FoodListViewModel>(singleFoodList));
+                return NotFound();
             }
-            catch (Exception exception)
+
+            if (singleFoodList.UserId != _userManager.GetUserId(HttpContext.User))
             {
-                return InternalServerError(exception);
+                return new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
+
+            return Ok(Mapper.Map<FoodListDto>(singleFoodList));
+
         }
 
         [HttpGet]
-        [Route("foodlists/{id:int}/getrandomimage")]
-        public IHttpActionResult GetRandomImageStringFromList(int id)
+        [Route("{id}/getrandomimage")]
+        public IActionResult GetRandomImageStringFromList(Guid id)
         {
-            try
+            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+
+            if (singleFoodList == null)
             {
-                FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == id, "Foods");
-
-                if (singleFoodList == null)
-                {
-                    return NotFound();
-                }
-
-                if (singleFoodList.UserId != CurrentUserId)
-                {
-                    return StatusCode(HttpStatusCode.Forbidden);
-                }
-
-                if (!singleFoodList.Foods.Any())
-                {
-                    string imagePath = VirtualPathUtility.ToAbsolute(CurrentAppSettings.ImageSaveFolder + CurrentAppSettings.DummyImageName).TrimStart('/');
-                    return Ok(imagePath);
-                }
-
-                Random random = new Random();
-                int index = random.Next(0, singleFoodList.Foods.Count);
-                FoodItem foodItem = singleFoodList.Foods.ToList()[index];
-
-                if (String.IsNullOrEmpty(foodItem.ImageString))
-                {
-                    string imagePath = VirtualPathUtility.ToAbsolute(CurrentAppSettings.ImageSaveFolder + CurrentAppSettings.DummyImageName).TrimStart('/');
-                    return Ok(imagePath);
-                }
-
-                FoodItemViewModel foodItemViewModel = Mapper.Map<FoodItemViewModel>(foodItem);
-                return Ok(foodItemViewModel.ImageString);
+                return NotFound();
             }
-            catch (Exception exception)
+
+            if (singleFoodList.UserId != _userManager.GetUserId(HttpContext.User))
             {
-                return InternalServerError(exception);
+                return new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
+
+            if (!singleFoodList.Foods.Any())
+            {
+                string imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder, _appSettingsAccessor.DummyImageName);
+                return Ok(imagePath);
+            }
+
+            Random random = new Random();
+            int index = random.Next(0, singleFoodList.Foods.Count);
+            FoodItem foodItem = singleFoodList.Foods.ToList()[index];
+
+            if (String.IsNullOrEmpty(foodItem.ImageString))
+            {
+                string imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder, _appSettingsAccessor.DummyImageName);
+                return Ok(imagePath);
+            }
+
+            FoodItemDto foodItemViewModel = Mapper.Map<FoodItemDto>(foodItem);
+            return Ok(foodItemViewModel.ImageString);
+
         }
 
         [HttpPost]
-        [Route("foodlists")]
-        public IHttpActionResult AddList([FromBody] FoodListViewModel viewModel)
+        public IActionResult AddList([FromBody] FoodListDto viewModel)
         {
-            try
+            if (viewModel == null)
             {
-                if (viewModel == null)
-                {
-                    return BadRequest();
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                FoodList item = Mapper.Map<FoodList>(viewModel);
-                item.UserId = CurrentUserId;
-                _foodListRepository.Add(item);
-                int save = _foodListRepository.Save();
-
-                if (save > 0)
-                {
-                    return CreatedAtRoute("GetSingleList", new { id = item.Id }, item);
-                }
-
                 return BadRequest();
             }
-            catch (Exception exception)
+
+            if (!ModelState.IsValid)
             {
-                return InternalServerError(exception);
+                return BadRequest(ModelState);
             }
+
+            FoodList item = Mapper.Map<FoodList>(viewModel);
+            item.UserId = _userManager.GetUserId(HttpContext.User);
+            _foodListRepository.Add(item);
+
+            if (_foodListRepository.Save())
+            {
+                return CreatedAtRoute("GetSingleList", new { id = item.Id }, item);
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete]
-        [Route("foodlists/{id:int}")]
-        public IHttpActionResult DeleteList(int id)
+        [Route("{id}")]
+        public IActionResult DeleteList(Guid id)
         {
-            try
+            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+
+            if (singleFoodList == null)
             {
-                FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == id, "Foods");
-
-                if (singleFoodList == null)
-                {
-                    return NotFound();
-                }
-
-                if (singleFoodList.UserId != CurrentUserId)
-                {
-                    return StatusCode(HttpStatusCode.Forbidden);
-                }
-
-                _foodListRepository.Delete(singleFoodList);
-                int save = _foodListRepository.Save();
-
-                if (save > 0)
-                {
-                    return StatusCode(HttpStatusCode.NoContent);
-                }
-
-                return BadRequest();
+                return NotFound();
             }
-            catch (Exception exception)
+
+            if (singleFoodList.UserId != _userManager.GetUserId(HttpContext.User))
             {
-                return InternalServerError(exception);
+                return new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
+
+            _foodListRepository.Delete(singleFoodList.Id);
+
+            if (_foodListRepository.Save())
+            {
+                return NoContent();
+            }
+
+            return BadRequest();
+
+        }
+
+        private List<LinkDto> CreateLinksForCollection(QueryParameters queryParameters, int totalCount)
+        {
+            var links = new List<LinkDto>();
+
+            // self 
+            links.Add(
+             new LinkDto(_urlHelper.Link(nameof(GetAllLists), new
+             {
+                 pagecount = queryParameters.PageSize,
+                 page = queryParameters.Page
+             }), "self", "GET"));
+
+            links.Add(new LinkDto(_urlHelper.Link(nameof(GetAllLists), new
+            {
+                pagecount = queryParameters.PageSize,
+                page = 1
+            }), "first", "GET"));
+
+            links.Add(new LinkDto(_urlHelper.Link(nameof(GetAllLists), new
+            {
+                pagecount = queryParameters.PageSize,
+                page = queryParameters.GetTotalPages(totalCount)
+            }), "last", "GET"));
+
+            if (queryParameters.HasNext(totalCount))
+            {
+                links.Add(new LinkDto(_urlHelper.Link(nameof(GetAllLists), new
+                {
+                    pagecount = queryParameters.PageSize,
+                    page = queryParameters.Page + 1
+                }), "next", "GET"));
+            }
+
+            if (queryParameters.HasPrevious())
+            {
+                links.Add(new LinkDto(_urlHelper.Link(nameof(GetAllLists), new
+                {
+                    pagecount = queryParameters.PageSize,
+                    page = queryParameters.Page - 1
+                }), "previous", "GET"));
+            }
+
+            return links;
+        }
+
+        private dynamic ExpandSingleFoodItem(FoodList foodList)
+        {
+            var links = GetLinks(foodList.Id);
+            FoodListDto item = Mapper.Map<FoodListDto>(foodList);
+
+            var resourceToReturn = item.ToDynamic() as IDictionary<string, object>;
+            resourceToReturn.Add("links", links);
+
+            return resourceToReturn;
+        }
+
+        private IEnumerable<LinkDto> GetLinks(Guid id)
+        {
+            var links = new List<LinkDto>();
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(GetSingleList), new { id = id }),
+              "self",
+              "GET"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(DeleteList), new { id = id }),
+              "delete_food",
+              "DELETE"));
+
+            links.Add(
+              new LinkDto(_urlHelper.Link(nameof(AddList), null),
+              "create_food",
+              "POST"));
+
+            //links.Add(
+            //   new LinkDto(_urlHelper.Link(nameof(), new { id = id }),
+            //   "update_food",
+            //   "PUT"));
+
+            return links;
         }
     }
 }

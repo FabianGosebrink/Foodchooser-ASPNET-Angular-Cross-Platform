@@ -22,3 +22,5 @@ Client/app/decorators/needsAuthentication.js.map
 Client/npm-debug.log
 Client/aot/
 Client/src/.aot
+Client/src/app/**/*.js
+Client/src/app/**/*.js.map

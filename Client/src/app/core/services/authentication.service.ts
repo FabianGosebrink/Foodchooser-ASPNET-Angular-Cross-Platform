@@ -1,38 +1,44 @@
-import { Observer } from 'rxjs/Rx';
-import { Token } from './../../shared/models/token';
-import { CONFIGURATION } from './../../shared/app.constants';
 import { Injectable } from '@angular/core';
-import { Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { HttpWrapperService } from './httpWrapper.service';
-import { CurrentUserService } from './currentUser.service';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Rx';
+
+import { CONFIGURATION } from './../../shared/app.constants';
+import { Token } from './../../shared/models/token';
+import { CurrentUserService } from './currentUser.service';
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private http: HttpWrapperService,
+    constructor(private http: Http,
         private currentUserService: CurrentUserService,
         private router: Router) {
 
     }
 
     get isAuthenticated(): boolean {
-        if (!this.currentUserService.token) {
-            return false;
-        }
-        return true;
+        return !!this.currentUserService.token;
     }
 
-    public LoginUser(username: string, password: string): Observable<Token> {
-        let body = 'grant_type=password&username=' + username + '&password=' + password,
-            options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }) });
 
-        return Observable.create((observer: Observer<Response>) => {
-            this.http.post(CONFIGURATION.baseUrls.server + 'token', body, options)
+    loginUser(username: string, password: string): Observable<Token> {
+        const clientId = 'client_id=' + CONFIGURATION.authConfig.CLIENT_ID;
+        const grantType = 'grant_type=' + CONFIGURATION.authConfig.GRANT_TYPE;
+        const usernameForBody = 'username=' + username;
+        const passwordForBody = 'password=' + password;
+        const scope = 'scope=' + CONFIGURATION.authConfig.SCOPE;
+
+        const body = clientId.concat('&', grantType, '&', usernameForBody, '&', passwordForBody, '&', scope);
+
+        const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }) });
+
+        return Observable.create((observer: Observer<Token>) => {
+            this.http.post(CONFIGURATION.baseUrls.server + 'connect/token', body, options)
                 .map((response: any) => <Token>response.json())
-                .subscribe((tokenData: any) => {
+                .subscribe((tokenData: Token) => {
                     this.currentUserService.token = tokenData.access_token;
+                    this.currentUserService.username = username;
                     observer.next(tokenData);
                 }, (error) => observer.error(error),
                 () => observer.complete());

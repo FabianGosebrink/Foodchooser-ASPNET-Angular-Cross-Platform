@@ -1,93 +1,106 @@
-﻿using System;
+﻿using FoodChooser.Models;
+using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http;
-using FoodChooser.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
 
 namespace FoodChooser.Controllers
 {
-    [System.Web.Http.Authorize]
-    [System.Web.Http.RoutePrefix("api/Account")]
-    public class AccountController : BaseController
+    [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Manage Accounts")]
+    public class AccountController : Controller
     {
-        public AccountController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ILogger _logger;
+
+        public AccountController(
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager,
+            ILogger<AccountController> logger)
         {
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
-        public AccountController()
+        /// <summary>
+        /// Gets all the users.
+        /// </summary>
+        /// <returns>Returns all the users</returns>
+        // GET api/identity/GetAll
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
+            var role = await _roleManager.FindByNameAsync("user");
+            var users = await _userManager.GetUsersInRoleAsync(role.Name);
 
+            return new JsonResult(users);
         }
 
-        // POST api/Account/Logout
-        [System.Web.Http.Route("Logout")]
-        public IHttpActionResult Logout()
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <returns>IdentityResult</returns>
+        // POST: api/identity/Create
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([FromBody]RegisterBindingModel model)
         {
-            AuthenticationManager.SignOut(CookieAuthenticationDefaults.AuthenticationType);
-            return Ok();
-        }
-
-        // POST api/Account/Register
-        [System.Web.Http.AllowAnonymous]
-        [System.Web.Http.Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            try
+            if (model == null)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
-
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-
-                if (!result.Succeeded)
-                {
-                    return GetErrorResult(result);
-                }
-
-                return Ok();
-            }
-            catch (Exception exception)
-            {
-                return InternalServerError(exception);
+                return BadRequest();
             }
 
-        }
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
+            if (!ModelState.IsValid)
             {
-                return InternalServerError();
-            }
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
                 return BadRequest(ModelState);
             }
 
-            return null;
+            var user = new IdentityUser
+            {
+                AccessFailedCount = 0,
+                Email = model.Email,
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                NormalizedEmail = model.Email.ToUpper(),
+                NormalizedUserName = model.Email.ToUpper(),
+                TwoFactorEnabled = false,
+                UserName = model.Username
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                await addToRole(model.Username, "user");
+                await addClaims(model.Username);
+            }
+
+            return Ok(result);
+        }
+
+        private async Task addToRole(string userName, string roleName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        private async Task addClaims(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var claims = new List<Claim> {
+                new Claim(type: JwtClaimTypes.Name, value: user.UserName)
+            };
+            await _userManager.AddClaimsAsync(user, claims);
         }
     }
 }

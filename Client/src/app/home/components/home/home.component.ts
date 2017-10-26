@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
                 this.randomFood = response;
                 this.randomFood.ImageString = CONFIGURATION.baseUrls.server + this.randomFood.ImageString;
             }, error => {
-                if (error.status == 404) {
+                if (error.status === 400) {
                     this.errorMessage = 'No food found :-(';
                 } else {
                     this.errorMessage = 'There was an error';

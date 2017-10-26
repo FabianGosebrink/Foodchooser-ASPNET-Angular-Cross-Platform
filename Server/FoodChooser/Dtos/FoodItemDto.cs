@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FoodChooser.Models
+namespace FoodChooser.ViewModels
 {
-    public class FoodItem
+    public class FoodItemDto
     {
-        [Key]
         public Guid Id { get; set; }
+        [Required]
         public string ItemName { get; set; }
-        public FoodList FoodList { get; set; }
+        public int Rating{ get; set; }
         public Guid FoodListId { get; set; }
         public DateTime Created { get; set; }
         public bool IsPublic { get; set; }

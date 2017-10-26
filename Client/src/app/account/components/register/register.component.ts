@@ -32,11 +32,11 @@ export class RegisterComponent {
             .subscribe((response: any) => {
                 this.successMessage = 'You have been registered. Please login.';
             }, (error) => {
-
+                this.errorMessage = 'There was an Error: ';
                 let errorObject = error._body;
-                let parsedErrorObject = JSON.parse(errorObject).ModelState;
+                let parsedErrorObject = JSON.parse(errorObject);
 
-                for (let propertyName in parsedErrorObject) {
+                for (let propertyName of parsedErrorObject) {
                     this.errorMessage += parsedErrorObject[propertyName][0];
                 }
             });

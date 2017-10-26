@@ -5,10 +5,10 @@ const appRoutes: Routes = [
   { path: 'about', loadChildren: './about/about.module#AboutModule' },
   { path: 'account', loadChildren: './account/account.module#AccountModule' },
   { path: 'foodlists', loadChildren: './food/food.module#FoodModule' },
-  // {
-  //   path: '**',
-  //   redirectTo: 'home'
-  // }
+  {
+    path: '**',
+    redirectTo: 'home'
+  }
 ];
 
 export const AppRoutes = RouterModule.forRoot(appRoutes, { useHash: true });

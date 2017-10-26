@@ -20,10 +20,10 @@ export class LoginComponent {
 
     public doLoginUser() {
         this.authService
-            .LoginUser(this.loginUser.Username, this.loginUser.Password)
+            .loginUser(this.loginUser.Username, this.loginUser.Password)
             .subscribe(
             (response: Token) => this.router.navigate(['/home']),
-            (error) => {
+            (error: any) => {
                 console.log(error);
                 this.errorMessage = JSON.parse(error._body).error_description;
                 this.loginUser.Password = '';

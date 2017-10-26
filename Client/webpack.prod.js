@@ -4,6 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var CompressionPlugin = require("compression-webpack-plugin");
 var path = require('path');
+const ngToolsWebpack = require('@ngtools/webpack');
 
 module.exports = {
     entry: {
@@ -24,10 +25,7 @@ module.exports = {
         rules: [
             {
                 test: /\.ts$/,
-                use: [
-                    'awesome-typescript-loader',
-                    'angular-router-loader?aot=true&genDir=src/.aot/'
-                ]
+                use: '@ngtools/webpack'
             },
             {
                 test: /\.html$/,

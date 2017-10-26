@@ -9,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class FoodListComponent implements OnInit {
 
-    allLists: FoodListWithImage[];
-    allFoodLists: FoodList[];
+    allLists: FoodListWithImage[] = [];
+    allFoodLists: FoodList[] = [];
     errorMessage: string;
 
     constructor(private foodListDataService: FoodListDataService) {
@@ -31,7 +31,7 @@ export class FoodListComponent implements OnInit {
         this.foodListDataService
             .GetAllLists()
             .subscribe((response: FoodList[]) => {
-                this.allFoodLists = response;
+                this.allFoodLists = response.value;
             }, error => {
                 this.errorMessage = error;
             }, () => {

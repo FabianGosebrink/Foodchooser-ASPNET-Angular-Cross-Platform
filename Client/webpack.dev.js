@@ -5,7 +5,7 @@ let CleanWebpackPlugin = require('clean-webpack-plugin');
 let path = require('path');
 
 module.exports = {
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     performance: {
         hints: false
     },
@@ -17,21 +17,11 @@ module.exports = {
     output: {
         path: __dirname + '/.dist/web/jit/',
         filename: 'js/[name].bundle.js',
-        chunkFilename: 'js/[id].chunk.js',
-        publicPath: '/'
+        chunkFilename: 'js/[id].chunk.js'
     },
 
     resolve: {
-        extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html']
-    },
-
-    devServer: {
-        historyApiFallback: true,
-        contentBase: __dirname + '/.dist/web/jit/',
-        watchOptions: {
-            aggregateTimeout: 300,
-            poll: 1000
-        }
+        extensions: ['.ts', '.js', '.json']
     },
 
     module: {
@@ -51,11 +41,11 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
-                loader: 'file-loader?name=assets/[name].[ext]',
+                use: 'file-loader?name=assets/[name].[ext]',
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader"
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
@@ -66,6 +56,11 @@ module.exports = {
             inject: 'body',
             template: './src/index.html'
         }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            path.resolve(__dirname, '../src')
+        ),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',

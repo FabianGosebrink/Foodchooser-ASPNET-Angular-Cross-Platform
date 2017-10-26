@@ -1,23 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Http;
 using AutoMapper;
 using FoodChooser.Models;
 using FoodChooser.Repositories.Food;
 using FoodChooser.Repositories.List;
 using FoodChooser.Services;
 using FoodChooser.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using FoodChooser.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
+using IdentityServer4.AccessTokenValidation;
 
 namespace FoodChooser.Controllers
 {
-    //[Authorize]
-    [RoutePrefix("api")]
-    public class FoodsController : BaseController
+    [Authorize]
+    [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
+    public class FoodsController : Controller
     {
         private static string DataImagePngBase64Prefix = "data:image/png;base64";
 
@@ -25,266 +30,221 @@ namespace FoodChooser.Controllers
         private readonly IFoodRepository _foodRepository;
         private readonly IFoodListRepository _foodListRepository;
         private readonly IRandomNumberGenerator _randomNumberGenerator;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly AppSettings _appSettingsAccessor;
+        private readonly IHostingEnvironment _hostingEnvironment;
+
 
         public FoodsController(IFoodRepository foodRepository, IFoodListRepository foodListRepository,
-            IRandomNumberGenerator randomNumberGenerator)
+            IRandomNumberGenerator randomNumberGenerator, UserManager<IdentityUser> userManager,
+            IOptions<AppSettings> appSettingsAccessor, IHostingEnvironment hostingEnvironment)
         {
             _foodRepository = foodRepository;
             _foodListRepository = foodListRepository;
             _randomNumberGenerator = randomNumberGenerator;
+            _userManager = userManager;
+            _appSettingsAccessor = appSettingsAccessor.Value;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet]
-        [Route("foodlists/{id:int}/foods")]
-        public IHttpActionResult GetFoodsFromList(int id)
+        [Route("foodlists/{id}/foods")]
+        public IActionResult GetFoodsFromList(Guid id)
         {
-            try
-            {
-                FoodList foodList = _foodListRepository.GetSingle(x => x.Id == id, "Foods");
-                return Ok(foodList.Foods.Select(x => Mapper.Map<FoodItemViewModel>(x)));
-            }
-            catch (Exception exception)
-            {
-                return InternalServerError(exception);
-            }
+            FoodList foodList = _foodListRepository.GetSingle(id);
+            return Ok(foodList.Foods.Select(x => Mapper.Map<FoodItemDto>(x)));
         }
 
         [HttpGet]
-        [Route("foodlists/{listId:int}/food/{foodItemId:int}")]
-        [Route("foods/{foodItemId:int}", Name = "GetSingleFood")]
-        public IHttpActionResult GetSingleFood(int foodItemId, int? listId = null)
+        [Route("foodlists/{listId}/food/{foodItemId}")]
+        [Route("{foodItemId}", Name = "GetSingleFood")]
+        public IActionResult GetSingleFood(Guid foodItemId, Guid? listId = null)
         {
-            try
+            FoodItem foodItem;
+            if (listId.HasValue)
             {
-                FoodItem foodItem;
-                if (listId.HasValue)
-                {
-                    foodItem = _foodRepository.GetSingle(x => x.Id == foodItemId && x.FoodList.Id == listId.Value,
-                        includeProperties: "FoodList");
-                }
-                else
-                {
-                    foodItem = _foodRepository.GetSingle(x => x.Id == foodItemId, "FoodList");
-                }
-
-                if (foodItem == null)
-                {
-                    return NotFound();
-                }
-
-                if (foodItem.FoodList == null || foodItem.FoodList.UserId != CurrentUserId)
-                {
-                    return StatusCode(HttpStatusCode.Forbidden);
-                }
-
-                return Ok(Mapper.Map<FoodItemViewModel>(foodItem));
+                foodItem = _foodRepository.GetSingle(foodItemId, listId.Value);
             }
-            catch (Exception exception)
+            else
             {
-                return InternalServerError(exception);
+                foodItem = _foodRepository.GetSingle(foodItemId, null);
             }
+
+            if (foodItem == null)
+            {
+                return NotFound();
+            }
+
+            if (foodItem.FoodList == null || foodItem.FoodList.UserId != _userManager.GetUserId(HttpContext.User))
+            {
+                return new StatusCodeResult((int)HttpStatusCode.Forbidden);
+            }
+
+            return Ok(Mapper.Map<FoodItemDto>(foodItem));
         }
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("foods/getrandomfood")]
-        public IHttpActionResult GetRandomFood()
+        [Route("getrandomfood")]
+        public IActionResult GetRandomFood()
         {
-            try
+            IEnumerable<FoodItem> foodItems = _foodRepository.GetAllPublic();
+
+            if (!foodItems.Any())
             {
-                IEnumerable<FoodItem> foodItems = _foodRepository.GetAll(x => x.IsPublic, includeProperties: "FoodList").AsEnumerable();
-
-                if (!foodItems.Any())
-                {
-                    return NotFound();
-                }
-
-                IEnumerable<FoodItem> enumerable = foodItems as IList<FoodItem> ?? foodItems.ToList();
-                FoodItem elementAt = enumerable.ElementAt(_randomNumberGenerator.GetRandomNumber(enumerable.Count()));
-
-                if (elementAt == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(Mapper.Map<FoodItemViewModel>(elementAt));
+                return BadRequest("No Items Found");
             }
-            catch (Exception exception)
+
+            FoodItem elementAt = foodItems.ElementAt(_randomNumberGenerator.GetRandomNumber(foodItems.Count()));
+
+            if (elementAt == null)
             {
-                return InternalServerError(exception);
+                return NotFound();
             }
+
+            return Ok(Mapper.Map<FoodItemDto>(elementAt));
         }
 
         [HttpPost]
-        [Route("foods")]
-        public IHttpActionResult AddFoodToList([FromBody]FoodItemViewModel viewModel)
+        public IActionResult AddFoodToList([FromBody]FoodItemDto viewModel)
         {
-            try
+            if (viewModel == null)
             {
-                if (viewModel == null)
-                {
-                    return BadRequest();
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                FoodList singleFoodList = _foodListRepository.GetSingle(x => x.Id == viewModel.FoodListId, "Foods");
-                FoodItem item = Mapper.Map<FoodItem>(viewModel);
-                item.Created = DateTime.Now;
-                item.ImageString = CurrentAppSettings.DummyImageName;
-                singleFoodList.Foods.Add(item);
-                _foodListRepository.Update(singleFoodList);
-
-                int save = _foodListRepository.Save();
-
-                if (save > 0)
-                {
-                    return CreatedAtRoute("GetSingleFood", new { foodItemId = item.Id }, Mapper.Map<FoodItemViewModel>(item));
-                }
-
                 return BadRequest();
             }
-            catch (Exception exception)
+
+            if (!ModelState.IsValid)
             {
-                return InternalServerError(exception);
+                return BadRequest(ModelState);
             }
+
+            FoodList singleFoodList = _foodListRepository.GetSingle(viewModel.FoodListId);
+            FoodItem item = Mapper.Map<FoodItem>(viewModel);
+            item.Created = DateTime.Now;
+            item.ImageString = _appSettingsAccessor.DummyImageName;
+            singleFoodList.Foods.Add(item);
+            _foodListRepository.Update(singleFoodList);
+
+            if (_foodListRepository.Save())
+            {
+                return CreatedAtRoute("GetSingleFood", new { foodItemId = item.Id }, Mapper.Map<FoodItemDto>(item));
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]
-        [Route("foods/{foodItemId:int}")]
-        public IHttpActionResult UpdateFoodInList(int foodItemId, [FromBody]FoodItemViewModel viewModel)
+        [Route("{foodItemId}")]
+        public IActionResult UpdateFoodInList(Guid foodItemId, [FromBody]FoodItemDto viewModel)
         {
-            try
+            if (viewModel == null)
             {
-                if (viewModel == null)
-                {
-                    return BadRequest();
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                FoodItem singleById = _foodRepository.GetSingleById(foodItemId);
-
-                if (singleById == null)
-                {
-                    return NotFound();
-                }
-
-                singleById.ItemName = viewModel.ItemName;
-                singleById.IsPublic = viewModel.IsPublic;
-
-
-                if (ImageIsNewImage(viewModel))
-                {
-                    HandleImage(viewModel, singleById);
-                }
-
-                _foodRepository.Update(singleById);
-
-                int save = _foodRepository.Save();
-
-                if (save > 0)
-                {
-                    return Ok(Mapper.Map<FoodItemViewModel>(singleById));
-                }
-
                 return BadRequest();
             }
-            catch (Exception exception)
+
+            if (!ModelState.IsValid)
             {
-                return InternalServerError(exception);
+                return BadRequest(ModelState);
             }
+
+            FoodItem singleById = _foodRepository.GetSingle(foodItemId, null);
+
+            if (singleById == null)
+            {
+                return NotFound();
+            }
+
+            singleById.ItemName = viewModel.ItemName;
+            singleById.IsPublic = viewModel.IsPublic;
+            
+            if (ImageIsNewImage(viewModel))
+            {
+                HandleImage(viewModel, singleById);
+            }
+
+            _foodRepository.Update(singleById);
+
+            if (_foodListRepository.Save())
+            {
+                return Ok(Mapper.Map<FoodItemDto>(singleById));
+            }
+
+            return BadRequest();
         }
-        
+
         [HttpDelete]
-        [Route("foods/{foodItemId:int}")]
-        public IHttpActionResult DeleteFoodFromList(int foodItemId)
+        [Route("{foodItemId}")]
+        public IActionResult DeleteFoodFromList(Guid foodItemId)
         {
-            try
+            FoodItem singleById = _foodRepository.GetSingle(foodItemId, null);
+
+            if (singleById == null)
             {
-                FoodItem singleById = _foodRepository.GetSingleById(foodItemId);
-
-                if (singleById == null)
-                {
-                    return NotFound();
-                }
-
-                _foodRepository.Delete(foodItemId);
-                int save = _foodRepository.Save();
-
-                if (save > 0)
-                {
-                    return StatusCode(HttpStatusCode.NoContent);
-                }
-
-                return BadRequest();
+                return NotFound();
             }
-            catch (Exception exception)
+
+            _foodRepository.Delete(foodItemId);
+            if (_foodListRepository.Save())
             {
-                return InternalServerError(exception);
+                return NoContent();
             }
+
+            return BadRequest();
         }
 
-        private string SaveImage(FoodItemViewModel viewModel)
+        private string SaveImage(FoodItemDto viewModel)
         {
             if (String.IsNullOrEmpty(viewModel.ImageString))
             {
                 return String.Empty;
             }
 
+            string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder);
+
+            //Check if directory exist
+            if (!System.IO.Directory.Exists(filePath))
+            {
+                System.IO.Directory.CreateDirectory(filePath); //Create directory if it doesn't exist
+            }
+
             // Get Filename of new image
             var newFileName = Guid.NewGuid() + ".png";
 
-            Image image = Base64ToImage(viewModel.ImageString.Split(',')[1]);
+            //set the image path
+            string imgPath = Path.Combine(filePath, newFileName);
 
-            string filePath = HttpContext.Current.Server.MapPath(CurrentAppSettings.ImageSaveFolder + newFileName);
+            byte[] imageBytes = Convert.FromBase64String(viewModel.ImageString.Split(',')[1]);
 
-            image.Save(filePath);
+            System.IO.File.WriteAllBytes(imgPath, imageBytes);
 
             return newFileName;
         }
 
-        public Image Base64ToImage(string base64String)
-        {
-            byte[] imageBytes = Convert.FromBase64String(base64String);
-
-            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
-            {
-                Image image = Image.FromStream(ms, true);
-                return image;
-            }
-        }
-        private static bool ImageIsNewImage(FoodItemViewModel viewModel)
+        private static bool ImageIsNewImage(FoodItemDto viewModel)
         {
             return viewModel.ImageString.StartsWith(DataImagePngBase64Prefix);
         }
 
 
-        private void HandleImage(FoodItemViewModel viewModel, FoodItem singleById)
+        private void HandleImage(FoodItemDto viewModel, FoodItem singleById)
         {
             // save new image
             var newFileName = SaveImage(viewModel);
 
             if (!String.IsNullOrEmpty(newFileName))
             {
-                if (singleById.ImageString != CurrentAppSettings.DummyImageName)
+                if (singleById.ImageString != _appSettingsAccessor.DummyImageName)
                 {
                     // if old image is there
-                    var oldimagePath = HttpContext.Current.Server.MapPath(CurrentAppSettings.ImageSaveFolder + singleById.ImageString);
-                    
+                    var oldimagePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder, singleById.ImageString);
+
                     // delete old image
-                    if (File.Exists(oldimagePath))
+                    if (System.IO.File.Exists(oldimagePath))
                     {
-                        File.Delete(oldimagePath);
+                        System.IO.File.Delete(oldimagePath);
                     }
                 }
-                    
+
                 // save db entry
                 singleById.ImageString = newFileName;
             }

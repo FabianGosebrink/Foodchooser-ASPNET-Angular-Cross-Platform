@@ -1,23 +1,19 @@
-﻿using System.Data.Entity;
-using FoodChooser.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using FoodChooser.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodChooser.Repositories
 {
-    public class FoodChooserDbContext : IdentityDbContext<ApplicationUser>
+    public class FoodChooserDbContext : IdentityDbContext<IdentityUser>
     {
-        public FoodChooserDbContext() : base("DefaultConnection")
+        public FoodChooserDbContext(DbContextOptions<FoodChooserDbContext> options)
+           : base(options)
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<FoodChooserDbContext>());
-        }
 
-        public static FoodChooserDbContext Create()
-        {
-            return new FoodChooserDbContext();
         }
 
         public DbSet<FoodItem> FoodItems { get; set; }
         public DbSet<FoodList> FoodLists { get; set; }
-        public DbSet<SharedFoodList> SharedLists { get; set; }
     }
 }
