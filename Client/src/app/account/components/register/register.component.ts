@@ -23,7 +23,7 @@ export class RegisterComponent {
         this.successMessage = '';
 
         this.authService
-            .RegisterUser(
+            .registerUser(
             this.registerUser.Username,
             this.registerUser.Email,
             this.registerUser.Password,

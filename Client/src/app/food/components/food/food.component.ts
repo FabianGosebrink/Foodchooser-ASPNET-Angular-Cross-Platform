@@ -1,6 +1,7 @@
-import { FoodList } from '../../../shared/models/foodList';
 import { Component, OnInit } from '@angular/core';
+
 import { FoodListDataService } from '../../../core/services/foodList-data.service';
+import { FoodList } from '../../../shared/models/foodList';
 
 @Component({
     selector: 'food-component',
@@ -8,10 +9,10 @@ import { FoodListDataService } from '../../../core/services/foodList-data.servic
 })
 
 export class FoodComponent implements OnInit {
-    lists: FoodList[] = [];
-    constructor(private foodListDataService: FoodListDataService) {
 
-    }
+    lists: FoodList[] = [];
+
+    constructor(private foodListDataService: FoodListDataService) { }
 
     addFood(foodListname: string) {
         this.foodListDataService

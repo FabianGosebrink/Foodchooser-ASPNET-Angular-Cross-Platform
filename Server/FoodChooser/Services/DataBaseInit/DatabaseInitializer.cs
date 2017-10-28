@@ -30,8 +30,9 @@ namespace FoodChooser.Services.DataBaseInit
 
             if (context.Users.Any())
             {
-                context.Users.RemoveRange(context.Users);
-                context.SaveChanges();
+                //context.Users.RemoveRange(context.Users);
+                //context.SaveChanges();
+                return;
             }
 
             // Creates Roles.

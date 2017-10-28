@@ -19,8 +19,7 @@ using IdentityServer4.AccessTokenValidation;
 
 namespace FoodChooser.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    [Route("api")]
     [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
     public class FoodsController : Controller
     {
@@ -49,6 +48,7 @@ namespace FoodChooser.Controllers
 
         [HttpGet]
         [Route("foodlists/{id}/foods")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetFoodsFromList(Guid id)
         {
             FoodList foodList = _foodListRepository.GetSingle(id);
@@ -57,7 +57,8 @@ namespace FoodChooser.Controllers
 
         [HttpGet]
         [Route("foodlists/{listId}/food/{foodItemId}")]
-        [Route("{foodItemId}", Name = "GetSingleFood")]
+        [Route("foods/{foodItemId}", Name = "GetSingleFood")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetSingleFood(Guid foodItemId, Guid? listId = null)
         {
             FoodItem foodItem;
@@ -85,7 +86,7 @@ namespace FoodChooser.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("getrandomfood")]
+        [Route("foods/getrandomfood")]
         public IActionResult GetRandomFood()
         {
             IEnumerable<FoodItem> foodItems = _foodRepository.GetAllPublic();
@@ -106,6 +107,8 @@ namespace FoodChooser.Controllers
         }
 
         [HttpPost]
+        [Route("foods")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult AddFoodToList([FromBody]FoodItemDto viewModel)
         {
             if (viewModel == null)
@@ -121,7 +124,7 @@ namespace FoodChooser.Controllers
             FoodList singleFoodList = _foodListRepository.GetSingle(viewModel.FoodListId);
             FoodItem item = Mapper.Map<FoodItem>(viewModel);
             item.Created = DateTime.Now;
-            item.ImageString = _appSettingsAccessor.DummyImageName;
+            item.ImageString = Path.Combine(_appSettingsAccessor.ImageSaveFolder, _appSettingsAccessor.DummyImageName);
             singleFoodList.Foods.Add(item);
             _foodListRepository.Update(singleFoodList);
 
@@ -134,7 +137,8 @@ namespace FoodChooser.Controllers
         }
 
         [HttpPut]
-        [Route("{foodItemId}")]
+        [Route("foods/{foodItemId}")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult UpdateFoodInList(Guid foodItemId, [FromBody]FoodItemDto viewModel)
         {
             if (viewModel == null)
@@ -156,7 +160,7 @@ namespace FoodChooser.Controllers
 
             singleById.ItemName = viewModel.ItemName;
             singleById.IsPublic = viewModel.IsPublic;
-            
+
             if (ImageIsNewImage(viewModel))
             {
                 HandleImage(viewModel, singleById);
@@ -173,7 +177,8 @@ namespace FoodChooser.Controllers
         }
 
         [HttpDelete]
-        [Route("{foodItemId}")]
+        [Route("foods/{foodItemId}")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult DeleteFoodFromList(Guid foodItemId)
         {
             FoodItem singleById = _foodRepository.GetSingle(foodItemId, null);

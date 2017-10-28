@@ -1,19 +1,21 @@
 import { CONFIGURATION } from './../app.constants';
 var FoodList = (function () {
     function FoodList() {
+        this._imageString = '';
     }
+    Object.defineProperty(FoodList.prototype, "imageString", {
+        get: function () {
+            return this._imageString;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    FoodList.prototype.setImage = function (imageString) {
+        if (imageString) {
+            this._imageString = CONFIGURATION.baseUrls.server + imageString;
+        }
+    };
     return FoodList;
 }());
 export { FoodList };
-var FoodListWithImage = (function () {
-    function FoodListWithImage(list, imageString) {
-        this.FoodListItem = list;
-        this.ImageString = null;
-        if (imageString) {
-            this.ImageString = CONFIGURATION.baseUrls.server + imageString;
-        }
-    }
-    return FoodListWithImage;
-}());
-export { FoodListWithImage };
 //# sourceMappingURL=foodList.js.map

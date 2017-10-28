@@ -43,9 +43,11 @@ namespace FoodChooser.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetAllLists([FromQuery] QueryParameters queryParameters)
         {
-            var foodItems = _foodListRepository.GetAll(queryParameters);
+            var foodItems = _foodListRepository.GetAll(queryParameters)
+                .Where(x => x.UserId == _userManager.GetUserId(HttpContext.User));
 
             var allItemCount = _foodListRepository.Count();
 
@@ -73,6 +75,7 @@ namespace FoodChooser.Controllers
 
         [HttpGet]
         [Route("{id}", Name = nameof(GetSingleList))]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetSingleList(Guid id)
         {
             FoodList singleFoodList = _foodListRepository.GetSingle(id);
@@ -93,6 +96,7 @@ namespace FoodChooser.Controllers
 
         [HttpGet]
         [Route("{id}/getrandomimage")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetRandomImageStringFromList(Guid id)
         {
             FoodList singleFoodList = _foodListRepository.GetSingle(id);
@@ -156,6 +160,7 @@ namespace FoodChooser.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult DeleteList(Guid id)
         {
             FoodList singleFoodList = _foodListRepository.GetSingle(id);

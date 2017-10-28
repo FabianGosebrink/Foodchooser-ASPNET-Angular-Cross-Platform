@@ -41,16 +41,13 @@ export class FoodListDetails implements OnInit {
             this.getSingleList(this._listId);
             this.getAllFoodFromList(this._listId);
         });
-
     }
 
     private getSingleList(listId: string) {
-
         this._foodListDataService
             .getSingleList(listId)
             .subscribe((response: FoodList) => {
                 this.currentFoodList = response;
-                console.log(this.currentFoodList)
             }, (error: any) => console.log(error));
     }
 
@@ -58,15 +55,16 @@ export class FoodListDetails implements OnInit {
 
         this._foodListDataService
             .getFoodFromList(listId)
+            .map((response: FoodItem[]) => {
+                response.map((element: FoodItem) => {
+                    element.imageString = CONFIGURATION.baseUrls.server + element.imageString;
+                });
+
+                return response;
+            })
             .subscribe((response: FoodItem[]) => {
                 this.currentFoods = response;
                 this.currentFoodsBackUp = response;
-
-                this.currentFoods.forEach((element: FoodItem) => {
-                    element.setImage(CONFIGURATION.baseUrls.server + element.imageString);
-                    console.log('----->' + element.imageString);
-                });
-
             }, (error: any) => console.log(error));
     }
 
@@ -76,8 +74,6 @@ export class FoodListDetails implements OnInit {
             .updateFood(food.id, food)
             .subscribe((response: FoodItem) => {
                 this.getAllFoodFromList(this._listId);
-            }, (response) => {
-                console.log(response);
             });
     }
 
@@ -152,7 +148,7 @@ export class FoodListDetails implements OnInit {
             .getPhoto()
             .subscribe((url: string) => {
                 this._ngZone.run(() => {
-                    foodItem.setImage(url);
+                    foodItem.imageString = url;
                     this.updateFood(foodItem);
                 });
             });

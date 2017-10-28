@@ -15,4 +15,12 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\FoodImages\34f6c25a-8045-4c69-b4ab-cff2c8466758.png" />
+    <None Include="wwwroot\FoodImages\7f7c8988-2750-4bf6-9595-805880e10452.png" />
+    <None Include="wwwroot\FoodImages\8267a578-bd32-45ab-ad7e-0e44d7e67786.png" />
+    <None Include="wwwroot\FoodImages\b2ba66c1-8914-42ca-84bf-924aad99da2f.png" />
+    <None Include="wwwroot\FoodImages\dummy.png" />
+  </ItemGroup>
+
 </Project>

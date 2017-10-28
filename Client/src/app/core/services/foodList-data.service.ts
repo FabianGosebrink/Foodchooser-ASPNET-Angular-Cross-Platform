@@ -34,15 +34,13 @@ export class FoodListDataService {
     getFoodFromList(id: string): Observable<FoodItem[]> {
         return this._http.get(this.actionUrl + id + '/foods')
             .map((response: Response) => <FoodItem[]>response.json())
-            .do(this.setDate)
+            .map((foodItems: FoodItem[]) => {
+                foodItems.map((foodItem: FoodItem) => {
+                    foodItem.created = new Date(String(foodItem.created));
+                });
+                return foodItems;
+            })
             .catch(this.handleError);
-    }
-
-    private setDate(foodItems: FoodItem[]) {
-        for (let index = 0; index < foodItems.length; index++) {
-            let element: FoodItem = foodItems[index];
-            element.created = new Date(String(element.created));
-        }
     }
 
     addList(foodListName: string): Observable<FoodList> {

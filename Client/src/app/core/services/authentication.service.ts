@@ -14,13 +14,11 @@ export class AuthenticationService {
     constructor(private http: Http,
         private currentUserService: CurrentUserService,
         private router: Router) {
-
     }
 
     get isAuthenticated(): boolean {
         return !!this.currentUserService.token;
     }
-
 
     loginUser(username: string, password: string): Observable<Token> {
         const clientId = 'client_id=' + CONFIGURATION.authConfig.CLIENT_ID;
@@ -45,13 +43,12 @@ export class AuthenticationService {
         });
     }
 
-    public LogoutUser() {
+    logoutUser() {
         this.currentUserService.token = null;
         this.router.navigate(['/home']);
     }
 
-    public RegisterUser = (username: string, email: string, password: string, confirmPassword: string): Observable<any> => {
-
+    registerUser(username: string, email: string, password: string, confirmPassword: string): Observable<any> {
         let registerData = {
             Email: email,
             Username: username,
