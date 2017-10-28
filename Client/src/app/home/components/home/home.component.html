@@ -4,7 +4,7 @@
         <div class="jumbotron">
             <h2 *ngIf="randomFood">{{randomFood?.ItemName}}</h2>
 
-            <img *ngIf="randomFood" [src]="randomFood?.ImageString" class="img-responsive center-block">
+            <img *ngIf="randomFood" [src]="randomFood?.imageString" class="img-responsive center-block">
             <br/>
             <h3 *ngIf="errorMessage">{{errorMessage}}</h3>
             <div *ngIf="authenticationService.isAuthenticated && errorMessage">

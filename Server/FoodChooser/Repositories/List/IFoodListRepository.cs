@@ -6,7 +6,7 @@ namespace FoodChooser.Repositories.List
 {
     public interface IFoodListRepository
     {
-        FoodList GetSingle(Guid id);
+        FoodList GetSingle(Guid id, bool withFood);
         void Add(FoodList item);
         void Delete(Guid id);
         void Update(FoodList item);

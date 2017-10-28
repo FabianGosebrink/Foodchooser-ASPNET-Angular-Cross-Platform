@@ -78,7 +78,7 @@ namespace FoodChooser.Controllers
         [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetSingleList(Guid id)
         {
-            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+            FoodList singleFoodList = _foodListRepository.GetSingle(id, false);
 
             if (singleFoodList == null)
             {
@@ -90,8 +90,10 @@ namespace FoodChooser.Controllers
                 return new StatusCodeResult((int)HttpStatusCode.Forbidden);
             }
 
-            return Ok(Mapper.Map<FoodListDto>(singleFoodList));
 
+            var toReturn = Mapper.Map<FoodListDto>(singleFoodList);
+
+            return Ok(toReturn);
         }
 
         [HttpGet]
@@ -99,7 +101,7 @@ namespace FoodChooser.Controllers
         [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetRandomImageStringFromList(Guid id)
         {
-            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+            FoodList singleFoodList = _foodListRepository.GetSingle(id, true);
 
             if (singleFoodList == null)
             {
@@ -163,7 +165,7 @@ namespace FoodChooser.Controllers
         [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult DeleteList(Guid id)
         {
-            FoodList singleFoodList = _foodListRepository.GetSingle(id);
+            FoodList singleFoodList = _foodListRepository.GetSingle(id, true);
 
             if (singleFoodList == null)
             {

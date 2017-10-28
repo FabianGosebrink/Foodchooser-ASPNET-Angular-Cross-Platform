@@ -1,8 +1,9 @@
-import { FoodItem } from './../../shared/models/foodItem';
-import { CONFIGURATION } from './../../shared/app.constants';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+
+import { CONFIGURATION } from './../../shared/app.constants';
+import { FoodItem } from './../../shared/models/foodItem';
 import { HttpWrapperService } from './httpWrapper.service';
 
 @Injectable()

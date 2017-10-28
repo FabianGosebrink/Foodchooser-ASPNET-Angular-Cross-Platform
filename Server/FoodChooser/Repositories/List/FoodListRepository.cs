@@ -15,9 +15,13 @@ namespace FoodChooser.Repositories.List
             _foodDbContext = foodDbContext;
         }
 
-        public FoodList GetSingle(Guid id)
+        public FoodList GetSingle(Guid id, bool withFood)
         {
-            return _foodDbContext.FoodLists.Include(x => x.Foods).FirstOrDefault(x => x.Id == id);
+            if (withFood)
+            {
+                return _foodDbContext.FoodLists.Include(x=>x.Foods).FirstOrDefault(x => x.Id == id);
+            }
+            return _foodDbContext.FoodLists.FirstOrDefault(x => x.Id == id);
         }
 
         public void Add(FoodList item)
@@ -27,7 +31,7 @@ namespace FoodChooser.Repositories.List
 
         public void Delete(Guid id)
         {
-            FoodList foodList = GetSingle(id);
+            FoodList foodList = GetSingle(id, true);
             _foodDbContext.FoodLists.Remove(foodList);
         }
 

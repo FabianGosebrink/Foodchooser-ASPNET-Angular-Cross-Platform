@@ -51,7 +51,14 @@ namespace FoodChooser.Controllers
         [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
         public IActionResult GetFoodsFromList(Guid id)
         {
-            FoodList foodList = _foodListRepository.GetSingle(id);
+            FoodList foodList = _foodListRepository.GetSingle(id, true);
+
+            if (foodList.Foods == null)
+            {
+                var items = new List<FoodItem>();
+                return Ok(items.Select(x => Mapper.Map<FoodItemDto>(x)));
+            }
+
             return Ok(foodList.Foods.Select(x => Mapper.Map<FoodItemDto>(x)));
         }
 
@@ -121,7 +128,7 @@ namespace FoodChooser.Controllers
                 return BadRequest(ModelState);
             }
 
-            FoodList singleFoodList = _foodListRepository.GetSingle(viewModel.FoodListId);
+            FoodList singleFoodList = _foodListRepository.GetSingle(viewModel.FoodListId, true);
             FoodItem item = Mapper.Map<FoodItem>(viewModel);
             item.Created = DateTime.Now;
             item.ImageString = Path.Combine(_appSettingsAccessor.ImageSaveFolder, _appSettingsAccessor.DummyImageName);

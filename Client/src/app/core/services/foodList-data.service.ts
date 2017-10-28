@@ -27,7 +27,10 @@ export class FoodListDataService {
 
     getSingleList(id: string): Observable<FoodList> {
         return this._http.get(this.actionUrl + id)
-            .map((response: Response) => <FoodList>response.json())
+            .map((response: Response) => {
+                console.log('in');
+                return <FoodList>response.json()
+            })
             .catch(this.handleError);
     }
 
@@ -37,6 +40,8 @@ export class FoodListDataService {
             .map((foodItems: FoodItem[]) => {
                 foodItems.map((foodItem: FoodItem) => {
                     foodItem.created = new Date(String(foodItem.created));
+                    foodItem.imageString =
+                        CONFIGURATION.baseUrls.server + foodItem.imageString;
                 });
                 return foodItems;
             })
