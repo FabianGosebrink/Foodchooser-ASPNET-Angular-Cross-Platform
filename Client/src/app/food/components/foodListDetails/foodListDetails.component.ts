@@ -63,17 +63,17 @@ export class FoodListDetails implements OnInit {
                 this.currentFoodsBackUp = response;
 
                 this.currentFoods.forEach((element: FoodItem) => {
-                    element.ImageString = CONFIGURATION.baseUrls.server + element.ImageString;
-                    console.log('----->' + element.ImageString);
+                    element.setImage(CONFIGURATION.baseUrls.server + element.imageString);
+                    console.log('----->' + element.imageString);
                 });
 
             }, (error: any) => console.log(error));
     }
 
     togglePublic(food: FoodItem) {
-        food.IsPublic = !food.IsPublic;
+        food.isPublic = !food.isPublic;
         this._foodDataService
-            .updateFood(food.Id, food)
+            .updateFood(food.id, food)
             .subscribe((response: FoodItem) => {
                 this.getAllFoodFromList(this._listId);
             }, (response) => {
@@ -97,7 +97,7 @@ export class FoodListDetails implements OnInit {
     }
 
     addOrUpdateFood() {
-        if (this.currentFood.Id) {
+        if (this.currentFood.id) {
             this.updateFood(this.currentFood);
         } else {
             this.addFood(this.currentFood);
@@ -106,7 +106,7 @@ export class FoodListDetails implements OnInit {
 
     private updateFood(foodItem: FoodItem) {
         this._foodDataService
-            .updateFood(foodItem.Id, foodItem)
+            .updateFood(foodItem.id, foodItem)
             .subscribe((response: FoodItem) => {
                 this.getAllFoodFromList(this._listId);
                 this.currentFood = new FoodItem();
@@ -114,8 +114,8 @@ export class FoodListDetails implements OnInit {
     }
 
     private addFood(foodItem: FoodItem) {
-        if (foodItem.ItemName) {
-            foodItem.FoodListId = this.currentFoodList.Id;
+        if (foodItem.itemName) {
+            foodItem.foodListId = this.currentFoodList.id;
 
             this._foodDataService
                 .addFood(foodItem)
@@ -129,7 +129,7 @@ export class FoodListDetails implements OnInit {
     deleteList() {
         if (this.currentFoodList) {
             this._foodListDataService
-                .deleteList(this.currentFoodList.Id)
+                .deleteList(this.currentFoodList.id)
                 .subscribe((response: any) => {
                     let link = ['/foodlists'];
                     this._router.navigate(link);
@@ -152,7 +152,7 @@ export class FoodListDetails implements OnInit {
             .getPhoto()
             .subscribe((url: string) => {
                 this._ngZone.run(() => {
-                    foodItem.ImageString = url;
+                    foodItem.setImage(url);
                     this.updateFood(foodItem);
                 });
             });

@@ -2,22 +2,17 @@ import { CONFIGURATION } from './../app.constants';
 import { FoodItem } from './FoodItem';
 
 export class FoodList {
-    public Id: string;
-    public Name: string;
-    public Foods: FoodItem[];
-}
+    private _imageString = '';
+    id: string;
+    name: string;
+    foods: FoodItem[];
+    get imageString(): string {
+        return this._imageString;
+    }
 
-export class FoodListWithImage {
-    FoodListItem: FoodList;
-    ImageString: string;
-
-    constructor(list: FoodList, imageString: string) {
-        this.FoodListItem = list;
-
-        this.ImageString = null;
+    setImage(imageString: string) {
         if (imageString) {
-
-            this.ImageString = CONFIGURATION.baseUrls.server + imageString;
+            this._imageString = CONFIGURATION.baseUrls.server + imageString;
         }
     }
 }

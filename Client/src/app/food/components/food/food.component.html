@@ -10,8 +10,8 @@
             </div>
         </div>
 
-        <foodListForm-component></foodListForm-component>
-        <foodlists-component></foodlists-component>
+        <foodListForm-component (onFoodListAdded)="addFood($event)"></foodListForm-component>
+        <foodlists-component [allLists]="lists"></foodlists-component>
     </div>
 </div>
 <!-- /.container -->

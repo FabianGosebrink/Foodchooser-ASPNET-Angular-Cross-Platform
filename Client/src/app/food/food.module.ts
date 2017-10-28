@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { FoodListFormComponent } from './components/foodListForm/foodListForm.component';
-import { FoodListDetails } from './components/foodListDetails/foodListDetails.component';
-import { FoodComponent } from './components/food/food.component';
-import { FoodListComponent } from './components/foodlists/foodlists.component';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+import { FoodComponent } from './components/food/food.component';
+import { FoodListDetails } from './components/foodListDetails/foodListDetails.component';
+import { FoodListFormComponent } from './components/foodListForm/foodListForm.component';
+import { FoodListComponent } from './components/foodlists/foodlists.component';
 import { FoodRoutes } from './food.routes';
 
 @NgModule({
@@ -21,9 +22,6 @@ import { FoodRoutes } from './food.routes';
         FoodComponent,
         FoodListDetails,
         FoodListFormComponent
-    ],
-
-    providers: [
     ]
 })
 

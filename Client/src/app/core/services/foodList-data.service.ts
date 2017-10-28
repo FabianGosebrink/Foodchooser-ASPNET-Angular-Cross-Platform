@@ -12,8 +12,6 @@ export class FoodListDataService {
 
     private actionUrl: string;
 
-    @Output() foodListAdded: EventEmitter<any> = new EventEmitter();
-
     constructor(private _http: HttpWrapperService) {
 
         this.actionUrl = CONFIGURATION.baseUrls.server +
@@ -43,7 +41,7 @@ export class FoodListDataService {
     private setDate(foodItems: FoodItem[]) {
         for (let index = 0; index < foodItems.length; index++) {
             let element: FoodItem = foodItems[index];
-            element.Created = new Date(String(element.Created));
+            element.created = new Date(String(element.created));
         }
     }
 
@@ -52,7 +50,6 @@ export class FoodListDataService {
 
         return this._http.post(this.actionUrl, toAdd)
             .map((response: Response) => <FoodList>response.json())
-            .do((addedList) => this.foodListAdded.emit(addedList))
             .catch(this.handleError);
     }
 

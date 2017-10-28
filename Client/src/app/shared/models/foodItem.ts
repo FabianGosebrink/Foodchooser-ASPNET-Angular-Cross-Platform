@@ -1,10 +1,21 @@
+import { CONFIGURATION } from '../app.constants';
 
 export class FoodItem {
-    public Id: string;
-    public FoodListId: string;
-    public ItemName: string;
-    public PictureUrl: string;
-    public Created: Date;
-    public IsPublic: Boolean;
-    public ImageString: string;
+    private _imageString = '';
+    id: string;
+    foodListId: string;
+    itemName: string;
+    pictureUrl: string;
+    created: Date;
+    isPublic: Boolean;
+
+    get imageString(): string {
+        return this._imageString;
+    }
+
+    setImage(imageString: string) {
+        if (imageString) {
+            this._imageString = CONFIGURATION.baseUrls.server + imageString;
+        }
+    }
 }

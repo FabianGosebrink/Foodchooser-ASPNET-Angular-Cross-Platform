@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { FoodListDataService } from './../../../core/services/foodList-data.service';
 import { FoodList } from './../../../shared/models/foodList';
@@ -10,24 +10,12 @@ import { FoodList } from './../../../shared/models/foodList';
 
 export class FoodListFormComponent {
 
-    list: FoodList;
-    errorMessage: string;
+    @Output() onFoodListAdded = new EventEmitter();
+    list: FoodList = new FoodList();
 
-    constructor(private foodListDataService: FoodListDataService) {
-        this.list = new FoodList();
-    }
+    constructor() {  }
 
-    public addList() {
-        if (this.list.Name) {
-            this.foodListDataService
-                .addList(this.list.Name)
-                .subscribe((response: FoodList) => {
-                    this.list = new FoodList();
-                },
-                error => {
-                    console.log(error)
-                    this.errorMessage = error.Message;
-                });
-        }
+    addList() {
+        this.onFoodListAdded.emit(this.list.name);
     }
 }

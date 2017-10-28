@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
             .getRandomFood()
             .subscribe((response: FoodItem) => {
                 this.randomFood = response;
-                this.randomFood.ImageString = CONFIGURATION.baseUrls.server + this.randomFood.ImageString;
+                this.randomFood.setImage(CONFIGURATION.baseUrls.server + this.randomFood.imageString);
             }, (error: any) => {
                 if (error.status === 400) {
                     this.errorMessage = 'No food found :-(';
@@ -40,10 +40,10 @@ export class HomeComponent implements OnInit {
     }
 
     getRecipesWithGoogle(): void {
-        window.open('https://www.google.de/search?q=' + this.randomFood.ItemName, '_blank');
+        window.open('https://www.google.de/search?q=' + this.randomFood.itemName, '_blank');
     }
 
     getRecipesWithBing(): void {
-        window.open('https://www.bing.com/search?q=' + this.randomFood.ItemName, '_blank');
+        window.open('https://www.bing.com/search?q=' + this.randomFood.itemName, '_blank');
     }
 }
