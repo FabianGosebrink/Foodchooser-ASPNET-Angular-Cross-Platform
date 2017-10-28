@@ -1,6 +1,7 @@
-import { FoodListDataService } from './../../../core/services/foodList-data.service';
-import { FoodListWithImage, FoodList } from './../../../shared/models/foodList';
 import { Component, OnInit } from '@angular/core';
+
+import { FoodListDataService } from './../../../core/services/foodList-data.service';
+import { FoodList, FoodListWithImage } from './../../../shared/models/foodList';
 
 @Component({
     selector: 'foodlists-component',
@@ -29,24 +30,19 @@ export class FoodListComponent implements OnInit {
         this.allLists = [];
         this.allFoodLists = [];
         this.foodListDataService
-            .GetAllLists()
-            .subscribe((response: FoodList[]) => {
-                this.allFoodLists = response.value;
-            }, error => {
-                this.errorMessage = error;
-            }, () => {
-                console.log(this.allFoodLists);
+            .getAllLists()
+            .map((response: any) => response.value)
+            .map((items: FoodList[]) => {
+                this.allFoodLists = items;
+                return items;
+            }).map(() => {
                 this.allFoodLists.forEach(element => {
-                    console.log(element);
                     this.foodListDataService
-                        .GetRandomImageStringFromList(element.Id)
+                        .getRandomImageStringFromList(element.Id)
                         .subscribe((result: string) => {
-                            console.log(result);
-                            let foodListWithImage = new FoodListWithImage(element, result);
-                            this.allLists.push(foodListWithImage);
+                            this.allLists.push(new FoodListWithImage(element, result));
                         });
                 });
-
             });
     }
 }

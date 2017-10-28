@@ -19,7 +19,6 @@ using IdentityServer4.AccessTokenValidation;
 
 namespace FoodChooser.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Access Resources")]
     public class FoodListsController : Controller
@@ -129,7 +128,8 @@ namespace FoodChooser.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost(Name = nameof(AddList))]
+        [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme, Policy = "Modify Resources")]
         public IActionResult AddList([FromBody] FoodListDto viewModel)
         {
             if (viewModel == null)

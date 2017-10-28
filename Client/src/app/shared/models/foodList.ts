@@ -2,7 +2,7 @@ import { CONFIGURATION } from './../app.constants';
 import { FoodItem } from './FoodItem';
 
 export class FoodList {
-    public Id: number;
+    public Id: string;
     public Name: string;
     public Foods: FoodItem[];
 }

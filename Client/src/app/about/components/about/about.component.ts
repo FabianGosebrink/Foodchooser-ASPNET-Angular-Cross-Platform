@@ -7,27 +7,7 @@ import { Component } from '@angular/core';
     templateUrl: './about.component.html'
 })
 
-
 export class AboutComponent {
 
-    randomFood: FoodItem;
-    errorMessage: string;
-
-    constructor(private foodDataService: FoodDataService) {
-
-    }
-
-    public ngOnInit() {
-        this.foodDataService
-            .GetRandomFood()
-            .subscribe((response: FoodItem) => {
-                this.randomFood = response;
-            }, error => {
-                if (error.status === 404) {
-                    this.errorMessage = 'No food found :-(';
-                } else {
-                    this.errorMessage = error;
-                }
-            });
-    }
+    constructor() { }
 }

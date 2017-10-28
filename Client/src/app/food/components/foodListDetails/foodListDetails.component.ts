@@ -1,12 +1,13 @@
-import { FoodListDataService } from './../../../core/services/foodList-data.service';
-import { FoodDataService } from './../../../core/services/food-data.service';
-import { ICameraService } from './../../../core/services/camera.service';
-import { CONFIGURATION } from './../../../shared/app.constants';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { CameraFactory } from './../../../core/factories/cameraFactory';
+import { ICameraService } from './../../../core/services/camera.service';
+import { FoodDataService } from './../../../core/services/food-data.service';
+import { FoodListDataService } from './../../../core/services/foodList-data.service';
+import { CONFIGURATION } from './../../../shared/app.constants';
 import { FoodItem } from './../../../shared/models/foodItem';
 import { FoodList } from './../../../shared/models/foodList';
-import { Component, OnInit, NgZone } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'foodListDetails-component',
@@ -19,7 +20,7 @@ export class FoodListDetails implements OnInit {
     currentFoods: FoodItem[];
     currentFoodsBackUp: FoodItem[];
     currentFood: FoodItem;
-    private _listId: number;
+    private _listId: string;
     private _cameraService: ICameraService;
 
     constructor(
@@ -36,27 +37,27 @@ export class FoodListDetails implements OnInit {
 
     ngOnInit() {
         this._activatedRoute.params.subscribe(params => {
-            this._listId = +params['foodId'];
+            this._listId = params['foodId'];
             this.getSingleList(this._listId);
             this.getAllFoodFromList(this._listId);
         });
 
     }
 
-    private getSingleList(listId: number) {
+    private getSingleList(listId: string) {
 
         this._foodListDataService
-            .GetSingleList(listId)
+            .getSingleList(listId)
             .subscribe((response: FoodList) => {
                 this.currentFoodList = response;
                 console.log(this.currentFoodList)
-            }, error => console.log(error));
+            }, (error: any) => console.log(error));
     }
 
-    private getAllFoodFromList(listId: number) {
+    private getAllFoodFromList(listId: string) {
 
         this._foodListDataService
-            .GetFoodFromList(listId)
+            .getFoodFromList(listId)
             .subscribe((response: FoodItem[]) => {
                 this.currentFoods = response;
                 this.currentFoodsBackUp = response;
@@ -66,13 +67,13 @@ export class FoodListDetails implements OnInit {
                     console.log('----->' + element.ImageString);
                 });
 
-            }, error => console.log(error));
+            }, (error: any) => console.log(error));
     }
 
-    public togglePublic(food: FoodItem) {
+    togglePublic(food: FoodItem) {
         food.IsPublic = !food.IsPublic;
         this._foodDataService
-            .UpdateFood(food.Id, food)
+            .updateFood(food.Id, food)
             .subscribe((response: FoodItem) => {
                 this.getAllFoodFromList(this._listId);
             }, (response) => {
@@ -80,7 +81,7 @@ export class FoodListDetails implements OnInit {
             });
     }
 
-    public showRandomFoodFromList() {
+    showRandomFoodFromList() {
         this.currentFoods = this.currentFoodsBackUp;
 
         if (this.currentFoods.length > 1) {
@@ -91,11 +92,11 @@ export class FoodListDetails implements OnInit {
         }
     }
 
-    public setToUpdate(foodItem: FoodItem) {
+    setToUpdate(foodItem: FoodItem) {
         this.currentFood = foodItem;
     }
 
-    public addOrUpdateFood() {
+    addOrUpdateFood() {
         if (this.currentFood.Id) {
             this.updateFood(this.currentFood);
         } else {
@@ -105,7 +106,7 @@ export class FoodListDetails implements OnInit {
 
     private updateFood(foodItem: FoodItem) {
         this._foodDataService
-            .UpdateFood(foodItem.Id, foodItem)
+            .updateFood(foodItem.Id, foodItem)
             .subscribe((response: FoodItem) => {
                 this.getAllFoodFromList(this._listId);
                 this.currentFood = new FoodItem();
@@ -117,7 +118,7 @@ export class FoodListDetails implements OnInit {
             foodItem.FoodListId = this.currentFoodList.Id;
 
             this._foodDataService
-                .AddFood(foodItem)
+                .addFood(foodItem)
                 .subscribe((response: FoodItem) => {
                     this.getAllFoodFromList(this._listId);
                     this.currentFood = new FoodItem();
@@ -125,10 +126,10 @@ export class FoodListDetails implements OnInit {
         }
     }
 
-    public deleteList() {
+    deleteList() {
         if (this.currentFoodList) {
             this._foodListDataService
-                .DeleteList(this.currentFoodList.Id)
+                .deleteList(this.currentFoodList.Id)
                 .subscribe((response: any) => {
                     let link = ['/foodlists'];
                     this._router.navigate(link);
@@ -136,17 +137,17 @@ export class FoodListDetails implements OnInit {
         }
     }
 
-    public deleteFood(foodId: number) {
+    deleteFood(foodId: number) {
 
         this._foodDataService
-            .DeleteFood(foodId)
+            .deleteFood(foodId)
             .subscribe((response: any) => {
                 this.getAllFoodFromList(this._listId);
             }, error => console.log(error));
 
     }
 
-    public takePhoto(foodItem: FoodItem) {
+    takePhoto(foodItem: FoodItem) {
         this._cameraService
             .getPhoto()
             .subscribe((url: string) => {

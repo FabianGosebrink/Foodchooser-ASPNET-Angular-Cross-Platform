@@ -1,6 +1,7 @@
+import { Component } from '@angular/core';
+
 import { FoodListDataService } from './../../../core/services/foodList-data.service';
 import { FoodList } from './../../../shared/models/foodList';
-import { Component } from '@angular/core';
 
 @Component({
     selector: 'foodListForm-component',
@@ -19,7 +20,7 @@ export class FoodListFormComponent {
     public addList() {
         if (this.list.Name) {
             this.foodListDataService
-                .AddList(this.list.Name)
+                .addList(this.list.Name)
                 .subscribe((response: FoodList) => {
                     this.list = new FoodList();
                 },

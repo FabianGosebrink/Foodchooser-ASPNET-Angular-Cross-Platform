@@ -1,14 +1,14 @@
-import { CONFIGURATION } from './../../../shared/app.constants';
+import { Component, OnInit } from '@angular/core';
+
 import { AuthenticationService } from './../../../core/services/authentication.service';
 import { FoodDataService } from './../../../core/services/food-data.service';
+import { CONFIGURATION } from './../../../shared/app.constants';
 import { FoodItem } from './../../../shared/models/foodItem';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'home-component',
     templateUrl: './home.component.html'
 })
-
 
 export class HomeComponent implements OnInit {
 
@@ -26,11 +26,11 @@ export class HomeComponent implements OnInit {
     public getRandomFood() {
         this.randomFood = null;
         this.foodDataService
-            .GetRandomFood()
+            .getRandomFood()
             .subscribe((response: FoodItem) => {
                 this.randomFood = response;
                 this.randomFood.ImageString = CONFIGURATION.baseUrls.server + this.randomFood.ImageString;
-            }, error => {
+            }, (error: any) => {
                 if (error.status === 400) {
                     this.errorMessage = 'No food found :-(';
                 } else {
