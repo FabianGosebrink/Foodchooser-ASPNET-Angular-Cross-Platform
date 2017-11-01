@@ -41,7 +41,10 @@ export class FoodListDataService {
                 foodItems.map((foodItem: FoodItem) => {
                     foodItem.created = new Date(String(foodItem.created));
                     foodItem.imageString =
-                        CONFIGURATION.baseUrls.server + foodItem.imageString;
+                        CONFIGURATION.baseUrls.server + 
+                        CONFIGURATION.baseUrls.foodImageFolder +
+                        foodItem.imageString;
+                    console.log(foodItem.imageString);
                 });
                 return foodItems;
             })

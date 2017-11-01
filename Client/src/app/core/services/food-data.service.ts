@@ -17,25 +17,34 @@ export class FoodDataService {
             'foods/';
     }
 
-    public getAllFood(): Observable<FoodItem[]> {
+    getAllFood(): Observable<FoodItem[]> {
         return this._http.get(this.actionUrl)
             .map((response: Response) => <FoodItem[]>response.json())
             .catch(this.handleError);
     }
 
-    public getSingleFood(id: number): Observable<FoodItem> {
+    getSingleFood(id: number): Observable<FoodItem> {
         return this._http.get(this.actionUrl + id)
             .map((response: Response) => <FoodItem>response.json())
             .catch(this.handleError);
     }
 
-    public getRandomFood(): Observable<FoodItem> {
+    getRandomFood(): Observable<FoodItem> {
         return this._http.get(this.actionUrl + 'getrandomfood')
             .map((response: Response) => <FoodItem>response.json())
+            .map((foodItem: FoodItem) => {
+
+                foodItem.imageString =
+                    CONFIGURATION.baseUrls.server +
+                    CONFIGURATION.baseUrls.foodImageFolder +
+                    foodItem.imageString;
+                return foodItem;
+
+            })
             .catch(this.handleError);
     }
 
-    public addFood(foodItem: FoodItem): Observable<FoodItem> {
+    addFood(foodItem: FoodItem): Observable<FoodItem> {
         let toAdd: string = JSON.stringify(foodItem);
 
         return this._http.post(this.actionUrl, toAdd)
@@ -43,13 +52,13 @@ export class FoodDataService {
             .catch(this.handleError);
     }
 
-    public updateFood(id: string, foodToUpdate: FoodItem): Observable<FoodItem> {
+    updateFood(id: string, foodToUpdate: FoodItem): Observable<FoodItem> {
         return this._http.put(this.actionUrl + id, JSON.stringify(foodToUpdate))
             .map((response: Response) => <FoodItem>response.json())
             .catch(this.handleError);
     }
 
-    public deleteFood(id: number): Observable<Response> {
+    deleteFood(id: number): Observable<Response> {
         return this._http.delete(this.actionUrl + id)
             .catch(this.handleError);
     }

@@ -131,7 +131,7 @@ namespace FoodChooser.Controllers
             FoodList singleFoodList = _foodListRepository.GetSingle(viewModel.FoodListId, true);
             FoodItem item = Mapper.Map<FoodItem>(viewModel);
             item.Created = DateTime.Now;
-            item.ImageString = Path.Combine(_appSettingsAccessor.ImageSaveFolder, _appSettingsAccessor.DummyImageName);
+            item.ImageString = _appSettingsAccessor.DummyImageName;
             singleFoodList.Foods.Add(item);
             _foodListRepository.Update(singleFoodList);
 
@@ -211,7 +211,7 @@ namespace FoodChooser.Controllers
                 return String.Empty;
             }
 
-            string filePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder);
+            string filePath = Path.Combine(_hostingEnvironment.WebRootPath, _appSettingsAccessor.ImageSaveFolder);
 
             //Check if directory exist
             if (!System.IO.Directory.Exists(filePath))
@@ -248,7 +248,7 @@ namespace FoodChooser.Controllers
                 if (singleById.ImageString != _appSettingsAccessor.DummyImageName)
                 {
                     // if old image is there
-                    var oldimagePath = Path.Combine(_hostingEnvironment.ContentRootPath, _appSettingsAccessor.ImageSaveFolder, singleById.ImageString);
+                    var oldimagePath = Path.Combine(_hostingEnvironment.WebRootPath, _appSettingsAccessor.ImageSaveFolder, singleById.ImageString);
 
                     // delete old image
                     if (System.IO.File.Exists(oldimagePath))

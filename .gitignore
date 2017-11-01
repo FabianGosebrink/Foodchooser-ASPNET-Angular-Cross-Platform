@@ -24,3 +24,5 @@ Client/aot/
 Client/src/.aot
 Client/src/app/**/*.js
 Client/src/app/**/*.js.map
+
+/Server/FoodChooser/wwwroot/FoodImages/*.png

@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
             .getRandomFood()
             .subscribe((response: FoodItem) => {
                 this.randomFood = response;
-                this.randomFood.imageString = CONFIGURATION.baseUrls.server + this.randomFood.imageString;
             }, (error: any) => {
                 if (error.status === 400) {
                     this.errorMessage = 'No food found :-(';

@@ -1,7 +1,8 @@
 export var CONFIGURATION = {
     baseUrls: {
         server: 'http://localhost:64942/',
-        apiUrl: 'api/'
+        apiUrl: 'api/',
+        foodImageFolder: 'foodimages/'
     },
     authConfig: {
         CLIENT_ID: 'AngularFoodClient',

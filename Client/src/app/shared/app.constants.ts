@@ -2,7 +2,8 @@ export let CONFIGURATION = {
   baseUrls: {
     server: 'http://localhost:64942/',
     // server: 'https://foodchooser.azurewebsites.net/',
-    apiUrl: 'api/'
+    apiUrl: 'api/',
+    foodImageFolder: 'foodimages/'
   },
   authConfig: {
     CLIENT_ID: 'AngularFoodClient',

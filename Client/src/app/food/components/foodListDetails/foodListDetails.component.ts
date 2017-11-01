@@ -138,7 +138,7 @@ export class FoodListDetails implements OnInit {
                 foodItem.imageString = url;
                 return foodItem;
             })
-            .map((item: FoodItem) => {
+            .switchMap((item: FoodItem) => {
                 return this._foodDataService.updateFood(item.id, item)
             })
             .switchMap(() => {
