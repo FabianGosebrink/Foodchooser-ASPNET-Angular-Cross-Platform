@@ -19,7 +19,7 @@
     },
     "exclude": [
       "node_modules",
-      "./src/app/main-aot.ts"
+      "./src/main-aot.ts"
     ],
     "awesomeTypescriptLoaderOptions": {
       "useWebpackText": true

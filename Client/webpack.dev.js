@@ -11,7 +11,7 @@ module.exports = {
     },
 
     entry: {
-        'app': './src/app/main.ts' // JiT compilation
+        'app': './src/main.ts' // JiT compilation
     },
 
     output: {

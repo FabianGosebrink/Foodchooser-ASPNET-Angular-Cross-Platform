@@ -8,7 +8,7 @@ const ngToolsWebpack = require('@ngtools/webpack');
 
 module.exports = {
     entry: {
-        'app': './src/app/main-aot.ts' // AoT compilation
+        'app': './src/main-aot.ts' // AoT compilation
     },
 
     output: {
