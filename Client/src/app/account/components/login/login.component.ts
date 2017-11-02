@@ -1,8 +1,9 @@
-import { Token } from './../../../shared/models/token';
-import { LoginUser } from './../../../shared/models/loginUser';
-import { AuthenticationService } from './../../../core/services/authentication.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { AuthenticationService } from './../../../core/services/authentication.service';
+import { LoginUser } from './../../../shared/models/loginUser';
+import { Token } from './../../../shared/models/token';
 
 @Component({
     selector: 'login-component',
@@ -18,7 +19,7 @@ export class LoginComponent {
         this.loginUser = new LoginUser();
     }
 
-    public doLoginUser() {
+    doLoginUser() {
         this.authService
             .loginUser(this.loginUser.Username, this.loginUser.Password)
             .subscribe(

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from './../../../core/services/authentication.service';
 import { FoodDataService } from './../../../core/services/food-data.service';
-import { CONFIGURATION } from './../../../shared/app.constants';
 import { FoodItem } from './../../../shared/models/foodItem';
 
 @Component({
@@ -12,19 +11,18 @@ import { FoodItem } from './../../../shared/models/foodItem';
 
 export class HomeComponent implements OnInit {
 
-    public randomFood: FoodItem;
-    public errorMessage: string;
+    randomFood: FoodItem;
+    errorMessage: string;
 
     constructor(
         private foodDataService: FoodDataService,
         public authenticationService: AuthenticationService) { }
 
-    public ngOnInit() {
+    ngOnInit() {
         this.getRandomFood();
     }
 
-    public getRandomFood() {
-        this.randomFood = null;
+    getRandomFood() {
         this.foodDataService
             .getRandomFood()
             .subscribe((response: FoodItem) => {

@@ -1,7 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 
 import { FoodComponent } from './components/food/food.component';
 import { FoodListDetails } from './components/foodListDetails/foodListDetails.component';
@@ -12,7 +12,7 @@ import { FoodRoutes } from './food.routes';
 @NgModule({
     imports: [
         CommonModule,
-        HttpModule,
+        HttpClientModule,
         FormsModule,
         FoodRoutes
     ],

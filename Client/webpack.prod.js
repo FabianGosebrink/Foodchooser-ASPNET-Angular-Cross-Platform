@@ -1,9 +1,9 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var CompressionPlugin = require("compression-webpack-plugin");
-var path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
+const path = require('path');
 const ngToolsWebpack = require('@ngtools/webpack');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
                 use: '@ngtools/webpack'
             },
             {
@@ -48,9 +48,8 @@ module.exports = {
                 './.dist/web/aot/'
             ]
         ),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true,
-            debug: false
+        new ngToolsWebpack.AngularCompilerPlugin({
+            tsConfigPath: './tsconfig-aot.json'
         }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {

@@ -1,5 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Rx';
@@ -11,7 +11,7 @@ import { CurrentUserService } from './currentUser.service';
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private http: Http,
+    constructor(private http: HttpClient,
         private currentUserService: CurrentUserService,
         private router: Router) {
     }
@@ -29,7 +29,9 @@ export class AuthenticationService {
 
         const body = clientId.concat('&', grantType, '&', usernameForBody, '&', passwordForBody, '&', scope);
 
-        const options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }) });
+        const options = {
+            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+        };
 
         return Observable.create((observer: Observer<Token>) => {
             this.http.post(CONFIGURATION.baseUrls.server + 'connect/token', body, options)
@@ -44,7 +46,7 @@ export class AuthenticationService {
     }
 
     logoutUser() {
-        this.currentUserService.token = null;
+        this.currentUserService.token = '';
         this.router.navigate(['/home']);
     }
 

@@ -1,5 +1,5 @@
+import { HttpResponse } from '@angular/common/http/src/response';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { CONFIGURATION } from './../../shared/app.constants';
@@ -18,20 +18,17 @@ export class FoodDataService {
     }
 
     getAllFood(): Observable<FoodItem[]> {
-        return this._http.get(this.actionUrl)
-            .map((response: Response) => <FoodItem[]>response.json())
+        return this._http.get<FoodItem[]>(this.actionUrl)
             .catch(this.handleError);
     }
 
     getSingleFood(id: number): Observable<FoodItem> {
-        return this._http.get(this.actionUrl + id)
-            .map((response: Response) => <FoodItem>response.json())
+        return this._http.get<FoodItem>(this.actionUrl + id)
             .catch(this.handleError);
     }
 
     getRandomFood(): Observable<FoodItem> {
-        return this._http.get(this.actionUrl + 'getrandomfood')
-            .map((response: Response) => <FoodItem>response.json())
+        return this._http.get<FoodItem>(this.actionUrl + 'getrandomfood')
             .map((foodItem: FoodItem) => {
 
                 foodItem.imageString =
@@ -47,23 +44,21 @@ export class FoodDataService {
     addFood(foodItem: FoodItem): Observable<FoodItem> {
         let toAdd: string = JSON.stringify(foodItem);
 
-        return this._http.post(this.actionUrl, toAdd)
-            .map((response: Response) => <FoodItem>response.json())
+        return this._http.post<FoodItem>(this.actionUrl, toAdd)
             .catch(this.handleError);
     }
 
     updateFood(id: string, foodToUpdate: FoodItem): Observable<FoodItem> {
-        return this._http.put(this.actionUrl + id, JSON.stringify(foodToUpdate))
-            .map((response: Response) => <FoodItem>response.json())
+        return this._http.put<FoodItem>(this.actionUrl + id, JSON.stringify(foodToUpdate))
             .catch(this.handleError);
     }
 
-    deleteFood(id: number): Observable<Response> {
+    deleteFood(id: number): Observable<object> {
         return this._http.delete(this.actionUrl + id)
             .catch(this.handleError);
     }
 
-    private handleError(error: Response) {
+    private handleError(error: HttpResponse<any>) {
         console.error(error);
         return Observable.throw(error || 'Server error');
     }

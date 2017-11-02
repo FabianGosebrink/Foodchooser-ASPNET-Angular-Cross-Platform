@@ -1,56 +1,54 @@
+import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
 import { CurrentUserService } from '../services/currentUser.service';
 
 @Injectable()
 export class HttpWrapperService {
-    constructor(private _http: Http, private _currentUserService: CurrentUserService) {
+    constructor(private http: HttpClient, private currentUserService: CurrentUserService) { }
 
+    get<T>(url: string): Observable<T> {
+        return this.http.get<T>(url);
     }
 
-    public get = (url: string, options?: RequestOptionsArgs): Observable<Response> => {
-        options = this.prepareOptions(options);
-
-        return this._http.get(url, options);
-    };
-
-    public post = (url: string, body: string, options?: RequestOptionsArgs): Observable<Response> => {
-        options = this.prepareOptions(options);
-        return this._http.post(url, body, options);
-    };
-
-    public put = (url: string, body: string, options?: RequestOptionsArgs): Observable<Response> => {
-        options = this.prepareOptions(options);
-        return this._http.put(url, body, options);
+    post<T>(url: string, body: any): Observable<T> {
+        return this.http.post<T>(url, body);
     }
 
-    public delete = (url: string, options?: RequestOptionsArgs): Observable<Response> => {
-        options = this.prepareOptions(options);
-        return this._http.delete(url, options);
+    put<T>(url: string, body: string): Observable<T> {
+        return this.http.put<T>(url, body);
     }
 
-    public patch = (url: string, body: string, options?: RequestOptionsArgs): Observable<Response> => {
-        options = this.prepareOptions(options);
-        return this._http.patch(url, body, options);
+    delete<T>(url: string): Observable<T> {
+        return this.http.delete<T>(url);
     }
 
-    private prepareOptions(options: RequestOptionsArgs): RequestOptionsArgs {
-        let token: string = this._currentUserService.token;
+    patch<T>(url: string, body: string): Observable<T> {
+        return this.http.patch<T>(url, body);
+    }
+}
 
-        options = options || {};
 
-        if (!options.headers) {
-            options.headers = new Headers();
-        }
+@Injectable()
+export class MyFirstInterceptor implements HttpInterceptor {
+
+    constructor(private currentUserService: CurrentUserService) { }
+
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // console.log(JSON.stringify(req));
+
+        const token: string = this.currentUserService.token;
 
         if (token) {
-            options.headers.append('Authorization', 'Bearer ' + token);
+            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
         }
 
-        options.headers.append('Content-Type', 'application/json');
-        options.headers.append('Accept', 'application/json');
+        if (!req.headers.has('Content-Type')) {
+            req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
+        }
 
-        return options;
+        req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
+        return next.handle(req);
     }
 }
