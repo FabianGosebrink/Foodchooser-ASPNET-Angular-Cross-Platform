@@ -9,19 +9,16 @@ export class CurrentUserService {
 
     }
 
-    public get token(): string {
-        let token = this.storageService.getItem('auth');
-
-        return token;
+    get token(): string {
+        return this.storageService.getItem('auth');
     }
 
-    public set token(token: string) {
+    set token(token: string) {
         this.storageService.setItem('auth', token);
     }
 
     get username() {
-        const username = this.storageService.getItem('username');
-        return username;
+        return this.storageService.getItem('username');
     }
 
     set username(username: string) {

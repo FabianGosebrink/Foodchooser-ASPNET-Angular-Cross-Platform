@@ -10,7 +10,7 @@ export class MobileCameraService implements ICameraService {
         console.log('MobileCameraService');
     }
 
-    public getPhoto = (): Observable<string> => {
+    getPhoto = (): Observable<string> => {
         return Observable.create((observer: Observer<string>) => {
             let removeDomListener = () => {
                 document.removeEventListener('deviceready', onCordovaDeviceReady);

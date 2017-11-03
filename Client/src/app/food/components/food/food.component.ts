@@ -24,7 +24,7 @@ export class FoodComponent implements OnInit {
             });
     }
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.foodListDataService
             .getAllLists()
             .pipe(map((response: any) => response.value))

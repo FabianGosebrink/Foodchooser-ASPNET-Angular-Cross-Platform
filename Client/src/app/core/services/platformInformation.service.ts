@@ -8,15 +8,15 @@ export class PlatformInformationService {
     private _isDesktop: boolean;
     private _isWeb: boolean;
 
-    public get isMobile(): boolean {
+    get isMobile(): boolean {
         return this._isMobile;
     }
 
-    public get isDesktop(): boolean {
+    get isDesktop(): boolean {
         return this._isDesktop;
     }
 
-    public get isWeb(): boolean {
+    get isWeb(): boolean {
         return this._isWeb;
     }
 

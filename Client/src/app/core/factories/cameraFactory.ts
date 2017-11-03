@@ -1,7 +1,8 @@
+import { Injectable } from '@angular/core';
+
 import { DesktopCameraService } from './../services/desktopCamera.service';
 import { MobileCameraService } from './../services/mobileCamera.service';
 import { PlatformInformationService } from './../services/platformInformation.service';
-import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CameraFactory {
@@ -10,7 +11,7 @@ export class CameraFactory {
 
     }
 
-    public getCameraService = (): any => {
+    getCameraService(): any {
 
         if (this._platfornInformationService.isMobile) {
             return new MobileCameraService();

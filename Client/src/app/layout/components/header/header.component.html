@@ -22,7 +22,7 @@
                     <a [routerLink]="['/account/login']"><i class="fa fa-dashboard fa-fw"></i> Login/Register</a>
                 </li>
                 <li *ngIf="authenticationService.isAuthenticated">
-                    <a href="" class="respond-click" (click)="logout()">Logout</a>
+                    <a class="respond-click" (click)="logout()">Logout</a>
                 </li>
             </ul>
         </div>

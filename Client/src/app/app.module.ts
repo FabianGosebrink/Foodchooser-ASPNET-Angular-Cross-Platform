@@ -13,13 +13,13 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
     imports: [
         BrowserModule,
+        CoreModule.forRoot(),
         AppRoutes,
         HttpClientModule,
         FormsModule,
         HomeModule,
         LayoutModule,
 
-        CoreModule.forRoot(),
         SharedModule
     ],
 

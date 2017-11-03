@@ -1,5 +1,5 @@
-import { AboutComponent } from './components/about/about.component';
 import { RouterModule } from '@angular/router';
+import { AboutComponent } from './components/about/about.component';
 var aboutRoutes = [
     { path: '', component: AboutComponent }
 ];
