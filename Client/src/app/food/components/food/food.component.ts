@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 import { FoodListDataService } from '../../../core/services/foodList-data.service';
 import { FoodList } from '../../../shared/models/foodList';
@@ -17,7 +18,7 @@ export class FoodComponent implements OnInit {
     addFood(foodListname: string) {
         this.foodListDataService
             .addList(foodListname)
-            .map((response: any) => response.value)
+            .pipe(map((response: any) => response.value))
             .subscribe((addedList: FoodList) => {
                 this.lists.push(addedList);
             });
@@ -26,7 +27,7 @@ export class FoodComponent implements OnInit {
     public ngOnInit(): void {
         this.foodListDataService
             .getAllLists()
-            .map((response: any) => response.value)
+            .pipe(map((response: any) => response.value))
             .subscribe((lists: FoodList[]) => {
                 this.lists = lists;
             });

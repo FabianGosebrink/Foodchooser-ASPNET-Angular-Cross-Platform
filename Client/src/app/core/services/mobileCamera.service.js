@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 var MobileCameraService = (function () {
     function MobileCameraService() {
         this.getPhoto = function () {

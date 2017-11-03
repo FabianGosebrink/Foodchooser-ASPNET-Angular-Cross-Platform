@@ -1,5 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 
 import { CameraFactory } from './../../../core/factories/cameraFactory';
 import { ICameraService } from './../../../core/services/camera.service';
@@ -41,12 +42,12 @@ export class FoodListDetails implements OnInit {
     private getSingleList(listId: string) {
         this._foodListDataService
             .getSingleList(listId)
-            .map((response: FoodList) => {
+            .pipe(map((response: FoodList) => {
                 this.currentFoodList = response;
-            })
-            .switchMap(() => {
+            }),
+            switchMap(() => {
                 return this._foodListDataService.getFoodFromList(listId)
-            })
+            }))
             .subscribe((foodItems: FoodItem[]) => {
                 this.currentFoodList.foods = foodItems;
             });
@@ -98,12 +99,12 @@ export class FoodListDetails implements OnInit {
 
             this._foodDataService
                 .addFood(foodItem)
-                .map((response: FoodItem) => {
+                .pipe(map((response: FoodItem) => {
                     this.currentFood = new FoodItem();
-                })
-                .switchMap(() => {
+                }),
+                switchMap(() => {
                     return this._foodListDataService.getFoodFromList(foodItem.foodListId)
-                })
+                }))
                 .subscribe((foodItems: FoodItem[]) => {
                     this.currentFoodList.foods = foodItems;
                 });
@@ -134,16 +135,18 @@ export class FoodListDetails implements OnInit {
     takePhoto(foodItem: FoodItem) {
         this._cameraService
             .getPhoto()
-            .map((url: string) => {
+            .pipe(
+            map((url: string) => {
                 foodItem.imageString = url;
                 return foodItem;
-            })
-            .switchMap((item: FoodItem) => {
+            }),
+            switchMap((item: FoodItem) => {
                 return this._foodDataService.updateFood(item.id, item)
-            })
-            .switchMap(() => {
+            }),
+            switchMap(() => {
                 return this._foodListDataService.getFoodFromList(foodItem.foodListId)
             })
+            )
             .subscribe((foodItems: FoodItem[]) => {
                 this.currentFoodList.foods = foodItems;
             });

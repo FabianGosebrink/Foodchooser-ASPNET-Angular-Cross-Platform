@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Rx';
+import { Observer } from 'rxjs/Observer';
 
 import { CONFIGURATION } from './../../shared/app.constants';
 import { Token } from './../../shared/models/token';
@@ -34,8 +34,7 @@ export class AuthenticationService {
         };
 
         return Observable.create((observer: Observer<Token>) => {
-            this.http.post(CONFIGURATION.baseUrls.server + 'connect/token', body, options)
-                .map((response: any) => <Token>response.json())
+            this.http.post<Token>(CONFIGURATION.baseUrls.server + 'connect/token', body, options)
                 .subscribe((tokenData: Token) => {
                     this.currentUserService.token = tokenData.access_token;
                     this.currentUserService.username = username;

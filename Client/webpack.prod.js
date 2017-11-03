@@ -5,9 +5,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const path = require('path');
 const ngToolsWebpack = require('@ngtools/webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: {
+        'polyfills': './src/polyfills.ts',
+        'vendor': './src/vendor.ts',
         'app': './src/main-aot.ts' // AoT compilation
     },
 
@@ -18,7 +21,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html']
+        extensions: ['.ts', '.js', '.json']
     },
 
     module: {
@@ -33,24 +36,30 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|ico|woff|woff2|ttf|svg|eot)$/,
-                loader: 'file-loader?name=assets/[name]-[hash:6].[ext]',
+                use: 'file-loader?name=assets/[name]-[hash:6].[ext]',
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('css-loader')
+                use: ExtractTextPlugin.extract('css-loader')
             }
         ],
         exprContextCritical: false
     },
     plugins: [
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static'
+        }),
+
         new CleanWebpackPlugin(
             [
                 './.dist/web/aot/'
             ]
         ),
+
         new ngToolsWebpack.AngularCompilerPlugin({
             tsConfigPath: './tsconfig-aot.json'
         }),
+
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
@@ -60,6 +69,7 @@ module.exports = {
             },
             sourceMap: false
         }),
+
         new CompressionPlugin({
             asset: "[path].gz[query]",
             algorithm: "gzip",
@@ -67,12 +77,20 @@ module.exports = {
             threshold: 10240,
             minRatio: 0.8
         }),
+
         new ExtractTextPlugin("styles.css"),
+
+        new webpack.optimize.CommonsChunkPlugin(
+        {
+            name: ['vendor', 'polyfills']
+        }),
+
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
             template: './src/index.html'
         }),
+
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',

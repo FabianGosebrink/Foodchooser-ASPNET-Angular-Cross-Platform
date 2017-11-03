@@ -1,6 +1,8 @@
 import { HttpResponse } from '@angular/common/http/src/response';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { catchError, map } from 'rxjs/operators';
 
 import { CONFIGURATION } from './../../shared/app.constants';
 import { FoodItem } from './../../shared/models/foodItem';
@@ -18,44 +20,43 @@ export class FoodDataService {
     }
 
     getAllFood(): Observable<FoodItem[]> {
-        return this._http.get<FoodItem[]>(this.actionUrl)
-            .catch(this.handleError);
+        return this._http.get<FoodItem[]>(this.actionUrl).pipe(catchError(this.handleError));
     }
 
     getSingleFood(id: number): Observable<FoodItem> {
-        return this._http.get<FoodItem>(this.actionUrl + id)
-            .catch(this.handleError);
+        return this._http.get<FoodItem>(this.actionUrl + id).pipe(catchError(this.handleError));
     }
 
     getRandomFood(): Observable<FoodItem> {
         return this._http.get<FoodItem>(this.actionUrl + 'getrandomfood')
-            .map((foodItem: FoodItem) => {
+            .pipe(
+                map((foodItem: FoodItem) => {
 
-                foodItem.imageString =
-                    CONFIGURATION.baseUrls.server +
-                    CONFIGURATION.baseUrls.foodImageFolder +
-                    foodItem.imageString;
-                return foodItem;
+                    foodItem.imageString =
+                        CONFIGURATION.baseUrls.server +
+                        CONFIGURATION.baseUrls.foodImageFolder +
+                        foodItem.imageString;
+                    return foodItem;
 
-            })
-            .catch(this.handleError);
+                }),
+                catchError(this.handleError)
+            );
     }
 
     addFood(foodItem: FoodItem): Observable<FoodItem> {
         let toAdd: string = JSON.stringify(foodItem);
 
-        return this._http.post<FoodItem>(this.actionUrl, toAdd)
-            .catch(this.handleError);
+        return this._http.post<FoodItem>(this.actionUrl, toAdd).pipe(catchError(this.handleError));
     }
 
     updateFood(id: string, foodToUpdate: FoodItem): Observable<FoodItem> {
         return this._http.put<FoodItem>(this.actionUrl + id, JSON.stringify(foodToUpdate))
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     deleteFood(id: number): Observable<object> {
         return this._http.delete(this.actionUrl + id)
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpResponse<any>) {

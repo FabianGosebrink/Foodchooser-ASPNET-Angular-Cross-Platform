@@ -1,8 +1,8 @@
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let webpack = require('webpack');
-let HtmlWebpackPlugin = require('html-webpack-plugin');
-let CleanWebpackPlugin = require('clean-webpack-plugin');
-let path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     devtool: 'cheap-module-eval-source-map',
@@ -51,16 +51,20 @@ module.exports = {
     },
 
     plugins: [
+
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: 'body',
             template: './src/index.html'
         }),
+
         new webpack.optimize.ModuleConcatenationPlugin(),
+
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)@angular/,
-            path.resolve(__dirname, '../src')
+            path.resolve(__dirname, './src')
         ),
+
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',

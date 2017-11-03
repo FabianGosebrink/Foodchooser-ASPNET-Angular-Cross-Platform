@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http/src/response';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { catchError, map } from 'rxjs/operators';
 
 import { CONFIGURATION } from './../../shared/app.constants';
 import { FoodItem } from './../../shared/models/foodItem';
@@ -21,17 +22,18 @@ export class FoodListDataService {
 
     getAllLists(): Observable<FoodList[]> {
         return this._http.get<FoodList[]>(this.actionUrl)
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     getSingleList(id: string): Observable<FoodList> {
         return this._http.get<FoodList>(this.actionUrl + id)
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     getFoodFromList(id: string): Observable<FoodItem[]> {
         return this._http.get<FoodItem[]>(this.actionUrl + id + '/foods')
-            .map((foodItems: FoodItem[]) => {
+            .pipe(
+            map((foodItems: FoodItem[]) => {
                 foodItems.map((foodItem: FoodItem) => {
                     foodItem.created = new Date(String(foodItem.created));
                     foodItem.imageString =
@@ -41,30 +43,30 @@ export class FoodListDataService {
                     console.log(foodItem.imageString);
                 });
                 return foodItems;
-            })
-            .catch(this.handleError);
+            }),
+            catchError(this.handleError));
     }
 
     addList(foodListName: string): Observable<FoodList> {
         let toAdd: string = JSON.stringify({ Name: foodListName });
 
         return this._http.post<FoodItem[]>(this.actionUrl, toAdd)
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     updateList(id: string, listToUpdate: FoodList): Observable<FoodList> {
         return this._http.put<FoodList>(this.actionUrl + id, JSON.stringify(listToUpdate))
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     deleteList(id: string): Observable<object> {
         return this._http.delete(this.actionUrl + id)
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     getRandomImageStringFromList(id: string): Observable<string> {
         return this._http.get<string>(this.actionUrl + id + '/getrandomimage')
-            .catch(this.handleError);
+            .pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpResponse<any>) {
