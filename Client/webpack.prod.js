@@ -5,6 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CompressionPlugin = require("compression-webpack-plugin");
 const path = require('path');
 const ngToolsWebpack = require('@ngtools/webpack');
+const rxPaths = require('rxjs/_esm5/path-mapping');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -21,7 +22,8 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
+        alias: rxPaths()
     },
 
     module: {
@@ -59,6 +61,8 @@ module.exports = {
         new ngToolsWebpack.AngularCompilerPlugin({
             tsConfigPath: './tsconfig-aot.json'
         }),
+
+        new webpack.optimize.ModuleConcatenationPlugin(),
 
         new webpack.optimize.UglifyJsPlugin({
             compress: {
