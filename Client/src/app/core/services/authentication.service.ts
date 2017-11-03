@@ -1,20 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Rx';
 
 import { CONFIGURATION } from './../../shared/app.constants';
 import { Token } from './../../shared/models/token';
 import { CurrentUserService } from './currentUser.service';
+import { Observer } from 'rxjs/Observer';
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private http: HttpClient,
-        private currentUserService: CurrentUserService,
-        private router: Router) {
-    }
+    constructor(private currentUserService: CurrentUserService,
+        private http: HttpClient,
+        private router: Router) { }
 
     get isAuthenticated(): boolean {
         return !!this.currentUserService.token;

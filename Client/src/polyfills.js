@@ -1,3 +1,4 @@
+import 'ie-shim';
 import 'core-js/es6/array';
 import 'core-js/es6/date';
 import 'core-js/es6/function';
@@ -16,6 +17,5 @@ import 'core-js/es6/typed';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/weak-set';
 import 'core-js/es7/reflect';
-import 'ie-shim';
 import 'zone.js/dist/zone';
 //# sourceMappingURL=polyfills.js.map

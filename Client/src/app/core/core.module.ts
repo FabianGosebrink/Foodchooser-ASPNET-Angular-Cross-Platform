@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { NgModule } from '@angular/core';
 
@@ -13,7 +13,7 @@ import { PlatformInformationService } from './services/platformInformation.servi
 import { StorageService } from './services/storage.service';
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [CommonModule, HttpClientModule],
     exports: [],
     declarations: [],
     providers: [

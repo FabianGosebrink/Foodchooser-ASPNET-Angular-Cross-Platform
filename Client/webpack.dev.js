@@ -11,6 +11,8 @@ module.exports = {
     },
 
     entry: {
+        'polyfills': './src/polyfills.ts',
+        'vendor': './src/vendor.ts',
         'app': './src/main.ts' // JiT compilation
     },
 
@@ -58,12 +60,15 @@ module.exports = {
             template: './src/index.html'
         }),
 
-        new webpack.optimize.ModuleConcatenationPlugin(),
-
         new webpack.ContextReplacementPlugin(
             /angular(\\|\/)core(\\|\/)@angular/,
             path.resolve(__dirname, './src')
         ),
+
+        new webpack.optimize.CommonsChunkPlugin(
+            {
+                name: ['vendor', 'polyfills']
+            }),
 
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
