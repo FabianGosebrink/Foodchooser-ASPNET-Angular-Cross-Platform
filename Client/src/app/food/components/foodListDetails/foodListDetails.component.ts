@@ -17,7 +17,9 @@ import { FoodList } from './../../../shared/models/foodList';
 export class FoodListDetails implements OnInit {
 
     currentFoodList: FoodList;
+    currentFoodListBackup: FoodList;
     currentFood: FoodItem = new FoodItem();
+
     private _listId: string;
     private _cameraService: ICameraService;
 
@@ -50,6 +52,7 @@ export class FoodListDetails implements OnInit {
             }))
             .subscribe((foodItems: FoodItem[]) => {
                 this.currentFoodList.foods = foodItems;
+                this.currentFoodListBackup = Object.assign({}, this.currentFoodList);
             });
     }
 
@@ -58,19 +61,21 @@ export class FoodListDetails implements OnInit {
         this._foodDataService
             .updateFood(food.id, food)
             .subscribe((response: FoodItem) => {
-                // this.getAllFoodFromList(this._listId);
+                console.log('updated');
             });
     }
 
     showRandomFoodFromList() {
-        // this.currentFoods = this.currentFoodsBackUp;
 
-        // if (this.currentFoods.length > 1) {
-        //     let foodToShow: FoodItem[] = [];
-        //     let index = Math.floor((Math.random() * this.currentFoods.length));
-        //     foodToShow.push(this.currentFoods[index]);
-        //     this.currentFoods = foodToShow;
-        // }
+        const foodCount = this.currentFoodListBackup.foods.length;
+
+        if (this.currentFoodList.foods.length > 0) {
+            let foodToShow: FoodItem[] = [];
+            let index = Math.floor((Math.random() * foodCount));
+            console.log(index);
+            foodToShow.push(this.currentFoodListBackup.foods[index]);
+            this.currentFoodList.foods = foodToShow;
+        }
     }
 
     setToUpdate(foodItem: FoodItem) {

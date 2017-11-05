@@ -5,7 +5,10 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    {{currentFoodList?.name}}&nbsp;<small><button (click)="deleteList()" class="btn btn-sm btn-primary">Delete List</button></small>
+                    {{currentFoodList?.name}}&nbsp;
+                    <small>
+                        <button (click)="deleteList()" class="btn btn-sm btn-primary">Delete List</button>
+                    </small>
                 </h1>
             </div>
         </div>
@@ -16,7 +19,8 @@
             <div class="col-lg-12">
                 <form role="form" (ngSubmit)="addOrUpdateFood()">
                     <div class="form-group">
-                        <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Add new food" [(ngModel)]="currentFood.itemName" name="itemName">
+                        <input type="text" class="form-control input-lg" id="exampleInputEmail1" placeholder="Add new food" [(ngModel)]="currentFood.itemName"
+                            name="itemName">
                     </div>
                     <button type="submit" style="display: none;"></button>
                 </form>
@@ -29,10 +33,7 @@
                     <h2>
                         <small class="pull-right">{{currentFoodList?.foods?.length}}</small> Foods
                         <small>
-                            <button *ngIf="currentFoodList?.foods?.length > 0"
-                                    (click)="showRandomFoodFromList()" 
-                                    type="submit"
-                                    class="btn btn-sm btn-primary">
+                            <button *ngIf="currentFoodList?.foods?.length > 0" (click)="showRandomFoodFromList()" type="submit" class="btn btn-sm btn-primary">
                                 Get random from list
                             </button>
                         </small>
@@ -50,11 +51,11 @@
                         <h4>{{food.itemName}}</h4>
                         <h5>
                             <small id="test">{{food.created | date:'shortDate'}}
-                            <button class="btn-link" (click)="setToUpdate(food)">Edit</button>
-                            <button class="btn-link" (click)="deleteFood(food.id)">Delete</button>
-                            <button class="btn-link" *ngIf="!food.isPublic" (click)="togglePublic(food)">Publish</button>
-                            <button class="btn-link" *ngIf="food.isPublic" (click)="togglePublic(food)">Unpublish</button>
-                        </small>
+                                <button class="btn-link" (click)="setToUpdate(food)">Edit</button>
+                                <button class="btn-link" (click)="deleteFood(food.id)">Delete</button>
+                                <button class="btn-link" *ngIf="!food.isPublic" (click)="togglePublic(food)">Publish</button>
+                                <button class="btn-link" *ngIf="food.isPublic" (click)="togglePublic(food)">Unpublish</button>
+                            </small>
                         </h5>
                         <!-- text-right / end -->
 

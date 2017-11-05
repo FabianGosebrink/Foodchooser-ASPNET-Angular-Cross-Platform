@@ -98,7 +98,7 @@ namespace FoodChooser
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                  .AddIdentityServerAuthentication(options =>
                  {
-                     options.Authority = "http://localhost:64942/";
+                     options.Authority = "http://localhost:64943/";
                      // options.Authority = "http://foodapi4demo.azurewebsites.net/";
                      options.RequireHttpsMetadata = false;
                      options.ApiName = "WebAPI";
