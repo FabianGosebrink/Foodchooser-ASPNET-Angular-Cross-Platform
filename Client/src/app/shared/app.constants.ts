@@ -1,7 +1,7 @@
 export let CONFIGURATION = {
   baseUrls: {
-    server: 'http://localhost:64943/',
-    // server: 'https://foodchooser.azurewebsites.net/',
+   // server: 'http://localhost:64943/',
+     server: 'http://foodchooser.azurewebsites.net/',
     apiUrl: 'api/',
     foodImageFolder: 'foodimages/'
   },
