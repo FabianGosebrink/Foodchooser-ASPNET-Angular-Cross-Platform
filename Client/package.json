@@ -10,7 +10,7 @@
     "lint": "tslint ./app/**/*.ts -t verbose",
     "build-dev": "webpack --env=dev",
     "build-prod": "webpack --env=prod",
-    "build-web": "npm run webpack-dev && npm run webpack-prod",
+    "build-web": "npm run build-prod",
     "prepare-desktop": "mkdirp ./.temp/electron && ncp assets/electron .temp/electron/ && ncp .dist/web/aot .temp/electron/ && rimraf .dist/desktop/",
     "build-desktop": "npm run prepare-desktop && electron-packager .temp/electron/ --electronVersion=1.4.15 --platform=win32,linux --out=./.dist/desktop/ && npm run cleanup",
     "prepare-mobile": "rimraf ./.temp/mobile && mkdirp ./.temp/mobile/www && mkdirp ./.temp/mobile/www/img && ncp assets/cordova .temp/mobile/ && ncp .dist/web/aot .temp/mobile/www && ncp img .temp/mobile/www/img && rimraf .dist/mobile/ && trash .temp/mobile/www/**/*.js.gz",
