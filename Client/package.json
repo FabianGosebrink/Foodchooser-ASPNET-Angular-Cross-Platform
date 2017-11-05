@@ -65,7 +65,7 @@
     "json-loader": "^0.5.7",
     "mkdirp": "^0.5.1",
     "ncp": "^2.0.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.6.0",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
     "raw-loader": "^0.5.1",
