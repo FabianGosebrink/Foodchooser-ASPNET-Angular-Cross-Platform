@@ -77,7 +77,7 @@ namespace FoodChooser
                 options.Password.RequireLowercase = false;
             });
 
-            services.Configure<AppSettings>(Configuration);
+            services.Configure<AppSettings>(Configuration.GetSection("AppConfiguration"));
 
             // Claims-Based Authorization: role claims.
             services.AddAuthorization(options =>
@@ -98,8 +98,8 @@ namespace FoodChooser
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
                  .AddIdentityServerAuthentication(options =>
                  {
-                     options.Authority = "http://localhost:64943/";
-                     // options.Authority = "http://foodapi4demo.azurewebsites.net/";
+                     // options.Authority = "http://localhost:64943/";
+                     options.Authority = "http://foodapi4demo.azurewebsites.net/";
                      options.RequireHttpsMetadata = false;
                      options.ApiName = "WebAPI";
                  });

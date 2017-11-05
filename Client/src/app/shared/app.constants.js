@@ -1,6 +1,6 @@
 export var CONFIGURATION = {
     baseUrls: {
-        server: 'http://localhost:64942/',
+        server: 'http://localhost:64943/',
         apiUrl: 'api/',
         foodImageFolder: 'foodimages/'
     },

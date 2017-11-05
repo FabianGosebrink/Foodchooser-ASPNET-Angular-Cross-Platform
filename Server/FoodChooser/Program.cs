@@ -43,6 +43,8 @@ namespace FoodChooser
 
                     config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                    
                 })
                  .ConfigureLogging((hostingContext, logging) =>
                  {
